@@ -1,0 +1,414 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Automated Class Timetable</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/icon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Arsha - v4.10.0
+  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo me-auto"><a href="home.html">AUTOMATED CLASS TIMETABLE</a></h1>
+      
+      <!-- .navbar -->
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#home">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+      <!-- .navbar -->
+
+    </div>
+  </header>
+<!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+  <section id="home" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+          <h1>Stay ahead of the clock, master your schedule!</h1>
+          <h2>We want you to never miss another deadline or opportunity with our cutting-edge time management tools.</h2>
+          <div class="d-flex justify-content-center justify-content-lg-start">
+            <a href="{% url 'student-login' %}" class="btn-get-started">STUDENT</a> 
+            <a href="{% url 'faculty-login' %}" class="btn-watch-video">TEACHER</a> 
+          </div>
+        </div>
+        
+        <div class="col-lg-4 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{% static 'img/PSU.png' %}" class="img-fluid animated" alt="PSU Logo">
+        </div>
+      </div>
+    </div>
+
+  </section>
+<!-- End Hero -->
+
+  <main id="main">
+
+
+<!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+        </div>  
+
+        <div class="row content">
+          <p>
+              We are a group of 3rd Year Computer Science students, who aim to create a much better and more 
+              organized class list for students and teachers - resulting in the creation of an Automated Class Timetable.
+              Our team consists of talented designers and developers who set out to create a timetable 
+              that were not only functional but also beautiful and user-friendly.
+          </p>
+          <img src="{% static 'img/team.jpg' %}" class="team" alt="Team Image">
+        </div>
+        <h3 style="color:#5ec0b1; padding-top: 50px;"><center>CORE VALUES</center></h3>
+        <div class="row mt-3 justify-content-center">
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <h4><a href="">Innovation</a></h4>
+              <p>We don't stop at what we have, we're always looking for new and better ways to develop timetable to provide better use.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <h4><a href="">Quality</a></h4>
+              <p>We are committed on delivering a system that exceed our customer's expectation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- End About Us Section -->
+
+<!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Team</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mt-3 align-items-stretch">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
+              <div class="pic"><img src="{% static 'img/team/rodriguez.png' %}" class="img-fluid" alt="Ramon Alejandro Rodriguez"></div>
+              <div class="member-info">
+                <h4>Ramon Alejandro Rodriguez</h4>
+                <span>Leader</span>
+                <div class="social">
+                  <a href="https://www.facebook.com/4rdrgzrmn"><i class="ri-facebook-fill"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mt-3 align-items-stretch">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
+              <div class="pic"><img src="{% static 'img/team/rancap.png' %}" class="img-fluid" alt="Maria Czarlette Trixia Rancap"></div>
+              <div class="member-info">
+                <h4>Maria Czarlette Trixia Rancap</h4>
+                <span>Vice Leader</span>
+                <div class="social">
+                  <a href="https://www.facebook.com/maria.rancap"><i class="ri-facebook-fill"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="200">
+            <div class="pic"><img src="{% static 'img/team/cuadra.png' %}" class="img-fluid" alt="Anna Margarita Cuadra"></div>
+            <div class="member-info">
+              <h4>Anna Margarita Cuadra</h4>
+              <span>Secretary</span>
+              <div class="social">
+                <a href="https://www.facebook.com/annamargarita.cuadra/"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="200">
+            <div class="pic"><img src="{% static 'img/team/abad.png' %}" class="img-fluid" alt="Mykel Zandrex Abad"></div>
+            <div class="member-info">
+              <h4>Mykel Zandrex Abad</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/myk.el.739"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="300">
+            <div class="pic"><img src="{% static 'img/team/abalus.png' %}" class="img-fluid" alt="James Rodolfo Abalus"></div>
+            <div class="member-info">
+              <h4>James Rodolfo Abalus</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/jrla13"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="300">
+            <div class="pic"><img src="{% static 'img/team/benlot.png' %}" class="img-fluid" alt="Ronalyn Benlot"></div>
+            <div class="member-info">
+              <h4>Ronalyn Benlot</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/ronalyn.benlot.9"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="400">
+            <div class="pic"><img src="{% static 'img/team/cayapas.png' %}" class="img-fluid" alt="Mark Vincent Cayapas"></div>
+            <div class="member-info">
+              <h4>Mark Vincent Cayapas</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/Mark.Cayapass"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="400">
+            <div class="pic"><img src="{% static 'img/team/danay.png' %}" class="img-fluid" alt="Leizel Ann Danay"></div>
+            <div class="member-info">
+              <h4>Leizel Ann Danay</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/Danay090902"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="500">
+            <div class="pic"><img src="{% static 'img/team/de paz.png' %}" class="img-fluid" alt="John Ralph De Paz"></div>
+            <div class="member-info">
+              <h4>John Ralph De Paz</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/johnralph.depaz"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="500">
+            <div class="pic"><img src="{% static 'img/team/anon.jpg' %}" class="img-fluid" alt="Jeco Roxas"></div>
+            <div class="member-info">
+              <h4>Jeco Roxas</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/profile.php?id=100076291248420"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-6 mt-3 align-items-stretch">
+          <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="600">
+            <div class="pic"><img src="{% static 'img/team/sinangote.png' %}" class="img-fluid" alt="Sue Sinangote"></div>
+            <div class="member-info">
+              <h4>Sue Sinangote</h4>
+              <span>Member</span>
+              <div class="social">
+                <a href="https://www.facebook.com/Nooooooiiii"><i class="ri-facebook-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- End Team Section -->
+
+<!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 mt-3 align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon"><i class="bi bi-geo-alt"></i>
+              <div class="address">
+                <h4>Location:</h4>
+                <p>University Road, Puerto Princesa, 5300 Palawan</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon"><i class="bi bi-envelope"></i>
+              <div class="email">
+                <h4>Email:</h4>
+                <p>info@example.com</p>
+              </div>
+            </div>
+          </div>  
+          <div class="col-md-3 mt-3 align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-phone"></i>
+                <div class="email">
+                  <h4>Call:</h4>
+                  <p>+1 5589 55488 55s</p>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="row">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3931.866840811404!2d118.73384699999998!3d9.777333099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33b5635b6bd6d3ed%3A0x8b42cc60a81a12b9!2sPalawan%20State%20University!5e0!3m2!1sfil!2sph!4v1677450959466!5m2!1sfil!2sph" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>            
+        </div> 
+      </div>
+    </section>
+<!-- End Contact Section -->
+
+  </main>
+<!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center"></div>
+      </div>
+    </div>
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-4 mt-3 d-flex align-items-stretch footer-contact">
+            <h3>Arsha</h3>
+            <p>
+              University Road,<br>
+              Puerto Princesa City,<br>
+              5300 Palawan<br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+          </div>
+
+          <div class="col-md-4 mt-3 d-flex align-items-stretch footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#team">Team</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>BSCS 3B1</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+<!-- End Footer -->
+
+
+  <div id="preloader">
+    {% block content %}
+    
+    {% endblock content %}
+  </div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+  {% block scripts %}
+
+  {% endblock %}
+
+</body>
+
+</html>

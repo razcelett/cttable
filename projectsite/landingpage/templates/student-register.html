@@ -1,0 +1,146 @@
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Log In Page{% endblock %}</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'><link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+
+		{% if success %}
+
+		<a href="{% url 'student-login' %}" class="btn btn-primary shadow-2 mb-4">Sign IN</a>
+
+		{% else %}
+
+		<form role="form" method="POST" action="">
+			{% csrf_token %}
+			
+				<!-- <h1>Register</h1>
+				<br> -->
+				<div class="input-group mb-3">
+					{{ form.email }}
+				</div>
+				<span class="text-error">{{ form.email.errors }}</span>     
+				
+				<div class="input-group mb-3">
+					{{ form.username }}
+				</div>
+				<span class="text-error">{{ form.username.errors }}</span>  
+				
+				<div class="input-group mb-3">
+					{{ form.password }}
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span onclick="togglePassword('password')"></span>
+						</div>
+					</div>
+				</div>
+				<span class="text-error">{{ form.password.errors }}</span>
+				
+				<div class="input-group mb-3">
+					{{ form.confirm_password }}
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span onclick="togglePassword('confirm_password')"></span>
+						</div>
+					</div>
+				</div>
+				<span class="text-error">{{ form.confirm_password.errors }}</span>                    
+				
+				<div class="input-group mb-3">
+					{{ form.student_id }}
+				</div>
+				<span class="text-error">{{ form.student_id.errors }}</span>                                             
+				
+				<div class="input-group mb-3">
+					{{ form.last_name }}
+				</div>
+				<span class="text-error">{{ form.last_name.errors }}</span>  
+				
+				<div class="input-group mb-3">
+					{{ form.first_name }}
+				</div>
+				<span class="text-error">{{ form.first_name.errors }}</span>   
+				
+				<div class="input-group mb-3">
+					{{ form.middle_name }}
+				</div>
+				<span class="text-error">{{ form.middle_name.errors }}</span>  
+
+				<div class="input-group mb-3">
+					{{ form.year }}
+				</div>
+				<span class="text-error">{{ form.year.errors }}</span> 
+
+				<div class="input-group mb-3">
+					{{ form.block }}	
+				</div>
+				<span class="text-error">{{ form.block.errors }}</span>    
+
+				<div class="input-group mb-3">
+					{{ form.type }}	
+				</div>
+				<span class="text-error">{{ form.type.errors }}</span>  
+								
+				<button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Register</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form action="#">
+			<h1>Member Log In</h1>
+			<br>
+			<br>
+			<!-- <div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+			</div> -->
+			<!-- <span>or use your account</span> -->
+			
+			<input type="email" placeholder="Email" />
+			<input type="password" placeholder="Password" />
+
+			<!-- <a href="#">Forgot your password?</a> -->
+			<br>
+			<a class="login" href="#">Sign In</a>
+
+			<!-- <button onclick="location.href='../startbootstrap-sb-admin-2-gh-pages/index.html'">Sign In</button> -->
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Welcome Back!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<a href="{% url 'student-login' %}"><button class="ghost" id="signIn">Sign In</button></a>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Register</h1>
+				<p>Member Sign Up</p>
+				<button class="ghost" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock content %}
+
+<!-- <footer>
+	<p>
+		
+	</p>
+</footer> -->
+<!-- partial -->
+  <script  src="{% static 'js/login.js' %}"></script>
+
+</body>
+</html>
