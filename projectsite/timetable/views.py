@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
 from .forms import LoginForm, StudentForm, UpdateStudentForm
-from .models import Student, Faculty, Schedule
+from .models import Student, Faculty, Schedule, Room
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -99,34 +99,44 @@ class StudentScheduleList(ListView):
     
 # ----------------------------------------------------------------
 
-# @login_required()
-# def student_profileupdate(request):
-#     msg = None
-#     success = False
-#     student = Student.objects.filter(email=request.user.email).first()
-#     if request.user.is_authenticated:
-#         current_user = Student.objects.get(id=student.id)
-#         form = StudentForm(request.POST or None, instance=current_user)
-#         if form.is_valid():
-#             form.save()
-#             msg = 'Your Profile has been updated'
-#             return redirect("/student-index/")
-#         return render(request, 'student-profile.html', {'form': form})
-#     else:
-#         msg = 'Failed to update your Profile'
-
+@login_required()
 def student_profileupdate(request):
-    # student = Student.objects.filter(email=request.user.email).first()
-    student_profile = Student.objects.get(id=request.user.id)
-    form = StudentForm(request.POST or None, instance=student_profile)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect("/student-index/")
-    
+    msg = None
+    success = False
+    student = Student.objects.filter(email=request.user.email).first()
+    if request.user.is_authenticated:
+        current_user = Student.objects.get(id=student.id)
+        form = StudentForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            form.save()
+            msg = 'Your Profile has been updated'
+            return redirect("/student-index/")
+        return render(request, 'student-profile.html', {'form': form})
     else:
         msg = 'Failed to update your Profile'
 
-    return render(request, 'student-profile.html', {'student_profile' : student_profile, 'form' : form})
+# def student_profileupdate(request):
+#     # student = Student.objects.filter(email=request.user.email).first()
+#     student_profile = Student.objects.get(id=request.user.id)
+#     form = StudentForm(request.POST or None, instance=student_profile)
+#     if request.method == 'POST' and form.is_valid():
+#         form.save()
+#         return redirect("/student-index/")
+    
+#     else:
+#         msg = 'Failed to update your Profile'
+
+#     return render(request, 'student-profile.html', {'student_profile' : student_profile, 'form' : form})
+
+# def student_profileupdate(request, student_id):
+#     student_profile = Student.objects.get(id=student_id)
+#     form = StudentForm(request.POST or None, instance=student_profile)
+#     if form.is_valid():
+#         form.save()
+#         return redirect("/student-index/")
+#     else:
+#         msg = 'Failed to update your Profile'
+#     return render(request, 'student-profile.html', {'student_profile' : student_profile, 'form' : form})
 
 #student login
 def student_login(request):
@@ -173,5 +183,21 @@ def create_student(request):
         success = False
 
     return render(request, 'student-register.html', {'form': form, 'msg': msg, 'success': success})
+
+def itrooms(request):
+    room = Room.objects.all().order_by('room_name')
+    context = {'room':room}
+    return render(request, 'itb.html', context)
+
+def nitrooms(request):
+    room = Room.objects.all().order_by('room_name')
+    context = {'room':room}
+    return render(request, 'nitb.html', context)
+
+def gerooms(request):
+    room = Room.objects.all().order_by('room_name')
+    context = {'room':room}
+    return render(request, 'geb.html', context)
+
 
 

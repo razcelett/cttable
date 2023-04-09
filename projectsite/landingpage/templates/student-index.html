@@ -397,184 +397,73 @@
                         <div class="table-responsive">
                             <table class="table table-bordered text-center">
                                 <thead>
-                                    <tr class="bg-light-gray">
-                                        <th class="text-uppercase">Time
-                                        </th>
+                                    <tr class="bg-light-gray">   
+                                        <th class="text-uppercase">Time</th>
                                         <th class="text-uppercase">Monday</th>
                                         <th class="text-uppercase">Tuesday</th>
                                         <th class="text-uppercase">Wednesday</th>
                                         <th class="text-uppercase">Thursday</th>
                                         <th class="text-uppercase">Friday</th>
                                         <th class="text-uppercase">Saturday</th>
+                                        <th class="text-uppercase">Sunday</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for schedule in object_list %}
                                     <tr>
-                                        <td class="align-middle">{{ schedule.time }}</td>
+                                        <td class="align-middle">{{ schedule.start_time }}-{{ schedule.end_time }}</td>
                                         <td>
-                                            {% if schedule.subjects.all %}
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects.all|join:", " }}</span>
-                                            {% else %}
-                                            <td>
-                                            </td>
-                                            {% endif %}
-                                            <div class="margin-10px-top font-size14">{{ schedule.time }}</div>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.last_name }}</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
+                                        {% if schedule.day.week_day == 'TUESDAY' %}
                                         <td>
-                                            {% if schedule.subjects.all %}
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects.all|join:", " }}</span>
-                                            {% else %}
-                                            <td>
-                                            </td>
-                                            {% endif %}
-                                            <div class="margin-10px-top font-size14">{{ schedule.time }}</div>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.last_name }}</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
-        
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if schedule.day.week_day == 'WEDNESDAY' %}
                                         <td>
-                                            <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if schedule.day.week_day == 'THURSDAY' %}
                                         <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Dance</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if schedule.day.week_day == 'FRIDAY' %}
                                         <td>
-                                            <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Kate Alley</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if schedule.day.week_day == 'SATURDAY' %}
                                         <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
-                                    </tr>
-        
-                                    <tr>
-                                        <td class="align-middle">{{ schedule.time }}</td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if schedule.day.week_day == 'SUNDAY' %}
                                         <td>
-                                            {% if schedule.subjects.all %}
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects.all|join:", " }}</span>
-                                            {% else %}
-                                            <td>
-                                            </td>
-                                            {% endif %}
-                                            <div class="margin-10px-top font-size14">{{ schedule.time }}</div>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.last_name }}</div>
+                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
+                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
-                                        <td>
-                                            <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">Kate Alley</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">Marta Healy</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
-                                        <td class="bg-light-gray">
-        
-                                        </td>
-                                    </tr>
-        
-                                    <tr>
-                                        <td class="align-middle">11:00am</td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
-                                        </td>
-                                    </tr>
-        
-                                    <tr>
-                                        <td class="align-middle">12:00pm</td>
-                                        <td class="bg-light-gray">
-        
-                                        </td>
-                                        <td>
-                                            <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>
-                                            <div class="margin-10px-top font-size14">12:00-1:00</div>
-                                            <div class="font-size13 text-light-gray">Kate Alley</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Dance</span>
-                                            <div class="margin-10px-top font-size14">12:00-1:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>
-                                            <div class="margin-10px-top font-size14">12:00-1:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                        </td>
-                                        <td class="bg-light-gray">
-        
-                                        </td>
-                                        <td>
-                                            <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>
-                                            <div class="margin-10px-top font-size14">12:00-1:00</div>
-                                            <div class="font-size13 text-light-gray">Marta Healy</div>
-                                        </td>
-                                    </tr>
-        
-                                    <tr>
-                                        <td class="align-middle">01:00pm</td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">1:00-2:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>
-                                            <div class="margin-10px-top font-size14">1:00-2:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                        </td>
-                                        <td class="bg-light-gray">
-        
-                                        </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">1:00-2:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>
-                                            <div class="margin-10px-top font-size14">1:00-2:00</div>
-                                            <div class="font-size13 text-light-gray">Marta Healy</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>
-                                            <div class="margin-10px-top font-size14">1:00-2:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                        </td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
                                     </tr>
                                     {% empty %}
                                     <tr>No objects yet.</tr>

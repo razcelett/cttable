@@ -101,11 +101,22 @@ class Subject(models.Model):
     class Meta:
         verbose_name_plural = 'Subjects'
 
+class Day(models.Model):
+    week_day = models.CharField(max_length=10, default=None)
+
+
+    def __str__(self):
+        return f'{self.week_day}'
+    
+    class Meta:
+        verbose_name_plural = 'Days'
+
 class Schedule(models.Model):
-    day = models.CharField(max_length=30)
-    time = models.CharField(max_length=30)
-    subjects = models.ManyToManyField(Subject, related_name = "Subjects")
-    students = models.ManyToManyField(Student, related_name = "Students")
+    day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name = "Subjects", null=True, blank=True)
+    start_time = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False, default=None, null=True, blank=True)
+    subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "Subjects", null=True, blank=True)
+    students = models.ManyToManyField(Student, related_name = "Students", null=True, blank=True)
 
     def __str__(self):
         return f'{self.day}'

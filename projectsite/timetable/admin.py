@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import display
-from .models import Student, Faculty, Room, Subject, Schedule, Building
+from .models import Student, Faculty, Room, Subject, Schedule, Building, Day
 
 # Register your models here.
 # admin.site.register(Buildings)
@@ -29,10 +29,13 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = ("class_code","subject_title")
     search_fields = ("class_code","subject_title")
 
-@admin.register(Schedule)
-class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ("day","time")
-    search_fields = ("day","time")
+admin.site.register(Day)
+
+admin.site.register(Schedule)
+# @admin.register(Schedule)
+# class ScheduleAdmin(admin.ModelAdmin):
+#     list_display = ("day","time")
+#     search_fields = ("day","time")
 
 
 
