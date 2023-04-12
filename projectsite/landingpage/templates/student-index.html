@@ -409,13 +409,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- {{ request.user.email }} -->
                                     {% for schedule in object_list %}
                                     <tr>
-                                        <td class="align-middle">{{ schedule.start_time }}-{{ schedule.end_time }}</td>
+                                        <td class="align-middle">{{ schedule.time }}</td>
+                                        {% if schedule.day.week_day == 'MONDAY' %}
                                         <td>
                                             <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
                                             <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
                                         </td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
                                         {% if schedule.day.week_day == 'TUESDAY' %}
                                         <td>
                                             <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>

@@ -6,7 +6,7 @@ import re
 from django.contrib.auth.models import User
 
 
-from .models import Student, Faculty
+from .models import Student, Faculty, Year, Block, Type
 
 class LoginForm(forms.Form):
     email = forms.CharField(
@@ -94,26 +94,26 @@ class StudentForm(ModelForm):
     #     })
     # )
 
-    year = forms.ChoiceField(
+    year = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
             "placeholder": "Select your Year"
         }),
-        choices=Student.year_choice,
+        queryset = Year.objects.all(), initial = 0,
     )
-    block = forms.ChoiceField(
+    block = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
             "placeholder": "Select your Block"
         }),
-        choices=Student.block_choice,
+        queryset = Block.objects.all(), initial = 0,
     )
-    type = forms.ChoiceField(
+    type = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
             "placeholder": "Select your Status"
         }),
-        choices=Student.type_choice,
+        queryset = Type.objects.all(), initial = 0,
     )
 
 
@@ -148,23 +148,11 @@ class StudentForm(ModelForm):
         return student
 
 class UpdateStudentForm(ModelForm):
-    email = forms.EmailField(
-    widget=forms.EmailInput(attrs={
-        "class": "form-control",
-        "placeholder": "Email"
-    })
-    )
     username = forms.CharField(
     widget=forms.TextInput(attrs={
         "class": "form-control",
         "placeholder": "Username"
     })
-    )
-    student_id = forms.CharField(
-        widget=forms.TextInput(attrs={
-            "class": "form-control",
-            "placeholder": "Student ID (####-##-####)"
-        })
     )
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -185,31 +173,31 @@ class UpdateStudentForm(ModelForm):
         }),
         required=False
     )
-    year = forms.ChoiceField(
+    year = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
             "placeholder": "Select your Year"
         }),
-        choices=Student.year_choice,
+        queryset = Year.objects.all(), initial = 0,
     )
-    block = forms.ChoiceField(
+    block = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
             "placeholder": "Select your Block"
         }),
-        choices=Student.block_choice,
+        queryset = Block.objects.all(), initial = 0,
     )
-    type = forms.ChoiceField(
+    type = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
             "placeholder": "Select your Status"
         }),
-        choices=Student.type_choice,
+        queryset = Type.objects.all(), initial = 0,
     )
 
     class Meta:
         model = Student
-        fields = ['student_profile_picture','email', 'username', 'student_id', 'first_name', 'last_name', 'middle_name', 'year', 'block', 'type']
+        fields = ['student_profile_picture', 'username', 'first_name', 'last_name', 'middle_name', 'year', 'block', 'type']
 
     def clean_student_id(self):
         student_id = self.cleaned_data.get('student_id')
@@ -219,12 +207,6 @@ class UpdateStudentForm(ModelForm):
     
     def save(self, commit=True):
         student = super().save(commit=False)
-        # user = get_user_model().objects.create_user(email=self.cleaned_data['email'], password=self.cleaned_data['password'], first_name=self.cleaned_data['first_name'], last_name=self.cleaned_data['last_name'])
-        user = get_user_model().objects.create_user(email=self.cleaned_data['email'], username=self.cleaned_data['username'], password=self.cleaned_data['password'], first_name=self.cleaned_data['first_name'], last_name=self.cleaned_data['last_name'])
-        user.username = user.username
-        # user.username = user.email
-        user.save()
-        student.account = user
         if commit:
             student.save()
         return student

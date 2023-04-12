@@ -448,10 +448,11 @@
                       </div>
                     </div>
                     {% endif %}
-                    {% endfor %}<!-- End Gallery Item -->
-          
+                    {% empty %}
+                    <tr>No objects yet.</tr>
+                    {% endfor %}
+                    <!-- End Gallery Item --> 
                   </div>
-          
                 </div>
               </section><!-- End Gallery Section -->
           

@@ -5,6 +5,32 @@ from django.conf import settings
 
 
 # Create your models here.
+class Year(models.Model):
+    year_choice = models.CharField(max_length=15, blank=True, null=True, default=None)
+    
+    def __str__(self):
+        return self.year_choice
+    
+    class Meta:
+        verbose_name_plural = 'Years'
+
+class Block(models.Model):
+    block_choice = models.CharField(max_length=15, blank=True, null=True, default=None)
+
+    def __str__(self):
+        return self.block_choice
+    
+    class Meta:
+        verbose_name_plural = 'Blocks'
+
+class Type(models.Model):
+    type_choice = models.CharField(max_length=15, blank=True, null=True, default=None)
+
+    def __str__(self):
+        return self.type_choice
+    
+    class Meta:
+        verbose_name_plural = 'Student Type'
 
 class Student(models.Model):
     # account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -15,12 +41,15 @@ class Student(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True, null=True)
-    year_choice=[('First Year', 'First Year'), ('Second Year', 'Second Year'), ('Third Year', 'Third Year'), ('Fourth Year', 'Fourth Year')]
-    year = models.CharField(max_length=15, choices=year_choice, default=None)
-    block_choice=[('Block 1', 'Block 1'), ('Block 2', 'Block 2'), ('Block 3', 'Block 3'), ('Block 4', 'Block 4')]
-    block = models.CharField(max_length=10, choices=block_choice, default=None)
-    type_choice=[('Regular', 'Regular'), ('Irregular', 'Irregular')]
-    type = models.CharField(max_length=10, choices=type_choice, default=None)
+    # year_choice=[('First Year', 'First Year'), ('Second Year', 'Second Year'), ('Third Year', 'Third Year'), ('Fourth Year', 'Fourth Year')]
+    # year = models.CharField(max_length=15, choices=year_choice, default=None)
+    # block_choice=[('Block 1', 'Block 1'), ('Block 2', 'Block 2'), ('Block 3', 'Block 3'), ('Block 4', 'Block 4')]
+    # block = models.CharField(max_length=10, choices=block_choice, default=None)
+    # type_choice=[('Regular', 'Regular'), ('Irregular', 'Irregular')]
+    # type = models.CharField(max_length=10, choices=type_choice, default=None)
+    year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "Year", null=True, blank=True, default=None)
+    block = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "Block", null=True, blank=True, default=None)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name = "Type", null=True, blank=True, default=None)
     student_profile_picture = models.ImageField(null=True, blank=True, upload_to="static/img/student_prof_pic/")
 
     def __str__(self):
@@ -111,12 +140,25 @@ class Day(models.Model):
     class Meta:
         verbose_name_plural = 'Days'
 
+class Time(models.Model):
+    start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.start_time}, {self.end_time}'
+    
+    class Meta:
+        verbose_name_plural = 'Time'
+
 class Schedule(models.Model):
-    day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name = "Subjects", null=True, blank=True)
-    start_time = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True, default=None)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False, default=None, null=True, blank=True)
-    subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "Subjects", null=True, blank=True)
-    students = models.ManyToManyField(Student, related_name = "Students", null=True, blank=True)
+    day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name = "day", null=True, blank=True)
+    time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "starttime", null=True, blank=True, default=None)
+    # end_time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "endtime", null=True, blank=True, default=None)
+    subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "subjects", null=True, blank=True)
+    # subjects = models.ManyToManyField(Subject, related_name = "subjects", null=True, blank=True)
+    # students = models.ManyToManyField(Student, related_name = "students", null=True, blank=True)
+    year_section = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "year_section", null=True, blank=True, default=None)
+    block_section = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "block_section", null=True, blank=True, default=None)
 
     def __str__(self):
         return f'{self.day}'

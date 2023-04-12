@@ -124,8 +124,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">ROOMS</h6>
                         <a class="collapse-item" href="{% url 'itbuilding' %}">IT Building</a>
-                        <a class="collapse-item" href="{% url 'nitbuilding' %}">NIT Building</a>
-                        <a class="collapse-item active" href="{% url 'gebuilding' %}">GE Building</a>
+                        <a class="collapse-item active" href="{% url 'nitbuilding' %}">NIT Building</a>
+                        <a class="collapse-item" href="{% url 'gebuilding' %}">GE Building</a>
                     </div>
                 </div>
             </li>
@@ -419,7 +419,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">GE BUILDING</h1>
+                    <h1 class="h3 mb-4 text-gray-800">NIT BUILDING</h1>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -432,32 +432,210 @@
               <!-- ======= Gallery Section ======= -->
               <section id="gallery" class="gallery">
                 <div class="container-fluid">
-                  {% for r in room %}
-                  {% if r.building.building_name == 'GE BUILDING' %}
+          
                   <div class="row gy-4 justify-content-center">
-                    <div class="col-xl-6 col-lg-4 col-md-6">
+                    <div class="col-xl-3 col-lg-4 col-md-6">
                       <div class="gallery-item h-100">
-                        <img src="{{ r.room_picture.url }}" class="img-fluid" alt="">
+                        <img src="{% static 'assets/img/gallery/gallery-1.jpg' %}" class="img-fluid" alt="">
                         <div class="gallery-links d-flex align-items-center justify-content-center">
-                          <a href="{{ r.room_picture.url }}" title="{{ r.room_name }}" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <a href="{% static 'assets/img/gallery/gallery-1.jpg' %}" title="MTC 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
                           <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
                           <div class="center">
-                            <i>{{ r.room_name }}</i> 
+                            <i>ROOM 1</i> 
                           </div>
                         </div>
                       </div>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                    <!-- End Gallery Item --> 
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="a{% static 'assets/img/gallery/gallery-2.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-2.jpg' %}" title="Gallery 2" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 2</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-3.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-3.jpg' %}" title="Gallery 3" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 3</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-4.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-4.jpg' %}" title="Gallery 4" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 4</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-5.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-5.jpg' %}" title="Gallery 5" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 5</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-6.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-6.jpg' %}" title="Gallery 6" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 6</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-7.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-7.jpg' %}" title="Gallery 7" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 7</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-8.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-8.jpg' %}" title="Gallery 8" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 8</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-9.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-9.jpg' %}" title="Gallery 9" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 9</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-10.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-10.jpg' %}" title="Gallery 10" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 10</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-11.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-11.jpg' %}" title="Gallery 11" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 11</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-12.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-12.jpg' %}" title="Gallery 12" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 12</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-13.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-13.jpg' %}" title="Gallery 13" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 13</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-14.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-14.jpg' %}" title="Gallery 14" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 14</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-15.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-15.jpg' %}" title="Gallery 15" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 15</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="gallery-item h-100">
+                        <img src="{% static 'assets/img/gallery/gallery-16.jpg' %}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{% static 'assets/img/gallery/gallery-16.jpg' %}" title="Gallery 16" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>ROOM 16</i> 
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+          
                   </div>
+          
                 </div>
               </section><!-- End Gallery Section -->
           
           </main><!-- End #main -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+             <!-- Footer -->
+             <footer class="sticky-footer bg-white">
               <div class="container my-auto">
                   <div class="copyright text-center my-auto">
                       <span>Copyright &copy; Timetable 2023</span>

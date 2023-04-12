@@ -55,20 +55,15 @@
                 <div class="card mb-4">
                     <div class="card-header">Account Details</div>
                     <div class="card-body">
-                        {% if msg %}
-                        <span class="text-danger">{{ msg | safe }}</span>
+                        {% if messages %}
+                        <span class="text-danger">{{ messages | safe }}</span>
                         {% endif %} 
                         <form role="form" method="POST" action="">
                             {% csrf_token %}
-                            <!-- {{ form.as_p }} --> 
                             <div class="col-sm-12 mb-4">
                                 <input type="email" readonly value="{{ user.email }}" class="form-control" placeholder="Email">
                                 <small id="addd" class="form-text text-muted">Contact the administrator to change Email</small>    
                             </div>   
-                            <!-- <div class="col-sm-12 mb-4">
-                                <input type="text" readonly value="{{ user.student_id }}" class="form-control" placeholder="Student ID">
-                                <small id="addd" class="form-text text-muted">Contact the administrator to change Student ID</small>    
-                            </div>   -->
 
                             <div class="col-sm-12 mb-4">
                                {{ form.student_id }}
