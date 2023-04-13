@@ -6,47 +6,41 @@ from django.conf import settings
 
 # Create your models here.
 class Year(models.Model):
-    year_choice = models.CharField(max_length=15, blank=True, null=True, default=None)
+    year_choice = models.CharField(max_length=15, default=None)
     
     def __str__(self):
-        return self.year_choice
+        return f'{self.year_choice}'
     
     class Meta:
         verbose_name_plural = 'Years'
 
 class Block(models.Model):
-    block_choice = models.CharField(max_length=15, blank=True, null=True, default=None)
+    block_choice = models.CharField(max_length=15, default=None)
 
     def __str__(self):
-        return self.block_choice
+        return f'{self.block_choice}'
     
     class Meta:
         verbose_name_plural = 'Blocks'
 
 class Type(models.Model):
-    type_choice = models.CharField(max_length=15, blank=True, null=True, default=None)
+    type_choice = models.CharField(max_length=15, default=None)
 
     def __str__(self):
-        return self.type_choice
+        return f'{self.type_choice}'
     
     class Meta:
         verbose_name_plural = 'Student Type'
 
 class Student(models.Model):
-    # account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None, blank=True, null=True)
     email = models.EmailField()
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=30, default=None, blank=True, null=True)
     password = models.CharField(max_length=128)
     student_id = models.CharField(max_length=20, unique=True, help_text="Format: ####-##-#####")
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True, null=True)
-    # year_choice=[('First Year', 'First Year'), ('Second Year', 'Second Year'), ('Third Year', 'Third Year'), ('Fourth Year', 'Fourth Year')]
-    # year = models.CharField(max_length=15, choices=year_choice, default=None)
-    # block_choice=[('Block 1', 'Block 1'), ('Block 2', 'Block 2'), ('Block 3', 'Block 3'), ('Block 4', 'Block 4')]
-    # block = models.CharField(max_length=10, choices=block_choice, default=None)
-    # type_choice=[('Regular', 'Regular'), ('Irregular', 'Irregular')]
-    # type = models.CharField(max_length=10, choices=type_choice, default=None)
     year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "Year", null=True, blank=True, default=None)
     block = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "Block", null=True, blank=True, default=None)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name = "Type", null=True, blank=True, default=None)
@@ -68,8 +62,9 @@ class Student(models.Model):
         verbose_name_plural = 'Students'
 
 class Faculty(models.Model):
+    account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None, blank=True, null=True)
     email = models.EmailField()
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=30, default=None, blank=True, null=True)
     password = models.CharField(max_length=128)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -165,5 +160,7 @@ class Schedule(models.Model):
     
     class Meta:
         verbose_name_plural = 'Schedules'
+
+
 
 

@@ -1,12 +1,10 @@
 from django.contrib import admin
 from django.contrib.admin import display
+from django.contrib.auth.admin import UserAdmin
 from .models import Student, Faculty, Room, Subject, Schedule, Building, Day, Year, Block, Type, Time
 
 # Register your models here.
 # admin.site.register(Buildings)
-admin.site.register(Year)
-admin.site.register(Block)
-admin.site.register(Type)
 
 @admin.register(Time)
 class TimeAdmin(admin.ModelAdmin):
@@ -37,6 +35,12 @@ class RoomAdmin(admin.ModelAdmin):
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ("class_code","subject_title")
     search_fields = ("class_code","subject_title")
+
+admin.site.register(Year)
+
+admin.site.register(Block)
+
+admin.site.register(Type)
 
 admin.site.register(Day)
 

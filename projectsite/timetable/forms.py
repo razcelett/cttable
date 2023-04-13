@@ -1,13 +1,12 @@
 from django import forms
 from django.forms import ModelForm
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 import re
 from django.contrib.auth.models import User
 
 
 from .models import Student, Faculty, Year, Block, Type
-
+        
 class LoginForm(forms.Form):
     email = forms.CharField(
         widget=forms.TextInput(
@@ -77,23 +76,6 @@ class StudentForm(ModelForm):
         }),
         required=False
     )
-    # year_choices = [('1st', 'First Year'), ('2nd', 'Second Year'), ('3rd', 'Third Year'), ('4th', 'Fourth Year')]
-    # year = forms.ChoiceField(
-    #     year_choices=Student.year_choice,
-    #     widget=forms.Select(attrs={
-    #         "class": "form-control",
-    #         "placeholder": "Select your Year Level"
-    #     })
-    # )
-    # block_choices = [('1', 'Block 1'), ('2', 'Block 2'), ('3', 'Block 3'), ('4', 'Block 4')]
-    # block = forms.ChoiceField(
-    #     block_choices=Student.block_choice,
-    #     widget=forms.Select(attrs={
-    #         "class": "form-control",
-    #         "placeholder": "Select your Year Block"
-    #     })
-    # )
-
     year = forms.ModelChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
