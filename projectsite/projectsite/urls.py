@@ -14,16 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 # from django.conf import settings #add this
 # from django.conf.urls.static import static #add this
 
-from timetable.views import HomePageView, create_student, StudentList, FacultyList, StudentScheduleList
+from timetable.views import HomePageView, create_student, StudentList, FacultyList, StudentScheduleList, AdminFacultyList
 from timetable import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", include("accounts.urls")),
     re_path(r'^student-login/$', auth_views.LoginView.as_view(template_name='student-login.html'), name='student-login'),
     re_path(r'^faculty-login/$', auth_views.LoginView.as_view(template_name='faculty-login.html'), name='faculty-login'),
     # re_path(r'^student-index/$', auth_views.LoginView.as_view(template_name='student-index.html'), name='student-index'),
@@ -34,12 +35,14 @@ urlpatterns = [
     # path('nitbuilding', views.nitrooms, name="nitbuilding"),
     # path('gebuilding', views.gerooms, name="gebuilding"),
     path('student-register', views.create_student, name="student-register"),
+    path('faculty-register', views.create_faculty, name="faculty-register"),
     path('student-update', views.student_profileupdate, name="student-update"),
     path('student_login', views.student_login, name="student-login"),
     path('student_logout', views.student_logout, name="student-logout"),
     path('',views.HomePageView.as_view(), name='home'),
     path('student_list', StudentList.as_view(), name='StudentList'),
     path('faculty_list', FacultyList.as_view(), name='FacultyList'),
+    path('admin_faculty_list', AdminFacultyList.as_view(), name='AdminFacultyList'),
     path('student_schedule', StudentScheduleList.as_view(), name='StudentScheduleList'),
     
 

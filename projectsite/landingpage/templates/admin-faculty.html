@@ -1,5 +1,4 @@
 {% load static %}
-
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %}CLASS TIMETABLE{% endblock %}</title>
+    <title>CLASS TIMETABLE</title>
     <link rel = "icon" href ="{% static 'img/calendar-days-regular.svg' %}" type = "image/x-icon">
 
     <!-- Custom fonts for this template-->
@@ -23,6 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
 
     <link id="pagestyle" href="{% static 'css/material-dashboard.css' %}" rel="stylesheet" />
 
@@ -32,142 +32,6 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-    
-        <!-- Sidebar -->
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-          <!-- Sidebar - Brand -->
-          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
-              <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-thin fa-code"></i>
-              </div>
-              <div class="sidebar-brand-text mx-3">Class Time Table</div>
-          </a>
-
-          <!-- Divider -->
-          <hr class="sidebar-divider my-0">
-
-          <!-- Nav Item - Dashboard -->
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'StudentScheduleList' %}">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Dashboard</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Interface
-        </div>
-
-        <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'FacultyList' %}">
-                <i class="fas fa-fw fa-user-tie"></i>
-                <span>Faculty</span></a>
-        </li>
-
-         <!-- Nav Item - Charts -->
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="timetable.html">
-                <i class="fas fa-fw fa-calendar"></i>
-                <span>Class Time Table</span></a>
-        </li> -->
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-building"></i>
-                <span>Buildings</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">ROOMS</h6>
-                    <a class="collapse-item" href="{% url 'itbuilding' %}">IT Building</a>
-                    <a class="collapse-item" href="{% url 'nitbuilding' %}">NIT Building</a>
-                    <a class="collapse-item" href="{% url 'gebuilding' %}">GE Building</a>
-                </div>
-            </div>
-        </li>
-
-          <!-- Nav Item - Utilities Collapse Menu -->
-          <!-- <li class="nav-item">
-              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                  aria-expanded="true" aria-controls="collapseUtilities">
-                  <i class="fas fa-fw fa-wrench"></i>
-                  <span>Utilities</span>
-              </a>
-              <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                  data-parent="#accordionSidebar">
-                  <div class="bg-white py-2 collapse-inner rounded">
-                      <h6 class="collapse-header">Custom Utilities:</h6>
-                      <a class="collapse-item" href="utilities-color.html">Colors</a>
-                      <a class="collapse-item" href="utilities-border.html">Borders</a>
-                      <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                      <a class="collapse-item" href="utilities-other.html">Other</a>
-                  </div>
-              </div>
-          </li> -->
-
-          <!-- Divider -->
-          <hr class="sidebar-divider">
-
-          <!-- Heading -->
-          <!-- <div class="sidebar-heading">
-              Addons
-          </div> -->
-
-          <!-- Nav Item - Pages Collapse Menu -->
-          <!-- <li class="nav-item">
-              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                  aria-expanded="true" aria-controls="collapsePages">
-                  <i class="fas fa-fw fa-folder"></i>
-                  <span>Pages</span>
-              </a>
-              <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                  <div class="bg-white py-2 collapse-inner rounded">
-                      <h6 class="collapse-header">Login Screens:</h6>
-                      <a class="collapse-item" href="login.html">Login</a>
-                      <a class="collapse-item" href="register.html">Register</a>
-                      <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                      <div class="collapse-divider"></div>
-                      <h6 class="collapse-header">Other Pages:</h6>
-                      <a class="collapse-item" href="404.html">404 Page</a>
-                      <a class="collapse-item" href="blank.html">Blank Page</a>
-                  </div>
-              </div>
-          </li> -->
-
-          
-
-          <!-- Nav Item - Tables -->
-          <!-- <li class="nav-item">
-              <a class="nav-link" href="tables.html">
-                  <i class="fas fa-fw fa-table"></i>
-                  <span>Tables</span></a>
-          </li> -->
-
-          <!-- Divider -->
-          <!-- <hr class="sidebar-divider d-none d-md-block"> -->
-
-          <!-- Sidebar Toggler (Sidebar) -->
-          <div class="text-center d-none d-md-inline">
-              <button class="rounded-circle border-0" id="sidebarToggle"></button>
-          </div>
-
-          <!-- Sidebar Message -->
-          <div class="sidebar-card d-none d-lg-flex">
-            <img class="sidebar-card-illustration mb-2" src="{% static 'img/acslogo.png' %}" alt="...">
-            <p class="text-center mb-2"><strong>ACS</strong></p>
-            <a class="btn btn-success btn-sm" href="https://www.facebook.com/acs.psu/?_rdc=1&_rdr">VISIT ACS PAGE</a>
-          </div>
-
-      </ul>
-      <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -178,10 +42,12 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                  <button id="butt">
+                    <a href="{% url 'index' %}">
+                    <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+                    <span>Back</span>
+                  </a>
+                  </button>
 
                     <!-- Topbar Search -->
                     <form
@@ -274,88 +140,20 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
-                        <!-- <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i> -->
-                                <!-- Counter - Messages -->
-                                <!-- <span class="badge badge-danger badge-counter">7</span>
-                            </a> -->
-                            <!-- Dropdown - Messages -->
-                            <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div> -->
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
+                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                               <img class="img-profile rounded-circle"
                                   src="{% static 'img/undraw_profile.svg' %}">
                           </a>
                           <!-- Dropdown - User Information -->
                           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                               aria-labelledby="userDropdown">
-                              <a class="dropdown-item" href="{% url 'student-update' %}">
+                              <a class="dropdown-item" href="{% url 'change_password' %}">
                                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Profile
+                                  Change Password
                               </a>
                               <!-- <a class="dropdown-item" href="#">
                                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -381,12 +179,10 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">FACULTY</h1>
-                    <!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-                        The charts below have been customized - for further customization options, please visit the <a
-                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                            documentation</a>.</p> -->
+                    <button class="icon-btn add-btn">
+                      <div class="add-icon"></div>
+                      <div class="btn-txt">Add Faculty</div>
+                    </button>
 
                             <!-- ----------------Faculty----------------- -->
                         
@@ -396,18 +192,17 @@
                                     <div class="card my-4">
                                       <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                          <h6 class="text-white text-capitalize ps-3">Faculty Members</h6>
+                                          <h6 class="text-white text-capitalize ps-3">Faculties</h6>
                                         </div>
                                       </div>
                                       <div class="card-body px-0 pb-2">
                                         <div class="table-responsive p-0">
-   
                                           <table class="table align-items-center mb-0">
                                             <thead>
                                               <tr>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty Room</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty Name</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Subject Handle</th>
+                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Schedule</th>
                                               </tr>
                                             </thead>
                                             <tbody>
@@ -427,18 +222,17 @@
                                                 <td>
                                                   <!-- <p class="text-xs font-weight-bold mb-0">{{ object.block }}</p>
                                                   <p class="text-xs text-secondary mb-0">{{ object.year }}</p> -->
-                                                  <h6 class="mb-0 text-sm">{{ object.email }}</h6>
+                                                  <h6 class="mb-0 text-sm">{{ object.year }} {{ object.block }}</h6>
                                                 </td>
-                                              
                                                 <td class="align-middle text-center">
-                                                  <span class="text-secondary text-xs font-weight-bold">{{ object.department }}</span>
+                                                  <a href="#"><span class="text-secondary text-xs font-weight-bold">View Schedule</span></a>
                                                 </td>
-                                                
                                               </tr>
                                               {% empty %}
                                               <tr>No objects yet.</tr>
                                               {% endfor %}
                                             </tbody>
+                                            
                                           </table>
                                         </div>
                                       </div>
@@ -446,6 +240,7 @@
                                   </div>
                                 </div>
                             </div>
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -457,7 +252,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Timetable 2023</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -496,21 +291,14 @@
     {% endblock content %}
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/index/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-    <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
+    <script src="{% static 'js/classes.js' %}"></script>
 
 </body>
 

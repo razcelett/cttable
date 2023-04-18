@@ -1,3 +1,4 @@
+
 {% load static %}
 
 {% block content %}
@@ -26,13 +27,18 @@
 
     <link id="pagestyle" href="{% static 'css/material-dashboard.css' %}" rel="stylesheet" />
 
+    <!-- Custom styles for this template-->
+
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+
+
 </head>
 
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-    
+
         <!-- Sidebar -->
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -49,10 +55,10 @@
           <hr class="sidebar-divider my-0">
 
           <!-- Nav Item - Dashboard -->
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'StudentScheduleList' %}">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Dashboard</span></a>
+                <span>Classes</span></a>
         </li>
 
         <!-- Divider -->
@@ -64,10 +70,16 @@
         </div>
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'FacultyList' %}">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'AdminFacultyList' %}">
                 <i class="fas fa-fw fa-user-tie"></i>
                 <span>Faculty</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'StudentList' %}">
+                <i class="fas fa-fw fa-user-tie"></i>
+                <span>Students</span></a>
         </li>
 
          <!-- Nav Item - Charts -->
@@ -341,48 +353,54 @@
                         </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div> -->
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
-                              <img class="img-profile rounded-circle"
-                                  src="{% static 'img/undraw_profile.svg' %}">
-                          </a>
-                          <!-- Dropdown - User Information -->
-                          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                              aria-labelledby="userDropdown">
-                              <a class="dropdown-item" href="{% url 'student-update' %}">
-                                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Profile
-                              </a>
-                              <!-- <a class="dropdown-item" href="#">
-                                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Settings
-                              </a> -->
-                              <!-- <a class="dropdown-item" href="#">
-                                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Activity Log
-                              </a> -->
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="{% url 'student-logout' %}" data-toggle="modal" data-target="#logoutModal">
-                                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Logout
-                              </a>
-                          </div>
-                      </li>
+                            <!-- Nav Item - User Information -->
+                                <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                    <img class="img-profile rounded-circle"
+                                        src="{% static 'img/undraw_profile.svg' %}">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="{% url 'change_password' %}">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Change Password
+                                    </a>
+                                    <!-- <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Settings
+                                    </a> -->
+                                    <!-- <a class="dropdown-item" href="#">
+                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Activity Log
+                                    </a> -->
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'student-logout' %}" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
 
                     </ul>
 
                 </nav>
                 <!-- End of Topbar -->
 
+
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <a href="{% url 'faculty-register' %}">
+                    <button class="icon-btn add-btn">
+                        <div class="add-icon"></div>
+                        <div class="btn-txt">Add Faculty</div>
+                    </button>
+                    </a>
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">FACULTY</h1>
                     <!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
                         The charts below have been customized - for further customization options, please visit the <a
                             target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
@@ -407,7 +425,7 @@
                                               <tr>
                                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty</th>
                                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty Room</th>
+                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Schedule</th>
                                               </tr>
                                             </thead>
                                             <tbody>
@@ -431,7 +449,7 @@
                                                 </td>
                                               
                                                 <td class="align-middle text-center">
-                                                  <span class="text-secondary text-xs font-weight-bold">{{ object.department }}</span>
+                                                    <a href="#"><span class="text-secondary text-xs font-weight-bold">View Schedule</span></a>
                                                 </td>
                                                 
                                               </tr>
@@ -511,6 +529,10 @@
     <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
+
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'js/classes.js' %}"></script>
 
 </body>
 

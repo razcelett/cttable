@@ -26,13 +26,18 @@
 
     <link id="pagestyle" href="{% static 'css/material-dashboard.css' %}" rel="stylesheet" />
 
+    <!-- Custom styles for this template-->
+
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+
+
 </head>
 
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-    
+
         <!-- Sidebar -->
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -49,10 +54,10 @@
           <hr class="sidebar-divider my-0">
 
           <!-- Nav Item - Dashboard -->
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'StudentScheduleList' %}">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Dashboard</span></a>
+                <span>Classes</span></a>
         </li>
 
         <!-- Divider -->
@@ -64,10 +69,16 @@
         </div>
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'FacultyList' %}">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'AdminFacultyList' %}">
                 <i class="fas fa-fw fa-user-tie"></i>
                 <span>Faculty</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'StudentList' %}">
+                <i class="fas fa-fw fa-user-tie"></i>
+                <span>Students</span></a>
         </li>
 
          <!-- Nav Item - Charts -->
@@ -182,21 +193,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for faculty member..."
-                                aria-label="Search" aria-describedby="basic-addon2"> -->
-                                <input type="text" class="form-control" name="q" placeholder="Search for...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -346,16 +342,16 @@
                         <li class="nav-item dropdown no-arrow">
                           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
+                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                               <img class="img-profile rounded-circle"
                                   src="{% static 'img/undraw_profile.svg' %}">
                           </a>
                           <!-- Dropdown - User Information -->
                           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                               aria-labelledby="userDropdown">
-                              <a class="dropdown-item" href="{% url 'student-update' %}">
+                              <a class="dropdown-item" href="{% url 'change_password' %}">
                                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Profile
+                                  Change Password
                               </a>
                               <!-- <a class="dropdown-item" href="#">
                                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -378,11 +374,12 @@
                 </nav>
                 <!-- End of Topbar -->
 
+
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">FACULTY</h1>
                     <!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
                         The charts below have been customized - for further customization options, please visit the <a
                             target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
@@ -396,50 +393,70 @@
                                     <div class="card my-4">
                                       <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                          <h6 class="text-white text-capitalize ps-3">Faculty Members</h6>
+                                          <h6 class="text-white text-capitalize ps-3">Add Faculty</h6>
                                         </div>
                                       </div>
-                                      <div class="card-body px-0 pb-2">
+                                      <div class="card-body ">
                                         <div class="table-responsive p-0">
    
-                                          <table class="table align-items-center mb-0">
-                                            <thead>
-                                              <tr>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty Room</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              {% for object in object_list %}
-                                              <tr>
-                                                <td>
-                                                  <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                      <img src="{% static 'img/undraw_profile.svg' %}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                      <h6 class="mb-0 text-sm">{{ object.first_name }} {{ object.last_name }}</h6>
-                                                      <!-- <p class="text-xs text-secondary mb-0">{{ object.email }}</p> -->
-                                                    </div>
-                                                  </div>
-                                                </td>
-                                                <td>
-                                                  <!-- <p class="text-xs font-weight-bold mb-0">{{ object.block }}</p>
-                                                  <p class="text-xs text-secondary mb-0">{{ object.year }}</p> -->
-                                                  <h6 class="mb-0 text-sm">{{ object.email }}</h6>
-                                                </td>
-                                              
-                                                <td class="align-middle text-center">
-                                                  <span class="text-secondary text-xs font-weight-bold">{{ object.department }}</span>
-                                                </td>
-                                                
-                                              </tr>
-                                              {% empty %}
-                                              <tr>No objects yet.</tr>
-                                              {% endfor %}
-                                            </tbody>
-                                          </table>
+											<form role="form" method="POST" action="">
+												{% csrf_token %}
+								
+												<!-- <h1>Register</h1>
+												<br> -->
+												<div class="input-group mb-3">
+													{{ form.email }}
+												</div>
+												<span class="text-error">{{ form.email.errors }}</span>     
+												
+												<div class="input-group mb-3">
+													{{ form.username }}
+												</div>
+												<span class="text-error">{{ form.username.errors }}</span>  
+												
+												<div class="input-group mb-3">
+													{{ form.password }}
+													<div class="input-group-append">
+														<div class="input-group-text">
+															<span onclick="togglePassword('password')"></span>
+														</div>
+													</div>
+												</div>
+												<span class="text-error">{{ form.password.errors }}</span>
+												
+												<div class="input-group mb-3">
+													{{ form.confirm_password }}
+													<div class="input-group-append">
+														<div class="input-group-text">
+															<span onclick="togglePassword('confirm_password')"></span>
+														</div>
+													</div>
+												</div>
+												<span class="text-error">{{ form.confirm_password.errors }}</span>                    
+											                                           	
+												<div class="input-group mb-3">
+													{{ form.last_name }}
+												</div>
+												<span class="text-error">{{ form.last_name.errors }}</span>  
+												
+												<div class="input-group mb-3">
+													{{ form.first_name }}
+												</div>
+												<span class="text-error">{{ form.first_name.errors }}</span>   
+												
+												<div class="input-group mb-3">
+													{{ form.middle_name }}
+												</div>
+												<span class="text-error">{{ form.middle_name.errors }}</span>  
+								
+												<div class="input-group mb-3">
+													{{ form.department }}
+												</div>
+												<span class="text-error">{{ form.dempartment.errors }}</span> 
+																								
+												<button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Register</button>
+					
+											</form>
                                         </div>
                                       </div>
                                     </div>
@@ -511,6 +528,10 @@
     <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
+
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'js/classes.js' %}"></script>
 
 </body>
 

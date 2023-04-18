@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
-from .forms import LoginForm, StudentForm, UpdateStudentForm
+from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm
 from .models import Student, Faculty, Schedule, Room
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -27,6 +27,27 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+@method_decorator(login_required, name='dispatch')
+class AdminFacultyList(ListView):
+    model = Faculty
+    context_object_name = 'faculty'
+    template_name = 'admin-faculty-view.html'
+    paginated_by = 10
+
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(AdminFacultyList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("last_name")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
+        return qs
 
 # student list of faculties from the database view
 @method_decorator(login_required, name='dispatch')
@@ -55,7 +76,7 @@ class FacultyList(ListView):
 class StudentList(ListView):
     model = Student
     context_object_name = 'student'
-    template_name = 'student-faculty-view.html'
+    template_name = 'admin-student.html'
     # paginated_by = 10
 
     #getting the data
@@ -69,7 +90,7 @@ class StudentList(ListView):
         qs = qs.order_by("last_name")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(year__icontains=query) | Q(block__icontains=query) | Q(type__icontains=query))
+            qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query))
         return qs
 
 # student timetable view
@@ -85,6 +106,14 @@ class StudentScheduleList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+    
+    def get_queryset(self, *args, **kwargs):
+        qs = super(StudentScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("year_section")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("year_section").filter(Q(year_section__icontains=query)| Q(block_section__icontains=query))
+        return qs
     
 # ----------------------------------------------------------------
 
@@ -144,13 +173,32 @@ def create_student(request):
             form.save()
             msg = 'User created successfully.'
             success = True
-            return redirect("student-login")
+            return redirect("StudentList")
     
     else:
         msg = 'Form is not valid'
         success = False
 
     return render(request, 'student-register.html', {'form': form, 'msg': msg, 'success': success})
+
+def create_faculty(request):
+    msg = None
+    success = False
+    form = FacultyForm()
+
+    if request.method == "POST":
+        form = FacultyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            msg = 'User created successfully.'
+            success = True
+            return redirect("AdminFacultyList")
+    
+    else:
+        msg = 'Form is not valid'
+        success = False
+
+    return render(request, 'faculty-register.html', {'form': form, 'msg': msg, 'success': success})
 
 # it building view rooms
 def itrooms(request):
