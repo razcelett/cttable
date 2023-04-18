@@ -418,7 +418,7 @@
 													{{ form.password }}
 													<div class="input-group-append">
 														<div class="input-group-text">
-															<span onclick="togglePassword('password')"></span>
+															<span class="fa fa-fw fa-eye field-icon password" onclick="togglePassword('password')"></span>
 														</div>
 													</div>
 												</div>
@@ -428,11 +428,11 @@
 													{{ form.confirm_password }}
 													<div class="input-group-append">
 														<div class="input-group-text">
-															<span onclick="togglePassword('confirm_password')"></span>
+															<span class="fa fa-fw fa-eye field-icon confirm_password" onclick="togglePassword('confirm_password')"></span>
 														</div>
 													</div>
 												</div>
-												<span class="text-error">{{ form.confirm_password.errors }}</span>                    
+												<span class="text-error">{{ form.confirm_password.errors }}</span>                   
 											                                           	
 												<div class="input-group mb-3">
 													{{ form.last_name }}
@@ -532,6 +532,24 @@
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
     <script src="{% static 'js/classes.js' %}"></script>
+
+{% block javascripts %}
+    <script>
+        function togglePassword(inputId) {
+            var input = document.getElementById(inputId);
+            var icon = document.querySelector("." + inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+{% endblock javascripts %}
 
 </body>
 
