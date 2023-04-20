@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 import re
 from django.contrib.auth.models import User
@@ -23,6 +23,18 @@ class LoginForm(forms.Form):
                 "class": "form-control"
             }
         ))
+    
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your current password'}))
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter a new password'}))
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm your new password'}))
+
+    class Meta:
+        model = User
+        fields = ['old_password', 'new_password1', 'new_password2']
     
     
 class StudentForm(ModelForm):
@@ -210,18 +222,6 @@ class UpdateStudentForm(ModelForm):
         if commit:
             student.save()
         return student
-
-class UploadProfileForm(ModelForm):
-    class Meta:
-        model = Student
-        fields = ['student_profile_picture']
-    
-    def save(self, commit=True):
-        student = super().save(commit=False)
-        if commit:
-            student.save()
-        return student
-
 
 class FacultyForm(ModelForm):
     email = forms.EmailField(

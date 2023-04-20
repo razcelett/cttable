@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
-from .forms import LoginForm, StudentForm, UpdateStudentForm, UploadProfileForm, FacultyForm
+from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm
 from .models import Student, Faculty, Schedule, Room
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -127,14 +127,22 @@ def student_profileupdate(request):
         msg = 'Failed to update your Profile'
 
 
-def student_profile_picture(request):
-    form = UploadProfileForm(request.POST, request.FILES)
-    if request.method == 'POST':  
-        if form.is_valid():  
+def change_password(request):
+    context = { 'segment': 'change-password' }
+    context['form'] = ChangePasswordForm(user=request.user)
+
+    if request.method == 'POST':
+        form = ChangePasswordForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            print(f'form is valid: {form}')
             form.save()
-            img_object = form.instance    
-        return render(request, 'pic-upload.html', {'form': form, 'img_obj': img_object}) 
-    return render(request, 'pic-upload.html', {'form': form}) 
+            return redirect("/")
+        else:
+            print(f'form is invalid: {form}')
+            context['form'] = form
+            return render(request, 'change-password.html', context)
+
+    return render(request, 'change-password.html', context)
 
 #student login
 def student_login(request):
