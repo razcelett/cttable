@@ -42,11 +42,12 @@
                     <div class="card-body text-center">
                         {% csrf_token %}
                         <!-- Profile picture image-->
-                        <img class="img-account-profile rounded-circle mb-2" src="{% static 'img/student_prof_pic/06938168_2303627526443469_4166973500726083591_n_bQlzDlS.jpg' %}" alt="">
+                        <img class="img-account-profile rounded-circle mb-2" src="{{ form.student_profile_picture }}" alt="">
                         <!-- Profile picture help block-->
                         <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                         <!-- Profile picture upload button-->
-                        <button class="btn btn-primary" type="button">Upload new image</button>
+                        <a href="{% url 'student_profile_picture' %}" class="btn btn-primary">Profile</a>
+                        <!-- <button class="btn btn-primary" type="button">Upload new image</button> -->
                     </div>
                 </div>
             </div>

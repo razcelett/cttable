@@ -17,48 +17,18 @@
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
 
+    <link id="pagestyle" href="{% static 'css/material-dashboard.css' %}" rel="stylesheet" />
 
+    <!-- Custom styles for this template-->
 
-    <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>PhotoFolio Bootstrap Template - Index</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: PhotoFolio - v1.2.0
-  * Template URL: https://bootstrapmade.com/photofolio-bootstrap-photography-website-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-
-
-
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
 
 
 </head>
@@ -72,138 +42,143 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                  <i class="fas fa-thin fa-code"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Class Time Table</div>
+          <!-- Sidebar - Brand -->
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
+              <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-thin fa-code"></i>
+              </div>
+              <div class="sidebar-brand-text mx-3">Class Time Table</div>
+          </a>
+
+          <!-- Divider -->
+          <hr class="sidebar-divider my-0">
+
+          <!-- Nav Item - Dashboard -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'StudentScheduleList' %}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Classes</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Interface
+        </div>
+
+        <!-- Nav Item - Charts -->
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'AdminFacultyList' %}">
+                <i class="fas fa-fw fa-user-tie"></i>
+                <span>Faculty</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'StudentList' %}">
+                <i class="fas fa-fw fa-user-tie"></i>
+                <span>Students</span></a>
+        </li>
+
+         <!-- Nav Item - Charts -->
+        <!-- <li class="nav-item">
+            <a class="nav-link" href="timetable.html">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Class Time Table</span></a>
+        </li> -->
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-building"></i>
+                <span>Buildings</span>
             </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'StudentScheduleList' %}">
-                  <i class="fas fa-fw fa-table"></i>
-                  <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'FacultyList' %}">
-                    <i class="fas fa-fw fa-user-tie"></i>
-                    <span>Faculty</span></a>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="timetable.html">
-                    <i class="fas fa-fw fa-calendar"></i>
-                    <span>Class Time Table</span></a>
-            </li> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-building"></i>
-                    <span>Buildings</span>
-                </a>
-                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
-                data-parent="#accordionSidebar">
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">ROOMS</h6>
-                        <a class="collapse-item active" href="{% url 'itbuilding' %}">IT Building</a>
-                        <a class="collapse-item" href="{% url 'nitbuilding' %}">NIT Building</a>
-                        <a class="collapse-item" href="{% url 'gebuilding' %}">GE Building</a>
-                    </div>
+                    <h6 class="collapse-header">ROOMS</h6>
+                    <a class="collapse-item" href="{% url 'itbuilding' %}">IT Building</a>
+                    <a class="collapse-item" href="{% url 'nitbuilding' %}">NIT Building</a>
+                    <a class="collapse-item" href="{% url 'gebuilding' %}">GE Building</a>
                 </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li> -->
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <!-- <div class="sidebar-heading">
-                Addons
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li> -->
-
-            
-
-            <!-- Nav Item - Tables -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> -->
-
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+        </li>
 
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-              <img class="sidebar-card-illustration mb-2" src="{% static 'img/acslogo.png' %}" alt="...">
-              <p class="text-center mb-2"><strong>ACS</strong></p>
-              <a class="btn btn-success btn-sm" href="https://www.facebook.com/acs.psu/?_rdc=1&_rdr">VISIT ACS PAGE</a>
-            </div>
+          <!-- Nav Item - Utilities Collapse Menu -->
+          <!-- <li class="nav-item">
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                  aria-expanded="true" aria-controls="collapseUtilities">
+                  <i class="fas fa-fw fa-wrench"></i>
+                  <span>Utilities</span>
+              </a>
+              <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                  data-parent="#accordionSidebar">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                      <h6 class="collapse-header">Custom Utilities:</h6>
+                      <a class="collapse-item" href="utilities-color.html">Colors</a>
+                      <a class="collapse-item" href="utilities-border.html">Borders</a>
+                      <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                      <a class="collapse-item" href="utilities-other.html">Other</a>
+                  </div>
+              </div>
+          </li> -->
 
-        </ul>
-        <!-- End of Sidebar -->
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+          <!-- Heading -->
+          <!-- <div class="sidebar-heading">
+              Addons
+          </div> -->
+
+          <!-- Nav Item - Pages Collapse Menu -->
+          <!-- <li class="nav-item">
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                  aria-expanded="true" aria-controls="collapsePages">
+                  <i class="fas fa-fw fa-folder"></i>
+                  <span>Pages</span>
+              </a>
+              <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                      <h6 class="collapse-header">Login Screens:</h6>
+                      <a class="collapse-item" href="login.html">Login</a>
+                      <a class="collapse-item" href="register.html">Register</a>
+                      <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                      <div class="collapse-divider"></div>
+                      <h6 class="collapse-header">Other Pages:</h6>
+                      <a class="collapse-item" href="404.html">404 Page</a>
+                      <a class="collapse-item" href="blank.html">Blank Page</a>
+                  </div>
+              </div>
+          </li> -->
+
+          
+
+          <!-- Nav Item - Tables -->
+          <!-- <li class="nav-item">
+              <a class="nav-link" href="tables.html">
+                  <i class="fas fa-fw fa-table"></i>
+                  <span>Tables</span></a>
+          </li> -->
+
+          <!-- Divider -->
+          <!-- <hr class="sidebar-divider d-none d-md-block"> -->
+
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+              <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
+
+          <!-- Sidebar Message -->
+          <div class="sidebar-card d-none d-lg-flex">
+            <img class="sidebar-card-illustration mb-2" src="{% static 'img/acslogo.png' %}" alt="...">
+            <p class="text-center mb-2"><strong>ACS</strong></p>
+            <a class="btn btn-success btn-sm" href="https://www.facebook.com/acs.psu/?_rdc=1&_rdr">VISIT ACS PAGE</a>
+          </div>
+
+      </ul>
+      <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -219,20 +194,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <!-- <form>
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for rooms..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -247,9 +208,7 @@
                                 aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                      <input type="text" class="form-control" name="q" placeholder="Search for...">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -383,16 +342,16 @@
                         <li class="nav-item dropdown no-arrow">
                           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
+                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                               <img class="img-profile rounded-circle"
                                   src="{% static 'img/undraw_profile.svg' %}">
                           </a>
                           <!-- Dropdown - User Information -->
                           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                               aria-labelledby="userDropdown">
-                              <a class="dropdown-item" href="{% url 'student-update' %}">
+                              <a class="dropdown-item" href="#">
                                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                  Profile
+                                  Change Password
                               </a>
                               <!-- <a class="dropdown-item" href="#">
                                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -415,11 +374,95 @@
                 </nav>
                 <!-- End of Topbar -->
 
+
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">IT BUILDING</h1>
+                    <!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
+                        The charts below have been customized - for further customization options, please visit the <a
+                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
+                            documentation</a>.</p> -->
+
+                            <!-- ----------------Faculty----------------- -->
+                        
+                            <div class="container-fluid py-4">
+                                <div class="row">
+                                  <div class="col-12">
+                                    <div class="card my-4">
+                                      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                          <h6 class="text-white text-capitalize ps-3">Add Faculty</h6>
+                                        </div>
+                                      </div>
+                                      <div class="card-body ">
+                                        <div class="table-responsive p-0">
+   
+											<form role="form" method="POST" action="">
+												{% csrf_token %}
+								
+												<!-- <h1>Register</h1>
+												<br> -->
+												<div class="input-group mb-3">
+													{{ form.email }}
+												</div>
+												<span class="text-error">{{ form.email.errors }}</span>     
+												
+												<div class="input-group mb-3">
+													{{ form.username }}
+												</div>
+												<span class="text-error">{{ form.username.errors }}</span>  
+												
+												<div class="input-group mb-3">
+													{{ form.password }}
+													<div class="input-group-append">
+														<div class="input-group-text">
+															<span class="fa fa-fw fa-eye field-icon password" onclick="togglePassword('password')"></span>
+														</div>
+													</div>
+												</div>
+												<span class="text-error">{{ form.password.errors }}</span>
+												
+												<div class="input-group mb-3">
+													{{ form.confirm_password }}
+													<div class="input-group-append">
+														<div class="input-group-text">
+															<span class="fa fa-fw fa-eye field-icon confirm_password" onclick="togglePassword('confirm_password')"></span>
+														</div>
+													</div>
+												</div>
+												<span class="text-error">{{ form.confirm_password.errors }}</span>                   
+											                                           	
+												<div class="input-group mb-3">
+													{{ form.last_name }}
+												</div>
+												<span class="text-error">{{ form.last_name.errors }}</span>  
+												
+												<div class="input-group mb-3">
+													{{ form.first_name }}
+												</div>
+												<span class="text-error">{{ form.first_name.errors }}</span>   
+												
+												<div class="input-group mb-3">
+													{{ form.middle_name }}
+												</div>
+												<span class="text-error">{{ form.middle_name.errors }}</span>  
+								
+												<div class="input-group mb-3">
+													{{ form.department }}
+												</div>
+												<span class="text-error">{{ form.dempartment.errors }}</span> 
+																								
+												<button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Register</button>
+					
+											</form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -427,42 +470,13 @@
             </div>
             <!-- End of Main Content -->
 
-            <main id="main" data-aos="fade" data-aos-delay="1500">
-
-              <!-- ======= Gallery Section ======= -->
-              <section id="gallery" class="gallery">
-                <div class="container-fluid">
-                  {% for r in room %}
-                  {% if r.building.building_name == 'IT BUILDING' %}
-                  <div class="row gy-4 justify-content-center">
-                    <div class="col-xl-6 col-lg-4 col-md-6">
-                      <div class="gallery-item h-100">
-                        <img src="{{ r.room_picture.url }}" class="img-fluid" alt="">
-                        <div class="gallery-links d-flex align-items-center justify-content-center">
-                          <a href="{{ r.room_picture.url }}" title="{{ r.room_name }}" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
-                          <div class="center">
-                            <i>{{ r.room_name }}</i> 
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                    <!-- End Gallery Item --> 
-                  </div>
-                </div>
-              </section><!-- End Gallery Section -->
-          
-          </main><!-- End #main -->
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
-              <div class="container my-auto">
-                  <div class="copyright text-center my-auto">
-                      <span>Copyright &copy; Timetable 2023</span>
-                  </div>
-              </div>
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Timetable 2023</span>
+                    </div>
+                </div>
             </footer>
             <!-- End of Footer -->
 
@@ -497,10 +511,6 @@
         </div>
     </div>
     {% endblock content %}
-
-
-
-
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/index/js/bootstrap.bundle.min.js' %}"></script>
@@ -511,26 +521,35 @@
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
 
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
 
-    <!-- <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-    <div id="preloader">
-      <div class="line"></div>
-    </div> -->
-  
-    <!-- Vendor JS Files -->
-    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
-    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-  
-    <!-- Template Main JS File -->
-    <script src="{% static 'assets/js/main.js' %}"></script>
-  
+    <script src="{% static 'js/classes.js' %}"></script>
 
-
+{% block javascripts %}
+    <script>
+        function togglePassword(inputId) {
+            var input = document.getElementById(inputId);
+            var icon = document.querySelector("." + inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+{% endblock javascripts %}
 
 </body>
 

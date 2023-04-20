@@ -197,7 +197,7 @@ class UpdateStudentForm(ModelForm):
 
     class Meta:
         model = Student
-        fields = ['student_profile_picture', 'username', 'first_name', 'last_name', 'middle_name', 'year', 'block', 'type']
+        fields = ['username', 'first_name', 'last_name', 'middle_name', 'year', 'block', 'type']
 
     def clean_student_id(self):
         student_id = self.cleaned_data.get('student_id')
@@ -210,6 +210,18 @@ class UpdateStudentForm(ModelForm):
         if commit:
             student.save()
         return student
+
+class UploadProfileForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = ['student_profile_picture']
+    
+    def save(self, commit=True):
+        student = super().save(commit=False)
+        if commit:
+            student.save()
+        return student
+
 
 class FacultyForm(ModelForm):
     email = forms.EmailField(
