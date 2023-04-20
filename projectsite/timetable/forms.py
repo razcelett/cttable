@@ -206,6 +206,13 @@ class UpdateStudentForm(ModelForm):
         }),
         queryset = Type.objects.all(), initial = 0,
     )
+    student_profile_picture = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            "class": "form-control",
+            "placeholder": "Upload your profile picture"
+        })
+    )
 
     class Meta:
         model = Student

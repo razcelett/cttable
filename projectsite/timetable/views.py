@@ -115,14 +115,35 @@ def student_profileupdate(request):
     success = False
     student = Student.objects.filter(email=request.user.email).first()
     print(f'request.user.is_authenticated: {request.user.is_authenticated}')
+
+
     if request.user.is_authenticated:
         current_user = Student.objects.get(id=student.id)
         form = UpdateStudentForm(request.POST or None, instance=current_user)
-        if form.is_valid():
-            form.save()
-            msg = 'Your Profile has been updated'
-            return redirect("StudentScheduleList")
-        return render(request, 'student-profile.html', {'form': form})
+
+        if request.method == 'POST':
+            form = UpdateStudentForm(request.POST or None, instance=current_user)
+            print(f'files: {request.FILES}')
+            if form.is_valid():
+                print('saving items123...')
+                print(f'errors: {form.errors}')
+                for key, value in form.cleaned_data.items():
+                    print(f'key: {key} value: {value}')
+
+                form.save()
+                if request.FILES.get('student_profile_picture') is not None:
+                    student.student_profile_picture = request.FILES.get('student_profile_picture')
+                    student.save()
+                    print('profile picture saved successfully')
+                
+                msg = 'Your Profile has been updated'
+                return redirect("StudentScheduleList")
+            return render(request, 'student-profile.html', {'form': form})
+        elif request.method == 'GET':
+            print(f'student profile: {student.student_profile_picture}')
+
+            return render(request, 'student-profile.html', {'form': form, 'student_profile': student.student_profile_picture})
+        
     else:
         msg = 'Failed to update your Profile'
 
