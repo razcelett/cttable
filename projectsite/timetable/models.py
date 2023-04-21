@@ -76,7 +76,7 @@ class Faculty(models.Model):
     middle_name = models.CharField(max_length=30, blank=True, null=True)
     department_choice=[('Computer Studies Department', 'Computer Studies Department'), ('Math Department', 'Math Department')]
     department = models.CharField(max_length=50, choices=department_choice, default=None)
-    faculty_profile_picture = models.ImageField(null=True, blank=True, upload_to="static/img/facutly_prof_pic/")
+    faculty_profile_picture = models.ImageField(null=True, blank=True, default=None, upload_to="static/img/faculty_prof_pic/")
 
     def __str__(self):
         if self.middle_name:

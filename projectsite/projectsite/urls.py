@@ -39,6 +39,7 @@ urlpatterns = [
     path('student-register', views.create_student, name="student-register"),
     path('faculty-register', views.create_faculty, name="faculty-register"),
     path('student-update', views.student_profileupdate, name="student-update"),
+    path('faculty-update', views.faculty_profileupdate, name="faculty-update"),
     path('change_password', views.change_password, name="change_password"),
     path('student_login', views.student_login, name="student-login"),
     path('student_logout', views.student_logout, name="student-logout"),

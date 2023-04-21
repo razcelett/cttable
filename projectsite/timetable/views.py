@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
-from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm
+from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm
 from .models import Student, Faculty, Schedule, Room
 from django.db.models import Q
 from django.contrib.auth.models import User
+
 
 
 
@@ -137,12 +138,53 @@ def student_profileupdate(request):
                     print('profile picture saved successfully')
                 
                 msg = 'Your Profile has been updated'
-                return redirect("StudentScheduleList")
+                return redirect("student-update")
             return render(request, 'student-profile.html', {'form': form})
         elif request.method == 'GET':
             print(f'student profile: {student.student_profile_picture}')
 
             return render(request, 'student-profile.html', {'form': form, 'student_profile': student.student_profile_picture})
+        
+    else:
+        msg = 'Failed to update your Profile'
+
+@login_required()
+def faculty_profileupdate(request):
+    msg = None
+    success = False
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    print(f'request.user.is_authenticated: {request.user.is_authenticated}')
+
+
+    if request.user.is_authenticated:
+        current_user = Faculty.objects.get(id=faculty.id)
+        form = UpdateFacultyForm(request.POST or None, instance=current_user)
+
+        if request.method == 'POST':
+            form = UpdateFacultyForm(request.POST or None, instance=current_user)
+            print(f'files: {request.FILES}')
+            if form.is_valid():
+                print('saving items123...')
+                print(f'errors: {form.errors}')
+                for key, value in form.cleaned_data.items():
+                    print(f'key: {key} value: {value}')
+                
+
+                form.save()
+                if request.FILES.get('student_profile_picture') is not None:
+                    faculty.faculty_profile_picture = request.FILES.get('student_profile_picture')
+                    faculty.save()
+                    print('profile picture saved successfully')
+                
+                msg = 'Your Profile has been updated'
+                return redirect("faculty-update")
+            else:
+                   msg = 'Failed to update your Profile'
+                   return render(request, 'faculty-profile.html', {'form': form, 'msg': msg})
+        elif request.method == 'GET':
+            print(f'faculty profile: {faculty.faculty_profile_picture}')
+
+            return render(request, 'faculty-profile.html', {'form': form, 'faculty_profile': faculty.faculty_profile_picture})
         
     else:
         msg = 'Failed to update your Profile'
@@ -247,6 +289,8 @@ def gerooms(request):
     room = Room.objects.all().order_by('room_name')
     context = {'room':room}
     return render(request, 'geb.html', context)
+
+
 
 
 

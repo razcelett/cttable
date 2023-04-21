@@ -35,37 +35,37 @@
         <div class="row">
             <div class="col-xl-4">
                 <!-- Profile picture card-->
+            <form role="form" method="POST" action="" enctype="multipart/form-data">
+                {% if msg %}
+                <span class="text-danger">{{ msg | safe }}</span>
+                {% endif %} 
+                {% csrf_token %}
                 <div class="card mb-4 mb-xl-0">
                     <div class="card-header">Profile Picture</div>
                     <div class="card-body text-center">
-                       
-                        <img class="img-account-profile rounded-circle mb-2" alt="profile" src="{{ student_profile }}" alt="">
-
-                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                 
+                        <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: 0 auto;">
+                            <img class="img-account-profile" alt="profile" src="{{ student_profile }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="mb-4 mb-xl-0">
+                            <div class="card-body text-center" style="position: relative;">
+                                <label for="id_student_profile_picture" style="cursor: pointer;">
+                                    <!-- Hide the default file input button with opacity: 0 and position: absolute -->
+                                    <input type="file" name="student_profile_picture" id="id_student_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
+                                    <!-- Add your custom "choose file" button here -->
+                                    <div style="background-color: #007bff; color: #fff; padding: 10px; border-radius: 5px;">Choose File</div>
+                                </label>
+                                <div id="fileNameDisplay" style="margin-top: 10px;"></div>
+                            </div>
+                            <span class="text-error">{{ form.student_profile_picture.errors }}</span>  
+                        </div>
                     </div>
                 </div>
-                
             </div>
             <div class="col-xl-8">
                 <!-- Account details card-->
                 <div class="card mb-4">
                     <div class="card-header">Account Details</div>
                     <div class="card-body">
-                        {% if messages %}
-                        <span class="text-danger">{{ messages | safe }}</span>
-                        {% endif %} 
-                        <form role="form" method="POST" action="" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="card mb-4 mb-xl-0">
-                                <div class="card-header">Profile Picture</div>
-                                <div class="card-body text-center">
-                                    {{ form.student_profile_picture }}
-                                    <!-- <input type="file" name="student_profile_picture" id="id_student_profile_picture"> -->
-                                </div>
-                                <span class="text-error">{{ form.student_profile_picture.errors }}</span>  
-                            </div>
-
 
                             <div class="col-sm-12 mb-4">
                                 <input type="email" readonly value="{{ user.email }}" class="form-control" placeholder="Email">
@@ -114,7 +114,7 @@
                             <br>
 
                             <button type="submit" name="update" class="btn btn-primary shadow-2 mb-4">Save Changes</button>
-                            <a class="btn btn-primary" href="{% url 'StudentScheduleList' %}">Change Password</a>
+                            <a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
                             <a class="btn btn-primary" href="{% url 'StudentScheduleList' %}">Go Back</a>
                         </form>
                     </div>
@@ -170,5 +170,6 @@
 
     </script> -->
     <!-- End of Footer -->
+    
 </body>
 </html>

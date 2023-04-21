@@ -308,7 +308,56 @@ class FacultyForm(ModelForm):
             faculty.save()
         return faculty
     
+class UpdateFacultyForm(ModelForm):
+    username = forms.CharField(
+    widget=forms.TextInput(attrs={
+        "class": "form-control",
+        "placeholder": "Username"
+    })
+    )
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "First name"
+        })
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Last name"
+        })
+    )
+    middle_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Middle name (Optional)",
+        }),
+        required=False
+    )
+    department = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Select your Status"
+        }),
+        choices=Faculty.department_choice,
+    )
+    faculty_profile_picture = forms.ImageField(
+        required=False, widget=forms.ClearableFileInput(attrs=
+            {"class": "form-control",
+            "placeholder": "Upload your profile picture"})
+    )
 
+
+    class Meta:
+        model = Faculty
+        fields = ['username', 'first_name', 'last_name', 'middle_name', 'department', 'faculty_profile_picture']
+    
+    def save(self, commit=True):
+        faculty = super().save(commit=False)
+        if commit:
+            faculty.save()
+        return faculty
+    
 
 
 
