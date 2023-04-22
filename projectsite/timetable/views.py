@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
 from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm
-from .models import Student, Faculty, Schedule, Room
+from .models import Student, Faculty, Schedule, Room, Subject
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -78,7 +78,7 @@ class StudentList(ListView):
     model = Student
     context_object_name = 'student'
     template_name = 'admin-student.html'
-    # paginated_by = 10
+    paginated_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -107,6 +107,7 @@ class StudentScheduleList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+    
 # ----------------------------------------------------------------
 
 #student update profile'
@@ -219,7 +220,7 @@ def student_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)    
-                return redirect("StudentScheduleList")
+                return redirect("timetable")
             else:
                 msg = 'Invalid credentials'
 
@@ -289,6 +290,163 @@ def gerooms(request):
     room = Room.objects.all().order_by('room_name')
     context = {'room':room}
     return render(request, 'geb.html', context)
+
+def timetable(request):
+    schedules = Schedule.objects.all().order_by("day")
+
+    grouped_schedules = {}
+    for schedule in schedules:
+        key = (schedule.day,)
+        if key in grouped_schedules:
+            grouped_schedules[key].append(schedule)
+        else:
+            grouped_schedules[key] = [schedule]
+
+    merged_schedules = []
+    for key in grouped_schedules:
+        schedules = grouped_schedules[key]
+        if len(schedules) > 1:
+            day = schedules[0].day
+            merged_schedule = {
+                'start_time': [s.start_time for s in schedules],
+                'end_time': [s.end_time for s in schedules],
+                'faculty': [s.faculty for s in schedules],
+                'subjects': [s.subjects for s in schedules],
+                'rooms': [s.subjects.room for s in schedules],
+                'day': day
+            }
+            merged_schedules.append(merged_schedule)
+        else:
+            schedule = schedules[0]
+            merged_schedules.append({
+                'start_time': schedule.start_time,
+                'end_time': schedule.end_time,
+                'faculty': schedule.faculty,
+                'subjects': schedule.subjects,
+                'rooms': schedule.subjects.room,
+                'day': schedule.day
+            })
+
+    context = {'schedules': merged_schedules}
+    return render(request, 'student-index.html', context)
+
+
+@login_required(login_url='login')
+def StudentTimeTableView(request, id):
+    try:
+        student = Student.objects.get(id=id)
+        courses = Subject.objects.all()
+        professors = Faculty.objects.all()
+        rooms = Room.objects.all()
+
+        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        if student.block and student.year:
+            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day")
+
+            grouped_schedules = {}
+            for schedule in schedules:
+                key = (schedule.day,)
+                if key in grouped_schedules:
+                    grouped_schedules[key].append(schedule)
+                else:
+                    grouped_schedules[key] = [schedule]
+
+            merged_schedules = []
+            for key in grouped_schedules:
+                schedules = grouped_schedules[key]
+                if len(schedules) > 1:
+                    day = schedules[0].day
+                    merged_schedule = {
+                        'start_time': [s.start_time for s in schedules],
+                        'end_time': [s.end_time for s in schedules],
+                        'faculty': [s.faculty for s in schedules],
+                        'subjects': [s.subjects for s in schedules],
+                        'rooms': [s.subjects.room for s in schedules],
+                        'day': day
+                    }
+                    merged_schedules.append(merged_schedule)
+                else:
+                    schedule = schedules[0]
+                    merged_schedules.append({
+                        'start_time': schedule.start_time,
+                        'end_time': schedule.end_time,
+                        'faculty': schedule.faculty,
+                        'subjects': schedule.subjects,
+                        'rooms': schedule.subjects.room,
+                        'day': schedule.day
+                    })
+
+        # else:
+        #     schedules = Schedule.objects.all()
+
+        context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
+        return render(request, 'student-timetable.html', context)
+    
+    except Student.DoesNotExist:
+        messages.error(request, 'Student does not exist')
+        students = Student.objects.all()
+        context = {'students': students}
+        return render(request, 'admin-student.html', context)
+    
+@login_required(login_url='login')
+def FacultyTimeTableView(request, id):
+    try:
+        faculty = Faculty.objects.get(id=id)
+        courses = Subject.objects.all()
+        rooms = Room.objects.all()
+
+        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        if faculty.id :
+            schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day")
+
+            grouped_schedules = {}
+            for schedule in schedules:
+                key = (schedule.day,)
+                if key in grouped_schedules:
+                    grouped_schedules[key].append(schedule)
+                else:
+                    grouped_schedules[key] = [schedule]
+
+            merged_schedules = []
+            for key in grouped_schedules:
+                schedules = grouped_schedules[key]
+                if len(schedules) > 1:
+                    day = schedules[0].day
+                    merged_schedule = {
+                        'start_time': [s.start_time for s in schedules],
+                        'end_time': [s.end_time for s in schedules],
+                        'faculty': [s.faculty for s in schedules],
+                        'subjects': [s.subjects for s in schedules],
+                        'rooms': [s.subjects.room for s in schedules],
+                        'day': day
+                    }
+                    merged_schedules.append(merged_schedule)
+                else:
+                    schedule = schedules[0]
+                    merged_schedules.append({
+                        'start_time': schedule.start_time,
+                        'end_time': schedule.end_time,
+                        'faculty': schedule.faculty,
+                        'subjects': schedule.subjects,
+                        'rooms': schedule.subjects.room,
+                        'day': schedule.day
+                    })
+
+        # else:
+        #     schedules = Schedule.objects.all()
+
+        context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
+        return render(request, 'faculty-timetable.html', context)
+    
+    except Faculty.DoesNotExist:
+        messages.error(request, 'Faculty does not exist')
+        faculty = Faculty.objects.all()
+        context = {'faculty': faculty}
+        return render(request, 'admin-faculty-view.html', context)
+    
+
+
+    
 
 
 

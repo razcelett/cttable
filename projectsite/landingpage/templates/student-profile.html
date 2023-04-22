@@ -52,7 +52,7 @@
                                     <!-- Hide the default file input button with opacity: 0 and position: absolute -->
                                     <input type="file" name="student_profile_picture" id="id_student_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
                                     <!-- Add your custom "choose file" button here -->
-                                    <div style="background-color: #007bff; color: #fff; padding: 10px; border-radius: 5px;">Choose File</div>
+                                    <div class="btn btn-primary">Choose File</div>
                                 </label>
                                 <div id="fileNameDisplay" style="margin-top: 10px;"></div>
                             </div>
@@ -112,10 +112,11 @@
                             <span class="text-error">{{ form.type.errors }}</span>  
 
                             <br>
-
-                            <button type="submit" name="update" class="btn btn-primary shadow-2 mb-4">Save Changes</button>
-                            <a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
-                            <a class="btn btn-primary" href="{% url 'StudentScheduleList' %}">Go Back</a>
+                            <div class="mt-1 mb-1">
+                                <button type="submit" name="update" class="btn btn-primary shadow-2 ">Save Changes</button>
+                                <a href="{% url 'change_password' %}" class="btn btn-primary ">Change Password</a>
+                                <a href="{% url 'timetable' %}" class="btn btn-primary">Go Back</a>
+                            </div>
                         </form>
                     </div>
                 </div>

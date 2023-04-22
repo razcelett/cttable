@@ -41,7 +41,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     
               <!-- Sidebar - Brand -->
-              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
+              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
                   <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-thin fa-code"></i>
                   </div>
@@ -53,7 +53,7 @@
     
               <!-- Nav Item - Dashboard -->
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'StudentScheduleList' %}">
+                <a class="nav-link" href="{% url 'timetable' %}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Classes</span></a>
             </li>
@@ -396,84 +396,48 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered text-center">
                                     <thead>
-                                        <tr class="bg-light-gray">   
-                                            <th class="text-uppercase">Time</th>
-                                            <th class="text-uppercase">Monday</th>
-                                            <th class="text-uppercase">Tuesday</th>
-                                            <th class="text-uppercase">Wednesday</th>
-                                            <th class="text-uppercase">Thursday</th>
-                                            <th class="text-uppercase">Friday</th>
-                                            <th class="text-uppercase">Saturday</th>
-                                            <th class="text-uppercase">Sunday</th>
+                                        <tr class="bg-light-gray">
+                                            <th>Day</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Subject</th>
+                                            <th>Faculty</th>
+                                            <th>Room</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- {{ request.user.email }} -->
-                                        {% for schedule in object_list %}
-                                        <tr>
-                                            <td class="align-middle">{{ schedule.time }}</td>
-                                            {% if schedule.day.week_day == 'MONDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                            {% if schedule.day.week_day == 'TUESDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                            {% if schedule.day.week_day == 'WEDNESDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                            {% if schedule.day.week_day == 'THURSDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                            {% if schedule.day.week_day == 'FRIDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                            {% if schedule.day.week_day == 'SATURDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                            {% if schedule.day.week_day == 'SUNDAY' %}
-                                            <td>
-                                                <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                                <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                            </td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-                                        </tr>
-                                        {% empty %}
-                                        <tr>No objects yet.</tr>
+                                        {% for schedule in schedules %}
+                                            <tr>
+                                                <td>{{ schedule.day }}</td>
+                                                {% if schedule.start_time|length > 1 %}
+                                                    <td>{% for i in schedule.start_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                    <td>{{ schedule.start_time }}</td>
+                                                {% endif %}
+                                                {% if schedule.end_time|length > 1 %}
+                                                    <td>{% for i in schedule.end_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                    <td>{{ schedule.end_time }}</td>
+                                                {% endif %}
+                                                {% if schedule.faculty|length > 1 %}
+                                                    <td>{% for i in schedule.faculty %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                    <td>{{ schedule.faculty }}</td>
+                                                {% endif %}
+                                                {% if schedule.subjects|length > 1 %}
+                                                    <td>{% for i in schedule.subjects %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                    <td>{{ schedule.subjects }}</td>
+                                                {% endif %}
+                                                {% if schedule.rooms|length > 1 %}
+                                                    <td>{% for i in schedule.rooms %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                    <td>{{ schedule.rooms }}</td>
+                                                {% endif %}
+                                            </tr>
                                         {% endfor %}
                                     </tbody>
-                                </table>
+                                </table>                                
                             </div>
                         </div>
     
@@ -535,7 +499,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-thin fa-code"></i>
                 </div>
@@ -547,7 +511,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'StudentScheduleList' %}">
+                <a class="nav-link" href="{% url 'timetable' %}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -891,84 +855,49 @@
                         <div class="table-responsive">
                             <table class="table table-bordered text-center">
                                 <thead>
-                                    <tr class="bg-light-gray">   
-                                        <th class="text-uppercase">Time</th>
-                                        <th class="text-uppercase">Monday</th>
-                                        <th class="text-uppercase">Tuesday</th>
-                                        <th class="text-uppercase">Wednesday</th>
-                                        <th class="text-uppercase">Thursday</th>
-                                        <th class="text-uppercase">Friday</th>
-                                        <th class="text-uppercase">Saturday</th>
-                                        <th class="text-uppercase">Sunday</th>
+                                    <tr class="bg-light-gray">
+                                        <th>Day</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Subject</th>
+                                        <th>Faculty</th>
+                                        <th>Room</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- {{ request.user.email }} -->
-                                    {% for schedule in object_list %}
-                                    <tr>
-                                        <td class="align-middle">{{ schedule.time }}</td>
-                                        {% if schedule.day.week_day == 'MONDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'TUESDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'WEDNESDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'THURSDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'FRIDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'SATURDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'SUNDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                    </tr>
-                                    {% empty %}
-                                    <tr>No objects yet.</tr>
+                                    {% for schedule in schedules %}
+                                        <tr>
+                                            <td>{{ schedule.day }}</td>
+                                            {% if schedule.start_time|length > 1 %}
+                                                <td>{% for i in schedule.start_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.start_time }}</td>
+                                            {% endif %}
+                                            {% if schedule.end_time|length > 1 %}
+                                                <td>{% for i in schedule.end_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.end_time }}</td>
+                                            {% endif %}
+                                            {% if schedule.faculty|length > 1 %}
+                                                <td>{% for i in schedule.faculty %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.faculty }}</td>
+                                            {% endif %}
+                                            {% if schedule.subjects|length > 1 %}
+                                                <td>{% for i in schedule.subjects %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.subjects }}</td>
+                                            {% endif %}
+                                            {% if schedule.rooms|length > 1 %}
+                                                <td>{% for i in schedule.rooms %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.rooms }}</td>
+                                            {% endif %}
+                                        </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            
                         </div>
                     </div>
 
@@ -1027,7 +956,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-thin fa-code"></i>
                 </div>
@@ -1039,7 +968,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'StudentScheduleList' %}">
+                <a class="nav-link" href="{% url 'timetable' %}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -1339,7 +1268,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ student_profile }}">
+                                    src="{{ student.student_profile_picture.url }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -1388,84 +1317,50 @@
                         <div class="table-responsive">
                             <table class="table table-bordered text-center">
                                 <thead>
-                                    <tr class="bg-light-gray">   
-                                        <th class="text-uppercase">Time</th>
-                                        <th class="text-uppercase">Monday</th>
-                                        <th class="text-uppercase">Tuesday</th>
-                                        <th class="text-uppercase">Wednesday</th>
-                                        <th class="text-uppercase">Thursday</th>
-                                        <th class="text-uppercase">Friday</th>
-                                        <th class="text-uppercase">Saturday</th>
-                                        <th class="text-uppercase">Sunday</th>
+                                    <tr class="bg-light-gray">
+                                        <th>Day</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Subject</th>
+                                        <th>Faculty</th>
+                                        <th>Room</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- {{ request.user.email }} -->
-                                    {% for schedule in object_list %}
-                                    <tr>
-                                        <td class="align-middle">{{ schedule.time }}</td>
-                                        {% if schedule.day.week_day == 'MONDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'TUESDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'WEDNESDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'THURSDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'FRIDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'SATURDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if schedule.day.week_day == 'SUNDAY' %}
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">{{ schedule.subjects }}</span>
-                                            <div class="font-size13 text-light-gray">{{ schedule.subjects.faculty.first_name }}{{ objects.subjects.faculty.middle_name }}{{ objects.subjects.faculty.last_name }}</div>
-                                        </td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                    </tr>
-                                    {% empty %}
-                                    <tr>No objects yet.</tr>
+                                    {% for schedule in schedules %}
+                                        <tr>
+                                            <td>{{ schedule.day }}</td>
+                                            {% if schedule.start_time|length > 1 %}
+                                                <td>{% for i in schedule.start_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.start_time }}</td>
+                                            {% endif %}
+                                            {% if schedule.end_time|length > 1 %}
+                                                <td>{% for i in schedule.end_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.end_time }}</td>
+                                            {% endif %}
+                                            {% if schedule.faculty|length > 1 %}
+                                                <td>{% for i in schedule.faculty %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.faculty }}</td>
+                                            {% endif %}
+                                            {% if schedule.subjects|length > 1 %}
+                                                <td>{% for i in schedule.subjects %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.subjects }}</td>
+                                            {% endif %}
+                                            {% if schedule.rooms|length > 1 %}
+                                                <td>{% for i in schedule.rooms %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                                <td>{{ schedule.rooms }}</td>
+                                            {% endif %}
+                                        </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            
+                                   
                         </div>
                     </div>
 

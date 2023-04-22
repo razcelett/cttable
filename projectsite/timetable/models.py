@@ -121,7 +121,8 @@ class Room(models.Model):
 class Subject(models.Model):
     class_code = models.CharField(max_length=30)
     subject_title = models.CharField(max_length=100)
-    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name = "Faculty", null=True, blank=True, default=None)
+    start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name = "Room", null=True, blank=True, default=None)
     
     def __str__(self):
@@ -130,33 +131,28 @@ class Subject(models.Model):
     class Meta:
         verbose_name_plural = 'Subjects'
 
-class Day(models.Model):
-    week_day = models.CharField(max_length=10, default=None)
 
+# class Time(models.Model):
+#     start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+#     end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
 
-    def __str__(self):
-        return f'{self.week_day}'
+#     def __str__(self):
+#         return f'{self.start_time}, {self.end_time}'
     
-    class Meta:
-        verbose_name_plural = 'Days'
-
-class Time(models.Model):
-    start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.start_time}, {self.end_time}'
-    
-    class Meta:
-        verbose_name_plural = 'Time'
+#     class Meta:
+#         verbose_name_plural = 'Time'
 
 class Schedule(models.Model):
-    day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name = "day", null=True, blank=True)
-    time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "starttime", null=True, blank=True, default=None)
+    week_day=(('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'), ('Saturday', 'Saturday'), ('Sunday', 'Sunday'))
+    day = models.CharField(max_length=10, choices=week_day, default=None, null=True, blank=True)
+    # day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name = "day", null=True, blank=True)
+    start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     # end_time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "endtime", null=True, blank=True, default=None)
     subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "subjects", null=True, blank=True)
     # subjects = models.ManyToManyField(Subject, related_name = "subjects", null=True, blank=True)
     # students = models.ManyToManyField(Student, related_name = "students", null=True, blank=True)
+    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name = "Faculty", null=True, blank=True, default=None)
     year_section = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "year_section", null=True, blank=True, default=None)
     block_section = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "block_section", null=True, blank=True, default=None)
 

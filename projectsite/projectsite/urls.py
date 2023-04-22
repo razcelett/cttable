@@ -18,7 +18,7 @@ from django.urls import path, re_path
 # from django.conf import settings #add this
 # from django.conf.urls.static import static #add this
 
-from timetable.views import HomePageView, create_student, StudentList, FacultyList, StudentScheduleList, AdminFacultyList
+from timetable.views import HomePageView, create_student, StudentList, FacultyList,  AdminFacultyList, StudentScheduleList
 from timetable import views
 from django.contrib.auth import views as auth_views
 
@@ -43,9 +43,12 @@ urlpatterns = [
     path('change_password', views.change_password, name="change_password"),
     path('student_login', views.student_login, name="student-login"),
     path('student_logout', views.student_logout, name="student-logout"),
+    path('timetable', views.timetable, name="timetable"),
     path('',views.HomePageView.as_view(), name='home'),
     path('student_list', StudentList.as_view(), name='StudentList'),
     path('faculty_list', FacultyList.as_view(), name='FacultyList'),
     path('admin_faculty_list', AdminFacultyList.as_view(), name='AdminFacultyList'),
-    path('student_schedule', StudentScheduleList.as_view(), name='StudentScheduleList'),
+    path('student/<int:pk>/schedule/', views.StudentScheduleList.as_view(), name='StudentScheduleList'),
+    path('schedule/<str:id>/', views.StudentTimeTableView, name='studentschedule'),
+    path('faculty-schedule/<str:id>/', views.FacultyTimeTableView, name='facultyschedule')
 ]
