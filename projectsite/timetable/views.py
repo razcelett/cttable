@@ -111,13 +111,13 @@ class StudentScheduleList(ListView):
 # ----------------------------------------------------------------
 
 #student update profile'
+from django.contrib import messages
+
 @login_required()
 def student_profileupdate(request):
-    msg = None
     success = False
     student = Student.objects.filter(email=request.user.email).first()
     print(f'request.user.is_authenticated: {request.user.is_authenticated}')
-
 
     if request.user.is_authenticated:
         current_user = Student.objects.get(id=student.id)
@@ -138,8 +138,10 @@ def student_profileupdate(request):
                     student.save()
                     print('profile picture saved successfully')
                 
-                msg = 'Your Profile has been updated'
+                messages.success(request, 'Your Profile has been updated')
                 return redirect("student-update")
+            else:
+                messages.error(request, 'Failed to update your Profile')
             return render(request, 'student-profile.html', {'form': form})
         elif request.method == 'GET':
             print(f'student profile: {student.student_profile_picture}')
@@ -147,11 +149,12 @@ def student_profileupdate(request):
             return render(request, 'student-profile.html', {'form': form, 'student_profile': student.student_profile_picture})
         
     else:
-        msg = 'Failed to update your Profile'
+        messages.error(request, 'Failed to update your Profile')
+        return render(request, 'student-profile.html')
+
 
 @login_required()
 def faculty_profileupdate(request):
-    msg = None
     success = False
     faculty = Faculty.objects.filter(email=request.user.email).first()
     print(f'request.user.is_authenticated: {request.user.is_authenticated}')
@@ -177,18 +180,18 @@ def faculty_profileupdate(request):
                     faculty.save()
                     print('profile picture saved successfully')
                 
-                msg = 'Your Profile has been updated'
+                messages.success(request, 'Your Profile has been updated')
                 return redirect("faculty-update")
             else:
                    msg = 'Failed to update your Profile'
-                   return render(request, 'faculty-profile.html', {'form': form, 'msg': msg})
+                   return render(request, 'faculty-profile.html', {'form': form})
         elif request.method == 'GET':
             print(f'faculty profile: {faculty.faculty_profile_picture}')
 
             return render(request, 'faculty-profile.html', {'form': form, 'faculty_profile': faculty.faculty_profile_picture})
         
     else:
-        msg = 'Failed to update your Profile'
+        messages.error(request, 'Failed to update your Profile')
 
 
 def change_password(request):
@@ -200,6 +203,7 @@ def change_password(request):
         if form.is_valid():
             print(f'form is valid: {form}')
             form.save()
+            messages.success(request, 'Change Password Success.')
             return redirect("/")
         else:
             print(f'form is invalid: {form}')
@@ -227,7 +231,7 @@ def student_login(request):
     # else:
     #     # msg = 'Login failed'
 
-    return render(request, 'student-login.html', {'form': form, 'msg': msg})
+    return render(request, 'student-login.html', {'form': form, 'msg':msg})
 
 #student logout
 def student_logout(request):
@@ -244,15 +248,15 @@ def create_student(request):
         form = StudentForm(request.POST)
         if form.is_valid():
             form.save()
-            msg = 'User created successfully.'
+            messages.success(request, 'User Created Successfully')
             success = True
-            return redirect("student-login")
+            return redirect("StudentList")
     
-    else:
-        msg = 'Form is not valid'
-        success = False
+        else:
+            # messages.error(request, 'Form is not valid')
+            success = False
 
-    return render(request, 'student-register.html', {'form': form, 'msg': msg, 'success': success})
+    return render(request, 'student-register.html', {'form': form, 'success': success})
 
 def create_faculty(request):
     msg = None
@@ -263,15 +267,15 @@ def create_faculty(request):
         form = FacultyForm(request.POST)
         if form.is_valid():
             form.save()
-            msg = 'User created successfully.'
+            messages.success(request, 'User Created Successfully')
             success = True
             return redirect("AdminFacultyList")
     
-    else:
-        msg = 'Form is not valid'
-        success = False
+        else:
+            messages.error(request, 'Form is not valid')
+            success = False
 
-    return render(request, 'faculty-register.html', {'form': form, 'msg': msg, 'success': success})
+    return render(request, 'faculty-register.html', {'form': form, 'success': success})
 
 # it building view rooms
 def itrooms(request):

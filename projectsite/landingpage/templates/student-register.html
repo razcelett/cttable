@@ -43,7 +43,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
           <!-- Sidebar - Brand -->
-          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
               <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-thin fa-code"></i>
               </div>
@@ -55,7 +55,7 @@
 
           <!-- Nav Item - Dashboard -->
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'StudentScheduleList' %}">
+            <a class="nav-link" href="{% url 'timetable' %}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Classes</span></a>
         </li>
@@ -398,8 +398,15 @@
                                       </div>
                                       <div class="card-body ">
                                         <div class="table-responsive p-0">
-   
+
 											<form role="form" method="POST" action="">
+                                                {% if messages %}
+                                                <ul class="messages">
+                                                    {% for message in messages %}
+                                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
 												{% csrf_token %}
 								
 												<!-- <h1>Register</h1>

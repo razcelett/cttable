@@ -33,12 +33,18 @@
         </nav>
         <hr class="mt-0 mb-4">
         <div class="row">
+            
             <div class="col-xl-4">
                 <!-- Profile picture card-->
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            
             <form role="form" method="POST" action="" enctype="multipart/form-data">
-                {% if msg %}
-                <span class="text-danger">{{ msg | safe }}</span>
-                {% endif %} 
                 {% csrf_token %}
                 <div class="card mb-4 mb-xl-0">
                     <div class="card-header">Profile Picture</div>
