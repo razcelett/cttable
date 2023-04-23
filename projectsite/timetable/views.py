@@ -420,7 +420,7 @@ def FacultyTimeTableView(request, id):
         courses = Subject.objects.all()
         rooms = Room.objects.all()
 
-        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        # Get schedules for the faculty, or all schedules if the faculty is not set
         if faculty.id :
             schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day", "start_time")
 

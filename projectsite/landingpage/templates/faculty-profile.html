@@ -51,11 +51,15 @@
                     <div class="card-header">Profile Picture</div>
                     <div class="card-body text-center">
                         <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: 0 auto;">
-                            <img class="img-account-profile" alt="profile" src="{{ faculty_profile }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% if faculty_profile is not None %}
+                            <img class="img-account-profile" alt="profile" src="{{ faculty_profile }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            <img src="{% static 'img/undraw_profile.svg' %}" alt="profile" class="img-account-profile" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% endif %}
                         </div>
                         <div class="mb-4 mb-xl-0">
                             <div class="card-body text-center" style="position: relative;">
-                                <label for="id_student_profile_picture" style="cursor: pointer;">
+                                <label for="id_faculty_profile_picture" style="cursor: pointer;">
                                     <!-- Hide the default file input button with opacity: 0 and position: absolute -->
                                     <input type="file" name="faculty_profile_picture" id="id_faculty_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
                                     <!-- Add your custom "choose file" button here -->
