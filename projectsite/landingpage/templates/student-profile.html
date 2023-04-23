@@ -50,7 +50,11 @@
                     <div class="card-header">Profile Picture</div>
                     <div class="card-body text-center">
                         <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: 0 auto;">
-                            <img class="img-account-profile" alt="profile" src="{{ student_profile }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% if student.student_profile_picture.url is not None %}
+                            <img class="img-account-profile" alt="profile" src="{{ student_profile }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            <img src="{% static 'img/undraw_profile.svg' %}" alt="profile" class="img-account-profile" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% endif %}
                         </div>
                         <div class="mb-4 mb-xl-0">
                             <div class="card-body text-center" style="position: relative;">
@@ -121,7 +125,7 @@
                             <div class="mt-1 mb-1">
                                 <button type="submit" name="update" class="btn btn-primary shadow-2 ">Save Changes</button>
                                 <a href="{% url 'change_password' %}" class="btn btn-primary ">Change Password</a>
-                                <a href="{% url 'timetable' %}" class="btn btn-primary">Go Back</a>
+                                <a href="{% url 'StudentScheduleList' %}" class="btn btn-primary">Go Back</a>
                             </div>
                         </form>
                     </div>

@@ -12,10 +12,12 @@ from django.contrib.auth.models import User
 
 #login
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ValidationError
 
 # loginrequred decorator
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib import messages
 
@@ -95,19 +97,29 @@ class StudentList(ListView):
         return qs
 
 # student timetable view
-@method_decorator(login_required, name='dispatch')
-class StudentScheduleList(ListView):
-    model = Schedule
-    context_object_name = 'Student_Schedule'
-    template_name = 'student-index.html'
-    User = Student
-    # paginated_by = 10
+# class StudentScheduleList(LoginRequiredMixin, ListView):
+#     model = Schedule
+#     context_object_name = 'Student_Schedule'
+#     template_name = 'student-index.html'
+#     # paginated_by = 10
 
-    #getting the data
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-    
+#     def get_queryset(self):
+#         # get the logged in user
+#         user = self.request.user
+        
+#         # get the student object associated with the user
+#         student = Student.objects.filter(email=user.email).first()
+        
+#         # filter the schedules based on the student's year and block
+#         queryset = Schedule.objects.filter(students__in=[student], year_section=student.year, block_section=student.block)
+
+        
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         return context
+
 # ----------------------------------------------------------------
 
 #student update profile'
@@ -175,8 +187,8 @@ def faculty_profileupdate(request):
                 
 
                 form.save()
-                if request.FILES.get('student_profile_picture') is not None:
-                    faculty.faculty_profile_picture = request.FILES.get('student_profile_picture')
+                if request.FILES.get('faculty_profile_picture') is not None:
+                    faculty.faculty_profile_picture = request.FILES.get('faculty_profile_picture')
                     faculty.save()
                     print('profile picture saved successfully')
                 
@@ -223,10 +235,19 @@ def student_login(request):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)    
-                return redirect("timetable")
-            else:
-                msg = 'Invalid credentials'
+                try:
+                    login(request, user)
+                    if request.user.is_superuser:
+                        return redirect("timetable")
+                    elif not request.user.is_superuser and not any(char.isdigit() for char in user.email):
+                        # Redirect to FacultyScheduleList
+                        return redirect("FacultyScheduleList")
+                    else:
+                        return redirect("StudentScheduleList")
+                except ValidationError:
+                    msg = 'Invalid credentials'
+            
+            msg = 'Invalid credentials'
 
     # else:
     #     # msg = 'Login failed'
@@ -296,7 +317,7 @@ def gerooms(request):
     return render(request, 'geb.html', context)
 
 def timetable(request):
-    schedules = Schedule.objects.all().order_by("day")
+    schedules = Schedule.objects.all().order_by("day", "start_time")
 
     grouped_schedules = {}
     for schedule in schedules:
@@ -345,7 +366,7 @@ def StudentTimeTableView(request, id):
 
         # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
         if student.block and student.year:
-            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day")
+            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day", "start_time")
 
             grouped_schedules = {}
             for schedule in schedules:
@@ -401,7 +422,71 @@ def FacultyTimeTableView(request, id):
 
         # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
         if faculty.id :
-            schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day")
+            schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day", "start_time")
+
+            grouped_schedules = {}
+            for schedule in schedules:
+                key = (schedule.day,)
+                if key in grouped_schedules:
+                    grouped_schedules[key].append(schedule)
+                else:
+                    grouped_schedules[key] = [schedule]
+
+            merged_schedules = []
+            for key in grouped_schedules:
+                schedules = grouped_schedules[key]
+                if len(schedules) > 1:
+                    day = schedules[0].day
+                    merged_schedule = {
+                        'start_time': [s.start_time for s in schedules],
+                        'end_time': [s.end_time for s in schedules],
+                        'faculty': [s.faculty for s in schedules],
+                        'subjects': [s.subjects for s in schedules],
+                        'rooms': [s.subjects.room for s in schedules],
+                        'year': [s.year_section.year_choice for s in schedules],
+                        'block': [s.block_section.block_choice for s in schedules],
+                        'day': day
+                    }
+                    merged_schedules.append(merged_schedule)
+                else:
+                    schedule = schedules[0]
+                    merged_schedules.append({
+                        'start_time': schedule.start_time,
+                        'end_time': schedule.end_time,
+                        'faculty': schedule.faculty,
+                        'subjects': schedule.subjects,
+                        'rooms': schedule.subjects.room,
+                        'year': schedule.year_section.year_choice,
+                        'block': schedule.block_section.block_choice,
+                        'day': schedule.day
+                    })
+
+        # else:
+        #     schedules = Schedule.objects.all()
+
+        context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
+        return render(request, 'faculty-timetable.html', context)
+    
+    except Faculty.DoesNotExist:
+        messages.error(request, 'Faculty does not exist')
+        faculty = Faculty.objects.all()
+        context = {'faculty': faculty}
+        return render(request, 'admin-faculty-view.html', context)
+    
+    
+@login_required(login_url='login')
+def StudentScheduleList(request):
+    try:
+        # Get the logged in user's student object
+        student = Student.objects.filter(email=request.user.email).first()
+
+        courses = Subject.objects.all()
+        professors = Faculty.objects.all()
+        rooms = Room.objects.all()
+
+        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        if student.block and student.year:
+            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day", "start_time")
 
             grouped_schedules = {}
             for schedule in schedules:
@@ -436,17 +521,77 @@ def FacultyTimeTableView(request, id):
                         'day': schedule.day
                     })
 
+        context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
+        return render(request, 'student-index.html', context)
+    
+    except Student.DoesNotExist:
+        messages.error(request, 'Student does not exist')
+        students = Student.objects.all()
+        context = {'students': students}
+        return render(request, 'student-index.html', context)
+    
+    
+@login_required(login_url='login')
+def FacultyScheduleList(request):
+    try:
+        faculty = Faculty.objects.filter(email=request.user.email).first()
+        courses = Subject.objects.all()
+        rooms = Room.objects.all()
+
+        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        if faculty.id :
+            schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day", "start_time")
+
+            grouped_schedules = {}
+            for schedule in schedules:
+                key = (schedule.day,)
+                if key in grouped_schedules:
+                    grouped_schedules[key].append(schedule)
+                else:
+                    grouped_schedules[key] = [schedule]
+
+            merged_schedules = []
+            for key in grouped_schedules:
+                schedules = grouped_schedules[key]
+                if len(schedules) > 1:
+                    day = schedules[0].day
+                    merged_schedule = {
+                        'start_time': [s.start_time for s in schedules],
+                        'end_time': [s.end_time for s in schedules],
+                        'faculty': [s.faculty for s in schedules],
+                        'subjects': [s.subjects for s in schedules],
+                        'rooms': [s.subjects.room for s in schedules],
+                        'year': [s.year_section.year_choice for s in schedules],
+                        'block': [s.block_section.block_choice for s in schedules],
+                        'day': day
+                    }
+                    merged_schedules.append(merged_schedule)
+                else:
+                    schedule = schedules[0]
+                    merged_schedules.append({
+                        'start_time': schedule.start_time,
+                        'end_time': schedule.end_time,
+                        'faculty': schedule.faculty,
+                        'subjects': schedule.subjects,
+                        'rooms': schedule.subjects.room,
+                        'year': schedule.year_section.year_choice,
+                        'block': schedule.block_section.block_choice,
+                        'day': schedule.day
+                    })
+
         # else:
         #     schedules = Schedule.objects.all()
 
         context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
-        return render(request, 'faculty-timetable.html', context)
+        return render(request, 'student-index.html', context)
     
     except Faculty.DoesNotExist:
         messages.error(request, 'Faculty does not exist')
         faculty = Faculty.objects.all()
         context = {'faculty': faculty}
-        return render(request, 'admin-faculty-view.html', context)
+        return render(request, 'student-index.html', context)
+    
+
     
 
 

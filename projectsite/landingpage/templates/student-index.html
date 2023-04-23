@@ -395,6 +395,7 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered text-center">
+                                    {% if schedules %}
                                     <thead>
                                         <tr class="bg-light-gray">
                                             <th>Day</th>
@@ -437,7 +438,10 @@
                                             </tr>
                                         {% endfor %}
                                     </tbody>
-                                </table>                                
+                                </table>   
+                                {% else %}
+                                <p>No schedules found.</p>
+                                {% endif %}                             
                             </div>
                         </div>
     
@@ -499,7 +503,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'FacultyScheduleList' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-thin fa-code"></i>
                 </div>
@@ -511,7 +515,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'timetable' %}">
+                <a class="nav-link" href="{% url 'FacultyScheduleList' %}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -804,9 +808,12 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Faculty</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{% static '{{ faculty_profile }}' %}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ faculty.full_name }}</span>
+                                {% if faculty.faculty_profile_picture.url is not None %}
+                                <img src="{{ faculty.faculty_profile_picture.url }}" class="img-profile rounded-circle" alt="user1">
+                                {% else %}
+                                <img src="{% static 'img/undraw_profile.svg' %}" alt="" class="img-profile rounded-circle">
+                                {% endif %}
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -853,6 +860,7 @@
                             <img src="{% static 'img/content/timetable.png' %}" alt="">
                         </div>
                         <div class="table-responsive">
+                            {% if schedules %}
                             <table class="table table-bordered text-center">
                                 <thead>
                                     <tr class="bg-light-gray">
@@ -860,7 +868,8 @@
                                         <th>Start Time</th>
                                         <th>End Time</th>
                                         <th>Subject</th>
-                                        <th>Faculty</th>
+                                        <th>Year</th>
+                                        <th>Block</th>
                                         <th>Room</th>
                                     </tr>
                                 </thead>
@@ -878,15 +887,22 @@
                                             {% else %}
                                                 <td>{{ schedule.end_time }}</td>
                                             {% endif %}
-                                            {% if schedule.faculty|length > 1 %}
-                                                <td>{% for i in schedule.faculty %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
-                                            {% else %}
-                                                <td>{{ schedule.faculty }}</td>
-                                            {% endif %}
                                             {% if schedule.subjects|length > 1 %}
                                                 <td>{% for i in schedule.subjects %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
                                             {% else %}
                                                 <td>{{ schedule.subjects }}</td>
+                                            {% endif %}
+                                            {% if schedule.year|length > 1 %}
+                                            <td>{% for i in schedule.year %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% elif schedule.year|length == 1%}
+                                            <td>{{ schedule.year }}</td>
+                                            {% else %}
+                                            <td>{{ schedule.year }}</td>
+                                            {% endif %}
+                                            {% if schedule.block|length > 1 %}
+                                            <td>{% for i in schedule.block %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            {% else %}
+                                            <td>{{ schedule.block }}</td>
                                             {% endif %}
                                             {% if schedule.rooms|length > 1 %}
                                                 <td>{% for i in schedule.rooms %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
@@ -897,6 +913,9 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            {% else %}
+                            <p>No schedules found.</p>
+                            {% endif %}
                             
                         </div>
                     </div>
@@ -956,7 +975,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-thin fa-code"></i>
                 </div>
@@ -968,7 +987,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'timetable' %}">
+                <a class="nav-link" href="{% url 'StudentScheduleList' %}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -1266,9 +1285,12 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{{ student.student_profile_picture.url }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ student.full_name }}</span>
+                                {% if student.student_profile_picture.url is not None %}
+                                <img src="{{ student.student_profile_picture.url }}" class="img-profile rounded-circle" alt="user1">
+                                {% else %}
+                                <img src="{% static 'img/undraw_profile.svg' %}" alt="" class="img-profile rounded-circle">
+                                {% endif %}
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -1315,6 +1337,7 @@
                             <img src="{% static 'img/content/timetable.png' %}" alt="">
                         </div>
                         <div class="table-responsive">
+                            {% if schedules %}
                             <table class="table table-bordered text-center">
                                 <thead>
                                     <tr class="bg-light-gray">
@@ -1359,6 +1382,9 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            {% else %}
+                            <p>No schedules found.</p>
+                            {% endif %}
                             
                                    
                         </div>

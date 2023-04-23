@@ -412,6 +412,8 @@
                                             <th>Start Time</th>
                                             <th>End Time</th>
                                             <th>Subject</th>
+                                            <th>Year</th>
+                                            <th>Block</th>
                                             <th>Room</th>
                                         </tr>
                                     </thead>
@@ -433,6 +435,16 @@
                                                     <td>{% for i in schedule.subjects %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
                                                 {% else %}
                                                     <td>{{ schedule.subjects }}</td>
+                                                {% endif %}
+                                                {% if schedule.year|length > 1 %}
+                                                <td>{% for i in schedule.year %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                <td>{{ schedule.year }}</td>
+                                                {% endif %}
+                                                {% if schedule.block|length > 1 %}
+                                                <td>{% for i in schedule.block %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                                {% else %}
+                                                <td>{{ schedule.block }}</td>
                                                 {% endif %}
                                                 {% if schedule.rooms|length > 1 %}
                                                     <td>{% for i in schedule.rooms %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>

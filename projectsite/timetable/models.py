@@ -151,7 +151,7 @@ class Schedule(models.Model):
     # end_time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "endtime", null=True, blank=True, default=None)
     subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "subjects", null=True, blank=True)
     # subjects = models.ManyToManyField(Subject, related_name = "subjects", null=True, blank=True)
-    # students = models.ManyToManyField(Student, related_name = "students", null=True, blank=True)
+    students = models.ManyToManyField(Student, related_name = "students", null=True, blank=True)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name = "Faculty", null=True, blank=True, default=None)
     year_section = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "year_section", null=True, blank=True, default=None)
     block_section = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "block_section", null=True, blank=True, default=None)

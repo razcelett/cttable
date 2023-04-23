@@ -210,7 +210,7 @@
             {% else %}
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'timetable' %}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'StudentScheduleList' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                   <i class="fas fa-thin fa-code"></i>
                 </div>
@@ -222,7 +222,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'timetable' %}">
+              <a class="nav-link" href="{% url 'StudentScheduleList' %}">
                   <i class="fas fa-fw fa-table"></i>
                   <span>Dashboard</span></a>
             </li>
@@ -256,7 +256,7 @@
                     <i class="fas fa-fw fa-building"></i>
                     <span>Buildings</span>
                 </a>
-                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">ROOMS</h6>
@@ -554,9 +554,12 @@
                         <li class="nav-item dropdown no-arrow">
                           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Student</span>
-                              <img class="img-profile rounded-circle"
-                                  src="{% static 'img/undraw_profile.svg' %}">
+                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ student.full_name }}</span>
+                              {% if student.student_profile_picture.url is not None %}
+                              <img src="{{ student.student_profile_picture.url }}" class="img-profile rounded-circle" alt="user1">
+                              {% else %}
+                              <img src="{% static 'img/undraw_profile.svg' %}" alt="" class="img-profile rounded-circle">
+                              {% endif %}
                           </a>
                           <!-- Dropdown - User Information -->
                           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

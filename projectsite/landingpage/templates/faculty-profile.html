@@ -57,7 +57,7 @@
                             <div class="card-body text-center" style="position: relative;">
                                 <label for="id_student_profile_picture" style="cursor: pointer;">
                                     <!-- Hide the default file input button with opacity: 0 and position: absolute -->
-                                    <input type="file" name="student_profile_picture" id="id_student_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
+                                    <input type="file" name="faculty_profile_picture" id="id_faculty_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
                                     <!-- Add your custom "choose file" button here -->
                                     <div class="btn btn-primary">Choose File</div>
                                 </label>
@@ -108,7 +108,7 @@
                             <div class="mt-1 mb-1">
                                 <button type="submit" name="update" class="btn btn-primary shadow-2 ">Save Changes</button>
                                 <a href="{% url 'change_password' %}" class="btn btn-primary ">Change Password</a>
-                                <a href="{% url 'timetable' %}" class="btn btn-primary">Go Back</a>
+                                <a href="{% url 'FacultyScheduleList' %}" class="btn btn-primary">Go Back</a>
                             </div> 
                         </form>
                     </div>
