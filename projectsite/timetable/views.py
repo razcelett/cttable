@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
-from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm
+from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm,  SubjectForm, ScheduleForm
 from .models import Student, Faculty, Schedule, Room, Subject
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 
 
@@ -53,26 +54,27 @@ class AdminFacultyList(ListView):
             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
         return qs
 
-@method_decorator(login_required, name='dispatch')
-class FacultyList(ListView):
-    model = Faculty
-    context_object_name = 'faculty'
-    template_name = 'student-faculty-view.html'
-    paginated_by = 10
+# @method_decorator(login_required, name='dispatch')
+# class FacultyList(ListView):
+#     model = Faculty
+#     context_object_name = 'faculty'
+#     template_name = 'student-faculty-view.html'
+#     paginated_by = 10
 
-    #getting the data
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+#     #getting the data
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         return context
     
-    #filter (search function)
-    def get_queryset(self, *args, **kwargs):
-        qs = super(FacultyList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("last_name")
-        if self.request.GET.get("q") != None:
-            query = self.request.GET.get('q')
-            qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
-        return qs
+#     #filter (search function)
+#     def get_queryset(self, *args, **kwargs):
+#         qs = super(FacultyList, self).get_queryset(*args, **kwargs)
+#         qs = qs.order_by("last_name")
+#         if self.request.GET.get("q") != None:
+#             query = self.request.GET.get('q')
+#             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
+#         return qs
+    
 
 # faculty list of students from the database view
 @method_decorator(login_required, name='dispatch')
@@ -231,7 +233,7 @@ def student_login(request):
 
     if request.method == "POST":
         if form.is_valid():
-            username = form.cleaned_data.get("email")
+            username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
@@ -268,13 +270,15 @@ def create_student(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'User Created Successfully')
-            success = True
-            return redirect("StudentList")
-    
+            try:
+                form.save()
+                messages.success(request, 'User Created Successfully')
+                success = True
+                return redirect("StudentList")
+            except IntegrityError:
+                form.add_error('username', 'This username is already taken.')
+                success = False
         else:
-            # messages.error(request, 'Form is not valid')
             success = False
 
     return render(request, 'student-register.html', {'form': form, 'success': success})
@@ -287,34 +291,89 @@ def create_faculty(request):
     if request.method == "POST":
         form = FacultyForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'User Created Successfully')
-            success = True
-            return redirect("AdminFacultyList")
-    
+            try:
+                form.save()
+                messages.success(request, 'User Created Successfully')
+                success = True
+                return redirect("AdminFacultyList")
+            except IntegrityError:
+                form.add_error('username', 'This username is already taken.')
+                success = False
+
         else:
             messages.error(request, 'Form is not valid')
             success = False
 
     return render(request, 'faculty-register.html', {'form': form, 'success': success})
 
+def add_subject(request):
+    success = False
+    form = SubjectForm()
+
+    if request.method == "POST":
+        form = SubjectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Subject Added Successfully')
+            success = True
+            return redirect("add-subject")
+
+               
+        else:
+            messages.error(request, 'There was an error creating the Subject.')
+            success = False
+
+    return render(request, 'admin-add-subject.html', {'form': form, 'success': success})
+
+def add_schedule(request):
+    success = False
+    form = ScheduleForm()
+
+    if request.method == "POST":
+        form = ScheduleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Schedule Added Successfully')
+            success = True
+            return redirect("add-schedule")
+
+               
+        else:
+            messages.error(request, 'There was an error creating the Subject.')
+            success = False
+
+    return render(request, 'admin-add-schedule.html', {'form': form, 'success': success})
+
+def FacultyList(request):
+    faculty = Faculty.objects.all().order_by('last_name')
+    student = Student.objects.filter(email=request.user.email).first()
+    context = {'faculty':faculty,'student': student}
+    return render(request, 'student-faculty-view.html', context)
+
 # it building view rooms
 def itrooms(request):
     room = Room.objects.all().order_by('room_name')
-    context = {'room':room}
+    student = Student.objects.filter(email=request.user.email).first()
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    context = {'room':room, 'student': student, 'faculty': faculty}
     return render(request, 'itb.html', context)
 
 # nit building view rooms
 def nitrooms(request):
     room = Room.objects.all().order_by('room_name')
-    context = {'room':room}
+    student = Student.objects.filter(email=request.user.email).first()
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    context = {'room':room, 'student': student, 'faculty': faculty}
     return render(request, 'nitb.html', context)
 
 # ge building view rooms
 def gerooms(request):
     room = Room.objects.all().order_by('room_name')
-    context = {'room':room}
+    student = Student.objects.filter(email=request.user.email).first()
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    context = {'room':room, 'student': student, 'faculty': faculty}
     return render(request, 'geb.html', context)
+
 
 def timetable(request):
     schedules = Schedule.objects.all().order_by("day", "start_time")
@@ -337,7 +396,7 @@ def timetable(request):
                 'end_time': [s.end_time for s in schedules],
                 'faculty': [s.faculty for s in schedules],
                 'subjects': [s.subjects for s in schedules],
-                'rooms': [s.subjects.room for s in schedules],
+                'rooms': [s.room for s in schedules],
                 'day': day
             }
             merged_schedules.append(merged_schedule)
@@ -348,12 +407,12 @@ def timetable(request):
                 'end_time': schedule.end_time,
                 'faculty': schedule.faculty,
                 'subjects': schedule.subjects,
-                'rooms': schedule.subjects.room,
+                'rooms': schedule.room,
                 'day': schedule.day
             })
 
     context = {'schedules': merged_schedules}
-    return render(request, 'student-index.html', context)
+    return render(request, 'admin-index.html', context)
 
 
 @login_required(login_url='login')
@@ -386,7 +445,7 @@ def StudentTimeTableView(request, id):
                         'end_time': [s.end_time for s in schedules],
                         'faculty': [s.faculty for s in schedules],
                         'subjects': [s.subjects for s in schedules],
-                        'rooms': [s.subjects.room for s in schedules],
+                        'rooms': [s.room for s in schedules],
                         'day': day
                     }
                     merged_schedules.append(merged_schedule)
@@ -397,7 +456,7 @@ def StudentTimeTableView(request, id):
                         'end_time': schedule.end_time,
                         'faculty': schedule.faculty,
                         'subjects': schedule.subjects,
-                        'rooms': schedule.subjects.room,
+                        'rooms': schedule.room,
                         'day': schedule.day
                     })
 
@@ -442,7 +501,7 @@ def FacultyTimeTableView(request, id):
                         'end_time': [s.end_time for s in schedules],
                         'faculty': [s.faculty for s in schedules],
                         'subjects': [s.subjects for s in schedules],
-                        'rooms': [s.subjects.room for s in schedules],
+                        'rooms': [s.room for s in schedules],
                         'year': [s.year_section.year_choice for s in schedules],
                         'block': [s.block_section.block_choice for s in schedules],
                         'day': day
@@ -455,7 +514,7 @@ def FacultyTimeTableView(request, id):
                         'end_time': schedule.end_time,
                         'faculty': schedule.faculty,
                         'subjects': schedule.subjects,
-                        'rooms': schedule.subjects.room,
+                        'rooms': schedule.room,
                         'year': schedule.year_section.year_choice,
                         'block': schedule.block_section.block_choice,
                         'day': schedule.day
@@ -506,7 +565,7 @@ def StudentScheduleList(request):
                         'end_time': [s.end_time for s in schedules],
                         'faculty': [s.faculty for s in schedules],
                         'subjects': [s.subjects for s in schedules],
-                        'rooms': [s.subjects.room for s in schedules],
+                        'rooms': [s.room for s in schedules],
                         'day': day
                     }
                     merged_schedules.append(merged_schedule)
@@ -517,7 +576,7 @@ def StudentScheduleList(request):
                         'end_time': schedule.end_time,
                         'faculty': schedule.faculty,
                         'subjects': schedule.subjects,
-                        'rooms': schedule.subjects.room,
+                        'rooms': schedule.room,
                         'day': schedule.day
                     })
 
@@ -560,7 +619,7 @@ def FacultyScheduleList(request):
                         'end_time': [s.end_time for s in schedules],
                         'faculty': [s.faculty for s in schedules],
                         'subjects': [s.subjects for s in schedules],
-                        'rooms': [s.subjects.room for s in schedules],
+                        'rooms': [s.room for s in schedules],
                         'year': [s.year_section.year_choice for s in schedules],
                         'block': [s.block_section.block_choice for s in schedules],
                         'day': day
@@ -573,7 +632,7 @@ def FacultyScheduleList(request):
                         'end_time': schedule.end_time,
                         'faculty': schedule.faculty,
                         'subjects': schedule.subjects,
-                        'rooms': schedule.subjects.room,
+                        'rooms': schedule.room,
                         'year': schedule.year_section.year_choice,
                         'block': schedule.block_section.block_choice,
                         'day': schedule.day

@@ -46,10 +46,13 @@ urlpatterns = [
     path('timetable', views.timetable, name="timetable"),
     path('',views.HomePageView.as_view(), name='home'),
     path('students', StudentList.as_view(), name='StudentList'),
-    path('faculties', FacultyList.as_view(), name='FacultyList'),
+    # path('faculties', FacultyList.as_view(), name='FacultyList'),
+    path('faculties', views. FacultyList, name='FacultyList'),
     path('faculty', AdminFacultyList.as_view(), name='AdminFacultyList'),
     path('student/schedule/', views.StudentScheduleList, name='StudentScheduleList'),
     path('faculty/schedule/', views.FacultyScheduleList, name='FacultyScheduleList'),
     path('student/schedule/<str:id>/', views.StudentTimeTableView, name='studentschedule'),
-    path('faculty/schedule/<str:id>/', views.FacultyTimeTableView, name='facultyschedule')
+    path('faculty/schedule/<str:id>/', views.FacultyTimeTableView, name='facultyschedule'),
+    path('subject/add', views.add_subject, name="add-subject"),
+    path('schedule/add', views.add_schedule, name="add-schedule"),
 ]

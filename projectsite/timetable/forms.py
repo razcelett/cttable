@@ -6,13 +6,13 @@ import re
 from django.contrib.auth.models import User
 
 
-from .models import Student, Faculty, Year, Block, Type
+from .models import Student, Faculty, Year, Block, Type, Subject, Schedule, Room
 
 class LoginForm(forms.Form):
-    email = forms.CharField(
+    username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Email",
+                "placeholder": "Username",
                 "class": "form-control"
             }
         ))
@@ -279,7 +279,7 @@ class FacultyForm(ModelForm):
     department = forms.ChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
-            "placeholder": "Select your Status"
+            "placeholder": "Select your Department"
         }),
         choices=Faculty.department_choice,
     )
@@ -337,7 +337,7 @@ class UpdateFacultyForm(ModelForm):
     department = forms.ChoiceField(
         widget=forms.Select(attrs={
             "class": "form-control",
-            "placeholder": "Select your Status"
+            "placeholder": "Select your Department"
         }),
         choices=Faculty.department_choice,
     )
@@ -357,6 +357,101 @@ class UpdateFacultyForm(ModelForm):
         if commit:
             faculty.save()
         return faculty
+
+class SubjectForm(ModelForm):
+    class_code = forms.CharField(
+    widget=forms.TextInput(attrs={
+        "class": "form-control",
+        "placeholder": "Class Code"
+    })
+    )
+    subject_title = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Subject Title"
+        })
+    )
+
+    class Meta:
+        model = Subject
+        fields = ['class_code', 'subject_title']
+
+
+    def save(self, commit=True):
+        subject = super().save(commit=False)
+        if commit:
+            subject.save()
+        return subject
+    
+class ScheduleForm(ModelForm):
+    day = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Day"
+        }),
+        choices=Schedule.week_day,
+    )
+    start_time = forms.TimeField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Start Time (24hr format)"
+        })
+    )
+    end_time = forms.TimeField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "End Time (24hr format)"
+        })
+    )
+    subjects = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Subjects"
+        }),
+        queryset=Subject.objects.all(),
+    )
+    faculty = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Faculty"
+        }),
+        queryset=Faculty.objects.all(),
+        to_field_name='first_name',
+    )
+    room = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Room"
+        }),
+        queryset=Room.objects.all(),
+    )
+    year_section = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Year"
+        }),
+        queryset=Year.objects.all(),
+        to_field_name='year_choice',
+    )
+    block_section = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Block"
+        }),
+        queryset=Block.objects.all(),
+        to_field_name='block_choice',
+    )
+
+    class Meta:
+        model = Schedule
+        fields = ['day', 'start_time', 'end_time', 'subjects', 'faculty', 'room', 'year_section', 'block_section']
+
+
+    def save(self, commit=True):
+        schedule = super().save(commit=False)
+        if commit:
+            schedule.save()
+        return schedule
     
 
 

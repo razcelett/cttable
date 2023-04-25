@@ -85,10 +85,24 @@
 
           <!-- Nav Item - Dashboard -->
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'timetable' %}">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Classes</span></a>
-        </li>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>Classes</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Classes</h6>
+                        <a class="collapse-item active" href="{% url 'timetable' %}">BSCS1B1</a>
+                        <a class="collapse-item" href="{% url 'timetable' %}">BSCS1B2</a>
+                        <a class="collapse-item" href="{% url 'timetable' %}">BSCS1B3</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Others</h6>
+                        <a class="collapse-item" href="{% url 'add-subject' %}">Add Subject</a>
+                        <a class="collapse-item" href="{% url 'add-schedule' %}">Add Schedule</a>
+                    </div>
+                </div>
+            </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -773,7 +787,7 @@
                       <div class="gallery-item h-100">
                         <img src="{{ r.room_picture.url }}" class="img-fluid" alt="">
                         <div class="gallery-links d-flex align-items-center justify-content-center">
-                          <a href="{{ r.room_picture.url }}" title="{{ r.room_name }}" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <a href="{{ r.inside_room.url }}" title="{{ r.room_name }}" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
                           <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
                           <div class="center">
                             <i>{{ r.room_name }}</i>                             

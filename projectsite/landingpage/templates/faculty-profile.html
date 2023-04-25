@@ -1,173 +1,180 @@
 {% load static %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
 
-    <title>{% block title %}SB Admin 2 - Dashboard{% endblock %}</title>
+            <title>
+                {% block title %}SB Admin 2 - Dashboard
+                {% endblock %}
+            </title>
 
-    <!-- Custom fonts for this template-->
-    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+            <!-- Custom fonts for this template-->
+            <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+            <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+            <!-- Custom styles for this template-->
+            <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
 
-    <link href="{% static 'css/student-profile.css' %}" rel="stylesheet">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container-xl px-4 mt-4">
-        <!-- Account page navigation-->
-        <nav class="nav nav-borders">
-            <a class="nav-link active ms-0" href="#" target="__blank">Profile</a>
-            
-        </nav>
-        <hr class="mt-0 mb-4">
-        <div class="row">
-            <div class="col-xl-4">
-                <!-- Profile picture card-->
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %} 
-            <form role="form" method="POST" action="" enctype="multipart/form-data">
-                {% if msg %}
-                <span class="text-danger">{{ msg | safe }}</span>
-                {% endif %} 
-                {% csrf_token %}
-                <div class="card mb-4 mb-xl-0">
-                    <div class="card-header">Profile Picture</div>
-                    <div class="card-body text-center">
-                        <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: 0 auto;">
-                            {% if faculty_profile is not None %}
-                            <img class="img-account-profile" alt="profile" src="{{ faculty_profile }}" style="width: 100%; height: 100%; object-fit: cover;">
-                            {% else %}
-                            <img src="{% static 'img/undraw_profile.svg' %}" alt="profile" class="img-account-profile" style="width: 100%; height: 100%; object-fit: cover;">
+            <link href="{% static 'css/student-profile.css' %}" rel="stylesheet">
+            <title>Document</title>
+        </head>
+        <body>
+            <div
+                class="container-xl px-4 mt-4">
+                <!-- Account page navigation-->
+                <nav class="nav nav-borders">
+                    <a class="nav-link active ms-0" href="#" target="__blank">Profile</a>
+
+                </nav>
+                <hr class="mt-0 mb-4">
+                <div class="row">
+                    <div
+                        class="col-xl-4">
+                        <!-- Profile picture card-->
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <form role="form" method="POST" action="" enctype="multipart/form-data">
+                            {% if msg %}
+                                <span class="text-danger">{{ msg | safe }}</span>
                             {% endif %}
-                        </div>
-                        <div class="mb-4 mb-xl-0">
-                            <div class="card-body text-center" style="position: relative;">
-                                <label for="id_faculty_profile_picture" style="cursor: pointer;">
-                                    <!-- Hide the default file input button with opacity: 0 and position: absolute -->
-                                    <input type="file" name="faculty_profile_picture" id="id_faculty_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
-                                    <!-- Add your custom "choose file" button here -->
-                                    <div class="btn btn-primary">Choose File</div>
-                                </label>
-                                <div id="fileNameDisplay" style="margin-top: 10px;"></div>
+                            {% csrf_token %}
+                            <div class="card mb-4 mb-xl-0">
+                                <div class="card-header">Profile Picture</div>
+                                <div class="card-body text-center">
+                                    <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: 0 auto;">
+                                        {% if faculty_profile is not None %}
+                                            <img class="img-account-profile" alt="profile" src="{{ faculty_profile }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        {% else %}
+                                            <img src="{% static 'img/undraw_profile.svg' %}" alt="profile" class="img-account-profile" style="width: 100%; height: 100%; object-fit: cover;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-4 mb-xl-0">
+                                        <div class="card-body text-center" style="position: relative;">
+                                            <label
+                                                for="id_faculty_profile_picture" style="cursor: pointer;">
+                                                <!-- Hide the default file input button with opacity: 0 and position: absolute -->
+                                                <input
+                                                type="file" name="faculty_profile_picture" id="id_faculty_profile_picture" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" onchange="showFileName(this)">
+                                                <!-- Add your custom "choose file" button here -->
+                                                <div class="btn btn-primary">Choose File</div>
+                                            </label>
+                                            <div id="fileNameDisplay" style="margin-top: 10px;"></div>
+                                        </div>
+                                        <span class="text-error">{{ form.faculty_profile_picture.errors }}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="text-error">{{ form.faculty_profile_picture.errors }}</span>  
+                        </div>
+                        <div
+                            class="col-xl-8">
+                            <!-- Account details card-->
+                            <div class="card mb-4">
+                                <div class="card-header">Account Details</div>
+                                <div class="card-body">
+
+                                    <div class="col-sm-12 mb-4">
+                                        <input type="email" readonly value="{{ user.email }}" class="form-control" placeholder="Email">
+                                        <small id="addd" class="form-text text-muted">Contact the administrator to change Email</small>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-4">
+                                        {{ form.username }}
+                                    </div>
+                                    <span class="text-error">{{ form.username.errors }}</span>
+
+                                    <div class="col-sm-12 mb-4">
+                                        {{ form.last_name }}
+                                    </div>
+                                    <span class="text-error">{{ form.last_name.errors }}</span>
+
+                                    <div class="col-sm-12 mb-4">
+                                        {{ form.first_name }}
+                                    </div>
+                                    <span class="text-error">{{ form.first_name.errors }}</span>
+
+                                    <div class="col-sm-12 mb-4">
+                                        {{ form.middle_name }}
+                                    </div>
+                                    <span class="text-error">{{ form.middle_name.errors }}</span>
+
+                                    <div class="col-sm-12 mb-4">
+                                        {{ form.department }}
+                                    </div>
+                                    <span class="text-error">{{ form.department.errors }}</span>
+
+                                    <br>
+                                    <div class="mt-1 mb-1">
+                                        <button type="submit" name="update" class="btn btn-primary shadow-2 ">Save Changes</button>
+                                        <a href="{% url 'change_password' %}" class="btn btn-primary ">Change Password</a>
+                                        <a href="{% url 'FacultyScheduleList' %}" class="btn btn-primary">Go Back</a>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-8">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Account Details</div>
-                    <div class="card-body">
-
-                            <div class="col-sm-12 mb-4">
-                                <input type="email" readonly value="{{ user.email }}" class="form-control" placeholder="Email">
-                                <small id="addd" class="form-text text-muted">Contact the administrator to change Email</small>    
-                            </div>   
-
-                            <div class="col-sm-12 mb-4">
-                                {{ form.username }}
-                            </div>
-                            <span class="text-error">{{ form.username.errors }}</span>                   
-                                                                        
-                            <div class="col-sm-12 mb-4">
-                                {{ form.last_name }}
-                            </div>
-                            <span class="text-error">{{ form.last_name.errors }}</span>  
-                            
-                            <div class="col-sm-12 mb-4">
-                                {{ form.first_name }}
-                            </div>
-                            <span class="text-error">{{ form.first_name.errors }}</span>   
-                            
-                            <div class="col-sm-12 mb-4">
-                                {{ form.middle_name }}
-                            </div>
-                            <span class="text-error">{{ form.middle_name.errors }}</span>     
+        {% endblock content %}
+        <!-- Footer -->
+        <footer class="sticky-footer">
+            <div class="container my-auto">
+                <div
+                    class="copyright text-center my-auto"><!-- <span>Copyright &copy; Timetable 2023</span> -->
+                </div>
+            </div>
+            <!-- </footer>
+                <script>
+                    const upload_form = document.querySelector("#upload_form");
+                    const image_input = document.querySelector("#image_input");
+                    const save_button = document.querySelector("#save_button");
+                    const remove_button = document.querySelector("#remove_button");
+                    const display_image = document.querySelector("#display_image");
+                    const loading = document.querySelector("#loading");
             
-                            <div class="col-sm-12 mb-4">
-                                {{ form.department }}	
-                            </div>
-                            <span class="text-error">{{ form.department.errors }}</span>  
-
-                            <br>
-                            <div class="mt-1 mb-1">
-                                <button type="submit" name="update" class="btn btn-primary shadow-2 ">Save Changes</button>
-                                <a href="{% url 'change_password' %}" class="btn btn-primary ">Change Password</a>
-                                <a href="{% url 'FacultyScheduleList' %}" class="btn btn-primary">Go Back</a>
-                            </div> 
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endblock content %}
-    <!-- Footer -->
-    <footer class="sticky-footer">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <!-- <span>Copyright &copy; Timetable 2023</span> -->
-            </div>
-        </div>
-    <!-- </footer>
-    <script>
-        const upload_form = document.querySelector("#upload_form");
-        const image_input = document.querySelector("#image_input");
-        const save_button = document.querySelector("#save_button");
-        const remove_button = document.querySelector("#remove_button");
-        const display_image = document.querySelector("#display_image");
-        const loading = document.querySelector("#loading");
-
-        // Check if profile picture exists in localStorage
-        if (localStorage.getItem("profile_picture")) {
-            display_image.style.backgroundImage = localStorage.getItem("profile_picture");
-        }
-
-        image_input.addEventListener("change", function() {
-            const file = image_input.files[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.addEventListener("load", function() {
-                display_image.style.backgroundImage = `url(${reader.result})`;
-            });
-        });
-
-        save_button.addEventListener("click", function() {
-            if (display_image.style.backgroundImage !== "") {
-                localStorage.setItem("profile_picture", display_image.style.backgroundImage);
-                alert("Changes saved successfully!");
-            } else {
-                alert("Please select an image to save.");
-            }
-        });
-
-        remove_button.addEventListener("click", function() {
-            localStorage.removeItem("profile_picture");
-            display_image.style.backgroundImage = "";
-            image_input.value = "";
-        });
-
-    </script> -->
-    <!-- End of Footer -->
-    
-</body>
+                    // Check if profile picture exists in localStorage
+                    if (localStorage.getItem("profile_picture")) {
+                        display_image.style.backgroundImage = localStorage.getItem("profile_picture");
+                    }
+            
+                    image_input.addEventListener("change", function() {
+                        const file = image_input.files[0];
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.addEventListener("load", function() {
+                            display_image.style.backgroundImage = `url(${reader.result})`;
+                        });
+                    });
+            
+                    save_button.addEventListener("click", function() {
+                        if (display_image.style.backgroundImage !== "") {
+                            localStorage.setItem("profile_picture", display_image.style.backgroundImage);
+                            alert("Changes saved successfully!");
+                        } else {
+                            alert("Please select an image to save.");
+                        }
+                    });
+            
+                    remove_button.addEventListener("click", function() {
+                        localStorage.removeItem("profile_picture");
+                        display_image.style.backgroundImage = "";
+                        image_input.value = "";
+                    });
+            
+                </script> -->
+            <!-- End of Footer -->
+        </body>
+    </body>
 </html>

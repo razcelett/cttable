@@ -74,7 +74,7 @@ class Faculty(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True, null=True)
-    department_choice=[('Computer Studies Department', 'Computer Studies Department'), ('Math Department', 'Math Department')]
+    department_choice=[('Computer Studies Department', 'Computer Studies Department')]
     department = models.CharField(max_length=50, choices=department_choice, default=None)
     faculty_profile_picture = models.ImageField(null=True, blank=True, default=None, upload_to="static/img/faculty_prof_pic/")
 
@@ -110,6 +110,7 @@ class Room(models.Model):
     room_name = models.CharField(max_length=30)
     room_type = models.CharField(max_length=30)
     room_picture = models.ImageField(null=True, blank=True, upload_to="static/img/room_picture/")
+    inside_room = models.ImageField(null=True, blank=True, upload_to="static/img/room_picture/")
 
 
     def __str__(self):
@@ -121,9 +122,9 @@ class Room(models.Model):
 class Subject(models.Model):
     class_code = models.CharField(max_length=30)
     subject_title = models.CharField(max_length=100)
-    start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name = "Room", null=True, blank=True, default=None)
+    # start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    # end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    # room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name = "Room", null=True, blank=True, default=None)
     
     def __str__(self):
         return f'{self.subject_title}'
@@ -149,12 +150,13 @@ class Schedule(models.Model):
     start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     # end_time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "endtime", null=True, blank=True, default=None)
-    subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "subjects", null=True, blank=True)
+    subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "subjects")
     # subjects = models.ManyToManyField(Subject, related_name = "subjects", null=True, blank=True)
     students = models.ManyToManyField(Student, related_name = "students", null=True, blank=True)
-    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name = "Faculty", null=True, blank=True, default=None)
-    year_section = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "year_section", null=True, blank=True, default=None)
-    block_section = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "block_section", null=True, blank=True, default=None)
+    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name = "Faculty", null=True, blank=True)
+    year_section = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "year_section", null=True, blank=True)
+    block_section = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "block_section", null=True, blank=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name = "Room", null=True, blank=True)
 
     def __str__(self):
         return f'{self.day}'
