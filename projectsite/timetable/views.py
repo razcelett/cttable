@@ -642,6 +642,7 @@ def FacultyScheduleList(request):
         #     schedules = Schedule.objects.all()
 
         context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
+        # return render(request, 'student-index.html', context)
         return render(request, 'student-index.html', context)
     
     except Faculty.DoesNotExist:
