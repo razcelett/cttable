@@ -877,30 +877,41 @@
                                     {% for schedule in schedules %}
                                         <tr>
                                             <td>{{ schedule.day }}</td>
+                                            <!-- start time -->
                                             {% if schedule.start_time|length > 1 %}
                                                 <td>{% for i in schedule.start_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
                                             {% else %}
                                                 <td>{{ schedule.start_time }}</td>
                                             {% endif %}
+
+                                            <!-- end time -->
                                             {% if schedule.end_time|length > 1 %}
                                                 <td>{% for i in schedule.end_time %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
                                             {% else %}
                                                 <td>{{ schedule.end_time }}</td>
                                             {% endif %}
+
+                                            <!-- subjects -->
                                             {% if schedule.subjects|length > 1 %}
                                                 <td>{% for i in schedule.subjects %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
                                             {% else %}
                                                 <td>{{ schedule.subjects }}</td>
                                             {% endif %}
+                                            
+
+
                                             {% if schedule.year|length > 1 %}
-                                            <td>{% for i in schedule.year %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            <!-- <td>{% for i in schedule.year %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td> -->
+                                            <td>{{ schedule.year }}</td>
                                             {% elif schedule.year|length == 1%}
                                             <td>{{ schedule.year }}</td>
                                             {% else %}
+
                                             <td>{{ schedule.year }}</td>
                                             {% endif %}
                                             {% if schedule.block|length > 1 %}
-                                            <td>{% for i in schedule.block %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td>
+                                            <!-- <td>{% for i in schedule.block %}{{ i }}{% if not loop.last %}<br><hr>{% endif %}{% endfor %}</td> -->
+                                            <td>{{ schedule.block }}</td>
                                             {% else %}
                                             <td>{{ schedule.block }}</td>
                                             {% endif %}
