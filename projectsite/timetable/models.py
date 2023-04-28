@@ -108,9 +108,8 @@ class Building(models.Model):
 class Room(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE, related_name = "Building", null=True, blank=True, default=None)
     room_name = models.CharField(max_length=30)
-    room_type = models.CharField(max_length=30)
+    room_type = models.CharField(max_length=30, null=True, blank=True)
     room_picture = models.ImageField(null=True, blank=True, upload_to="static/img/room_picture/")
-    inside_room = models.ImageField(null=True, blank=True, upload_to="static/img/room_picture/")
 
 
     def __str__(self):
