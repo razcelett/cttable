@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
-from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm,  SubjectForm, ScheduleForm
+from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm,  SubjectForm, ScheduleForm, \
+                    UpdateScheduleForm
 from .models import Student, Faculty, Schedule, Room, Subject
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.contrib import messages
 
 
 
@@ -37,7 +39,7 @@ class HomePageView(TemplateView):
 class AdminFacultyList(ListView):
     model = Faculty
     context_object_name = 'faculty'
-    template_name = 'admin-faculty-view.html'
+    template_name = 'admin/admin-faculty-view.html'
     paginated_by = 10
 
     #getting the data
@@ -54,34 +56,12 @@ class AdminFacultyList(ListView):
             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
         return qs
 
-# @method_decorator(login_required, name='dispatch')
-# class FacultyList(ListView):
-#     model = Faculty
-#     context_object_name = 'faculty'
-#     template_name = 'student-faculty-view.html'
-#     paginated_by = 10
-
-#     #getting the data
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
-    
-#     #filter (search function)
-#     def get_queryset(self, *args, **kwargs):
-#         qs = super(FacultyList, self).get_queryset(*args, **kwargs)
-#         qs = qs.order_by("last_name")
-#         if self.request.GET.get("q") != None:
-#             query = self.request.GET.get('q')
-#             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
-#         return qs
-    
-
 # faculty list of students from the database view
 @method_decorator(login_required, name='dispatch')
 class StudentList(ListView):
     model = Student
     context_object_name = 'student'
-    template_name = 'admin-student.html'
+    template_name = 'admin/admin-student.html'
     paginated_by = 10
 
     #getting the data
@@ -98,35 +78,277 @@ class StudentList(ListView):
             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query))
         return qs
 
-# student timetable view
-# class StudentScheduleList(LoginRequiredMixin, ListView):
-#     model = Schedule
-#     context_object_name = 'Student_Schedule'
-#     template_name = 'student-index.html'
-#     # paginated_by = 10
+@method_decorator(login_required, name='dispatch')
+class FirstBlockOneScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS1B1.html'
+    paginated_by = 10
 
-#     def get_queryset(self):
-#         # get the logged in user
-#         user = self.request.user
-        
-#         # get the student object associated with the user
-#         student = Student.objects.filter(email=user.email).first()
-        
-#         # filter the schedules based on the student's year and block
-#         queryset = Schedule.objects.filter(students__in=[student], year_section=student.year, block_section=student.block)
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(FirstBlockOneScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+    
+@method_decorator(login_required, name='dispatch')
+class FirstBlockTwoScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS1B2.html'
+    paginated_by = 10
 
-        
-#         return queryset
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(FirstBlockTwoScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+    
+@method_decorator(login_required, name='dispatch')
+class FirstBlockThreeScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS1B3.html'
+    paginated_by = 10
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(FirstBlockThreeScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
 
+@method_decorator(login_required, name='dispatch')
+class SecondBlockOneScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS2B1.html'
+    paginated_by = 10
+
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(SecondBlockOneScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+    
+@method_decorator(login_required, name='dispatch')
+class SecondBlockTwoScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS2B2.html'
+    paginated_by = 10
+
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(SecondBlockTwoScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+
+@method_decorator(login_required, name='dispatch')
+class SecondBlockThreeScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS2B3.html'
+    paginated_by = 10
+
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(SecondBlockThreeScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+
+@method_decorator(login_required, name='dispatch')
+class ThirdBlockOneScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS3B1.html'
+    paginated_by = 10
+
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ThirdBlockOneScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+
+@method_decorator(login_required, name='dispatch')
+class FourthBlockOneScheduleList(ListView):
+    model = Schedule
+    context_object_name = 'BlockScheduleList'
+    template_name = 'admin/blockschedule/BSCS4B1.html'
+    paginated_by = 10
+
+    #getting the data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    #filter (search function)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(FourthBlockOneScheduleList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("day", "start_time")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+        return qs
+    
 # ----------------------------------------------------------------
 
-#student update profile'
-from django.contrib import messages
+#student login
+def student_login(request):
+    msg = None
+    form = LoginForm(request.POST or None)
 
+    if request.method == "POST":
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                try:
+                    login(request, user)
+                    if request.user.is_superuser:
+                        return redirect("timetable")
+                    elif not request.user.is_superuser and not any(char.isdigit() for char in user.email):
+                        # Redirect to FacultyScheduleList
+                        return redirect("FacultyScheduleList")
+                    else:
+                        return redirect("StudentScheduleList")
+                except ValidationError:
+                    msg = 'Invalid credentials'
+            
+            msg = 'Invalid credentials'
+
+    # else:
+    #     # msg = 'Login failed'
+
+    return render(request, 'student/student-login.html', {'form': form, 'msg':msg})
+
+#student logout
+def student_logout(request):
+    logout(request) 
+    messages.success = (request, ("Successfully Logged Out"))
+
+
+def change_password(request):
+    context = { 'segment': 'change-password' }
+    context['form'] = ChangePasswordForm(user=request.user)
+
+    if request.method == 'POST':
+        form = ChangePasswordForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            print(f'form is valid: {form}')
+            form.save()
+            messages.success(request, 'Change Password Success.')
+            return redirect("/")
+        else:
+            print(f'form is invalid: {form}')
+            context['form'] = form
+            return render(request, 'change-password.html', context)
+
+    return render(request, 'change-password.html', context)
+
+
+def create_faculty(request):
+    msg = None
+    success = False
+    form = FacultyForm()
+
+    if request.method == "POST":
+        form = FacultyForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, 'User Created Successfully')
+                success = True
+                return redirect("AdminFacultyList")
+            except IntegrityError:
+                form.add_error('username', 'This username is already taken.')
+                success = False
+
+        else:
+            messages.error(request, 'Form is not valid')
+            success = False
+
+    return render(request, 'faculty/faculty-register.html', {'form': form, 'success': success})
+
+#student signup
+def create_student(request):
+    msg = None
+    success = False
+    form = StudentForm()
+
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, 'User Created Successfully')
+                success = True
+                return redirect("StudentList")
+            except IntegrityError:
+                form.add_error('username', 'This username is already taken.')
+                success = False
+        else:
+            success = False
+
+    return render(request, 'student/student-register.html', {'form': form, 'success': success})
+
+#student update profile'
 @login_required()
 def student_profileupdate(request):
     success = False
@@ -160,11 +382,11 @@ def student_profileupdate(request):
         elif request.method == 'GET':
             print(f'student profile: {student.student_profile_picture}')
 
-            return render(request, 'student-profile.html', {'form': form, 'student_profile': student.student_profile_picture})
+            return render(request, 'student/student-profile.html', {'form': form, 'student_profile': student.student_profile_picture})
         
     else:
         messages.error(request, 'Failed to update your Profile')
-        return render(request, 'student-profile.html')
+        return render(request, 'student/student-profile.html')
 
 
 @login_required()
@@ -198,113 +420,46 @@ def faculty_profileupdate(request):
                 return redirect("faculty-update")
             else:
                    msg = 'Failed to update your Profile'
-                   return render(request, 'faculty-profile.html', {'form': form})
+                   return render(request, 'faculty/faculty-profile.html', {'form': form})
         elif request.method == 'GET':
             print(f'faculty profile: {faculty.faculty_profile_picture}')
 
-            return render(request, 'faculty-profile.html', {'form': form, 'faculty_profile': faculty.faculty_profile_picture})
+            return render(request, 'faculty/faculty-profile.html', {'form': form, 'faculty_profile': faculty.faculty_profile_picture})
         
     else:
         messages.error(request, 'Failed to update your Profile')
 
 
-def change_password(request):
-    context = { 'segment': 'change-password' }
-    context['form'] = ChangePasswordForm(user=request.user)
+def FacultyList(request):
+    faculty = Faculty.objects.all().order_by('last_name')
+    student = Student.objects.filter(email=request.user.email).first()
+    context = {'faculty':faculty,'student': student}
+    return render(request, 'student/student-faculty-view.html', context)
 
-    if request.method == 'POST':
-        form = ChangePasswordForm(user=request.user, data=request.POST)
-        if form.is_valid():
-            print(f'form is valid: {form}')
-            form.save()
-            messages.success(request, 'Change Password Success.')
-            return redirect("/")
-        else:
-            print(f'form is invalid: {form}')
-            context['form'] = form
-            return render(request, 'change-password.html', context)
+# it building view rooms
+def itrooms(request):
+    room = Room.objects.all().order_by('room_name')
+    student = Student.objects.filter(email=request.user.email).first()
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    context = {'room':room, 'student': student, 'faculty': faculty}
+    return render(request, 'room/itb.html', context)
 
-    return render(request, 'change-password.html', context)
+# nit building view rooms
+def nitrooms(request):
+    room = Room.objects.all().order_by('room_name')
+    student = Student.objects.filter(email=request.user.email).first()
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    context = {'room':room, 'student': student, 'faculty': faculty}
+    return render(request, 'room/nitb.html', context)
 
-#student login
-def student_login(request):
-    msg = None
-    form = LoginForm(request.POST or None)
+# ge building view rooms
+def gerooms(request):
+    room = Room.objects.all().order_by('room_name')
+    student = Student.objects.filter(email=request.user.email).first()
+    faculty = Faculty.objects.filter(email=request.user.email).first()
+    context = {'room':room, 'student': student, 'faculty': faculty}
+    return render(request, 'room/geb.html', context)
 
-    if request.method == "POST":
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                try:
-                    login(request, user)
-                    if request.user.is_superuser:
-                        return redirect("timetable")
-                    elif not request.user.is_superuser and not any(char.isdigit() for char in user.email):
-                        # Redirect to FacultyScheduleList
-                        return redirect("FacultyScheduleList")
-                    else:
-                        return redirect("StudentScheduleList")
-                except ValidationError:
-                    msg = 'Invalid credentials'
-            
-            msg = 'Invalid credentials'
-
-    # else:
-    #     # msg = 'Login failed'
-
-    return render(request, 'student-login.html', {'form': form, 'msg':msg})
-
-#student logout
-def student_logout(request):
-    logout(request) 
-    messages.success = (request, ("Successfully Logged Out"))
-
-#student signup
-def create_student(request):
-    msg = None
-    success = False
-    form = StudentForm()
-
-    if request.method == "POST":
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, 'User Created Successfully')
-                success = True
-                return redirect("StudentList")
-            except IntegrityError:
-                form.add_error('username', 'This username is already taken.')
-                success = False
-        else:
-            success = False
-
-    return render(request, 'student-register.html', {'form': form, 'success': success})
-
-def create_faculty(request):
-    msg = None
-    success = False
-    form = FacultyForm()
-
-    if request.method == "POST":
-        form = FacultyForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, 'User Created Successfully')
-                success = True
-                return redirect("AdminFacultyList")
-            except IntegrityError:
-                form.add_error('username', 'This username is already taken.')
-                success = False
-
-        else:
-            messages.error(request, 'Form is not valid')
-            success = False
-
-    return render(request, 'faculty-register.html', {'form': form, 'success': success})
 
 def add_subject(request):
     success = False
@@ -323,7 +478,8 @@ def add_subject(request):
             messages.error(request, 'There was an error creating the Subject.')
             success = False
 
-    return render(request, 'admin-add-subject.html', {'form': form, 'success': success})
+    return render(request, 'admin/admin-add-subject.html', {'form': form, 'success': success})
+
 
 def add_schedule(request):
     success = False
@@ -342,37 +498,44 @@ def add_schedule(request):
             messages.error(request, 'There was an error creating the Subject.')
             success = False
 
-    return render(request, 'admin-add-schedule.html', {'form': form, 'success': success})
+    return render(request, 'admin/admin-add-schedule.html', {'form': form, 'success': success})
 
-def FacultyList(request):
-    faculty = Faculty.objects.all().order_by('last_name')
-    student = Student.objects.filter(email=request.user.email).first()
-    context = {'faculty':faculty,'student': student}
-    return render(request, 'student-faculty-view.html', context)
+def edit_schedule(request, id):
+    success = False
+    schedule = Schedule.objects.get(id=id)
+    form = UpdateScheduleForm(request.POST or None, instance=schedule)
+   
 
-# it building view rooms
-def itrooms(request):
-    room = Room.objects.all().order_by('room_name')
-    student = Student.objects.filter(email=request.user.email).first()
-    faculty = Faculty.objects.filter(email=request.user.email).first()
-    context = {'room':room, 'student': student, 'faculty': faculty}
-    return render(request, 'itb.html', context)
+    if request.method == "POST":
+        form = UpdateScheduleForm(request.POST or None, instance=schedule)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Schedule Updated Successfully')
+            success = True
+            return redirect("edit-schedule", schedule.id)
 
-# nit building view rooms
-def nitrooms(request):
-    room = Room.objects.all().order_by('room_name')
-    student = Student.objects.filter(email=request.user.email).first()
-    faculty = Faculty.objects.filter(email=request.user.email).first()
-    context = {'room':room, 'student': student, 'faculty': faculty}
-    return render(request, 'nitb.html', context)
+               
+        else:
+            messages.error(request, 'There was an error updating the Schedule.')
+            success = False
 
-# ge building view rooms
-def gerooms(request):
-    room = Room.objects.all().order_by('room_name')
-    student = Student.objects.filter(email=request.user.email).first()
-    faculty = Faculty.objects.filter(email=request.user.email).first()
-    context = {'room':room, 'student': student, 'faculty': faculty}
-    return render(request, 'geb.html', context)
+    return render(request, 'admin/admin-edit-schedule.html', {'form': form, 'success': success})
+
+def delete_schedule(request, id):
+    success = False
+    schedule = Schedule.objects.get(id=id)
+    form = UpdateScheduleForm(request.POST or None, instance=schedule)
+   
+
+    if request.method == "POST":
+        form = UpdateScheduleForm(request.POST or None, instance=schedule)
+        schedule.delete()
+        messages.success(request, 'Schedule Deleted Successfully')
+        success = True
+        return redirect("timetable")
+    
+    return render(request, 'admin/admin-delete-schedule.html', {'form': form, 'success': success})
+
 
 
 def timetable(request):
@@ -412,7 +575,7 @@ def timetable(request):
             })
 
     context = {'schedules': merged_schedules}
-    return render(request, 'admin-index.html', context)
+    return render(request, 'admin/admin-index.html', context)
 
 
 @login_required(login_url='login')
@@ -464,13 +627,13 @@ def StudentTimeTableView(request, id):
         #     schedules = Schedule.objects.all()
 
         context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
-        return render(request, 'student-timetable.html', context)
+        return render(request, 'student/student-timetable.html', context)
     
     except Student.DoesNotExist:
         messages.error(request, 'Student does not exist')
         students = Student.objects.all()
         context = {'students': students}
-        return render(request, 'admin-student.html', context)
+        return render(request, 'admin/admin-student.html', context)
     
 @login_required(login_url='login')
 def FacultyTimeTableView(request, id):
@@ -524,13 +687,13 @@ def FacultyTimeTableView(request, id):
         #     schedules = Schedule.objects.all()
 
         context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
-        return render(request, 'faculty-timetable.html', context)
+        return render(request, 'faculty/faculty-timetable.html', context)
     
     except Faculty.DoesNotExist:
         messages.error(request, 'Faculty does not exist')
         faculty = Faculty.objects.all()
         context = {'faculty': faculty}
-        return render(request, 'admin-faculty-view.html', context)
+        return render(request, 'admin/admin-faculty-view.html', context)
     
     
 @login_required(login_url='login')
@@ -581,13 +744,13 @@ def StudentScheduleList(request):
                     })
 
         context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
-        return render(request, 'student-index.html', context)
+        return render(request, 'student/student-index.html', context)
     
     except Student.DoesNotExist:
         messages.error(request, 'Student does not exist')
         students = Student.objects.all()
         context = {'students': students}
-        return render(request, 'student-index.html', context)
+        return render(request, 'student/student-index.html', context)
     
     
 @login_required(login_url='login')
@@ -643,13 +806,13 @@ def FacultyScheduleList(request):
 
         context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
         # return render(request, 'student-index.html', context)
-        return render(request, 'student-index.html', context)
+        return render(request, 'student/student-index.html', context)
     
     except Faculty.DoesNotExist:
         messages.error(request, 'Faculty does not exist')
         faculty = Faculty.objects.all()
         context = {'faculty': faculty}
-        return render(request, 'student-index.html', context)
+        return render(request, 'student/student-index.html', context)
     
 
     

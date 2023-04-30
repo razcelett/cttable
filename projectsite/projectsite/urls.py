@@ -18,7 +18,9 @@ from django.urls import path, re_path
 # from django.conf import settings #add this
 # from django.conf.urls.static import static #add this
 
-from timetable.views import HomePageView, create_student, StudentList, FacultyList,  AdminFacultyList, StudentScheduleList
+from timetable.views import HomePageView, create_student, StudentList, FacultyList,  AdminFacultyList, StudentScheduleList,  FirstBlockOneScheduleList, \
+      FirstBlockTwoScheduleList, FirstBlockThreeScheduleList, FirstBlockOneScheduleList, SecondBlockOneScheduleList, SecondBlockTwoScheduleList, SecondBlockThreeScheduleList, \
+      ThirdBlockOneScheduleList, FourthBlockOneScheduleList
 from timetable import views
 from django.contrib.auth import views as auth_views
 
@@ -51,8 +53,18 @@ urlpatterns = [
     path('faculty', AdminFacultyList.as_view(), name='AdminFacultyList'),
     path('student/schedule/', views.StudentScheduleList, name='StudentScheduleList'),
     path('faculty/schedule/', views.FacultyScheduleList, name='FacultyScheduleList'),
+    path('schedules/first-year/block1', FirstBlockOneScheduleList.as_view(), name='FirstBlockOneScheduleList'),
+    path('schedules/first-year/block2', FirstBlockTwoScheduleList.as_view(), name='FirstBlockTwoScheduleList'),
+    path('schedules/first-year/block3', FirstBlockThreeScheduleList.as_view(), name='FirstBlockThreeScheduleList'),
+    path('schedules/second-year/block1', SecondBlockOneScheduleList.as_view(), name='SecondBlockOneScheduleList'),
+    path('schedules/second-year/block2', SecondBlockTwoScheduleList.as_view(), name='SecondBlockTwoScheduleList'),
+    path('schedules/second-year/block3', SecondBlockThreeScheduleList.as_view(), name='SecondBlockThreeScheduleList'),
+    path('schedules/third-year/block1', ThirdBlockOneScheduleList.as_view(), name='ThirdBlockOneScheduleList'),
+    path('schedules/fourth-year/block1', FourthBlockOneScheduleList.as_view(), name='FourthBlockOneScheduleList'),
     path('student/schedule/<str:id>/', views.StudentTimeTableView, name='studentschedule'),
     path('faculty/schedule/<str:id>/', views.FacultyTimeTableView, name='facultyschedule'),
     path('subject/add', views.add_subject, name="add-subject"),
     path('schedule/add', views.add_schedule, name="add-schedule"),
+    path('schedule/update/<str:id>', views.edit_schedule, name="edit-schedule"),
+    path('schedule/delete/<str:id>', views.delete_schedule, name="delete-schedule"),
 ]

@@ -453,6 +453,76 @@ class ScheduleForm(ModelForm):
             schedule.save()
         return schedule
     
+class UpdateScheduleForm(ModelForm):
+    day = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Day"
+        }),
+        choices=Schedule.week_day,
+    )
+    start_time = forms.TimeField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Start Time (24hr format)"
+        })
+    )
+    end_time = forms.TimeField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "End Time (24hr format)"
+        })
+    )
+    subjects = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Subjects"
+        }),
+        queryset=Subject.objects.all(),
+    )
+    faculty = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Faculty"
+        }),
+        queryset=Faculty.objects.all(),
+       
+    )
+    room = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Room"
+        }),
+        queryset=Room.objects.all(),
+    )
+    year_section = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Year"
+        }),
+        queryset=Year.objects.all(),
+       
+    )
+    block_section = forms.ModelChoiceField(
+        widget=forms.Select(attrs={
+            "class": "form-control",
+            "placeholder": "Block"
+        }),
+        queryset=Block.objects.all(),
+       
+    )
+
+    class Meta:
+        model = Schedule
+        fields = ['day', 'start_time', 'end_time', 'subjects', 'faculty', 'room', 'year_section', 'block_section']
+
+
+    def save(self, commit=True):
+        schedule = super().save(commit=False)
+        if commit:
+            schedule.save()
+        return schedule
+    
 
 
 

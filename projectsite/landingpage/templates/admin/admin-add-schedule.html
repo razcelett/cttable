@@ -13,8 +13,7 @@
             <meta name="author" content="">
 
             <title>
-                {% block title %}CLASS TIMETABLE
-                {% endblock %}
+                {% block title %}CLASS TIMETABLE{% endblock %}
             </title>
             <link
             rel="icon" href="{% static 'img/calendar-days-regular.svg' %}" type="image/x-icon">
@@ -67,13 +66,18 @@
                         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Classes</h6>
-                                <a class="collapse-item" href="{% url 'timetable' %}">BSCS1B1</a>
-                                <a class="collapse-item" href="{% url 'timetable' %}">BSCS1B2</a>
-                                <a class="collapse-item" href="{% url 'timetable' %}">BSCS1B3</a>
+                                <a class="collapse-item" href="{% url 'FirstBlockOneScheduleList' %}">BSCS1B1</a>
+                                <a class="collapse-item" href="{% url 'FirstBlockTwoScheduleList' %}">BSCS1B2</a>
+                                <a class="collapse-item" href="{% url 'FirstBlockThreeScheduleList' %}">BSCS1B3</a>
+                                <a class="collapse-item" href="{% url 'SecondBlockOneScheduleList' %}">BSCS2B1</a>
+                                <a class="collapse-item" href="{% url 'SecondBlockTwoScheduleList' %}">BSCS2B2</a>
+                                <a class="collapse-item" href="{% url 'SecondBlockThreeScheduleList' %}">BSCS2B3</a>
+                                <a class="collapse-item" href="{% url 'ThirdBlockOneScheduleList' %}">BSCS3B1</a>
+                                <a class="collapse-item" href="{% url 'FourthBlockOneScheduleList' %}">BSCS4B1</a>
                                 <div class="collapse-divider"></div>
                                 <h6 class="collapse-header">Others</h6>
-                                <a class="collapse-item active" href="{% url 'add-subject' %}">Add Subject</a>
-                                <a class="collapse-item" href="{% url 'add-schedule' %}">Add Schedule</a>
+                                <a class="collapse-item" href="{% url 'add-subject' %}">Add Subject</a>
+                                <a class="collapse-item active" href="{% url 'add-schedule' %}">Add Schedule</a>
                             </div>
                         </div>
                     </li>
@@ -403,7 +407,7 @@
                                         <div class="card my-4">
                                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                                    <h6 class="text-white text-capitalize ps-3">Add Subject</h6>
+                                                    <h6 class="text-white text-capitalize ps-3">Add Schedule</h6>
                                                 </div>
                                             </div>
                                             <div class="card-body ">
@@ -421,16 +425,46 @@
                                                         <!-- <h1>Register</h1>
                                                         												<br> -->
                                                         <div class="input-group mb-3">
-                                                            {{ form.class_code }}
+                                                            {{ form.day }}
                                                         </div>
-                                                        <span class="text-error">{{ form.class_code.errors }}</span>
+                                                        <span class="text-error">{{ form.day.errors }}</span>
 
                                                         <div class="input-group mb-3">
-                                                            {{ form.subject_title }}
+                                                            {{ form.start_time }}
                                                         </div>
-                                                        <span class="text-error">{{ form.subject_title.errors }}</span>
+                                                        <span class="text-error">{{ form.start_time.errors }}</span>
 
-                                                        <button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Add Subject</button>
+                                                        <div class="input-group mb-3">
+                                                            {{ form.end_time }}
+                                                        </div>
+                                                        <span class="text-error">{{ form.end_time.errors }}</span>
+   
+                                                        <div class="input-group mb-3">
+                                                            {{ form.subjects }}
+                                                        </div>
+                                                        <span class="text-error">{{ form.subjects.errors }}</span>
+
+                                                        <div class="input-group mb-3">
+                                                            {{ form.faculty }}
+                                                        </div>
+                                                        <span class="text-error">{{ form.faculty.errors }}</span>
+
+                                                        <div class="input-group mb-3">
+                                                            {{ form.room }}
+                                                        </div>
+                                                        <span class="text-error">{{ form.room.errors }}</span>
+
+                                                        <div class="input-group mb-3">
+                                                            {{ form.year_section }}
+                                                        </div>
+                                                        <span class="text-error">{{ form.year_section.errors }}</span>
+
+                                                        <div class="input-group mb-3">
+                                                            {{ form.block_section }}
+                                                        </div>
+                                                        <span class="text-error">{{ form.block_section.errors }}</span>
+
+                                                        <button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Submit</button>
 
                                                     </form>
                                                 </div>
