@@ -742,6 +742,8 @@ def StudentScheduleList(request):
                         'rooms': schedule.room,
                         'day': schedule.day
                     })
+            else:
+                schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day", "start_time")
 
         context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
         return render(request, 'student/student-index.html', context)
