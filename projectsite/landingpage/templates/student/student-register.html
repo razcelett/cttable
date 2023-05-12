@@ -13,8 +13,7 @@
             <meta name="author" content="">
 
             <title>
-                {% block title %}CLASS TIMETABLE
-                {% endblock %}
+                {% block title %}CLASS TIMETABLE{% endblock %}
             </title>
             <link
             rel="icon" href="{% static 'img/calendar-days-regular.svg' %}" type="image/x-icon">
@@ -60,10 +59,27 @@
 
                     <!-- Nav Item - Dashboard -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'timetable' %}">
-                            <i class="fas fa-fw fa-table"></i>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-building"></i>
                             <span>Classes</span>
                         </a>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Classes</h6>
+                                <a class="collapse-item" href="{% url 'FirstBlockOneScheduleList' %}">BSCS1B1</a>
+                                <a class="collapse-item" href="{% url 'FirstBlockTwoScheduleList' %}">BSCS1B2</a>
+                                <a class="collapse-item" href="{% url 'FirstBlockThreeScheduleList' %}">BSCS1B3</a>
+                                <a class="collapse-item" href="{% url 'SecondBlockOneScheduleList' %}">BSCS2B1</a>
+                                <a class="collapse-item" href="{% url 'SecondBlockTwoScheduleList' %}">BSCS2B2</a>
+                                <a class="collapse-item" href="{% url 'SecondBlockThreeScheduleList' %}">BSCS2B3</a>
+                                <a class="collapse-item" href="{% url 'ThirdBlockOneScheduleList' %}">BSCS3B1</a>
+                                <a class="collapse-item" href="{% url 'FourthBlockOneScheduleList' %}">BSCS4B1</a>
+                                <div class="collapse-divider"></div>
+                                <h6 class="collapse-header">Others</h6>
+                                <a class="collapse-item" href="{% url 'add-schedule' %}">Add Schedule</a>
+                            </div>
+                        </div>
                     </li>
 
                     <!-- Divider -->

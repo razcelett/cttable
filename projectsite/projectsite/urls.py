@@ -63,8 +63,13 @@ urlpatterns = [
     path('schedules/fourth-year/block1', FourthBlockOneScheduleList.as_view(), name='FourthBlockOneScheduleList'),
     path('student/schedule/<str:id>/', views.StudentTimeTableView, name='studentschedule'),
     path('faculty/schedule/<str:id>/', views.FacultyTimeTableView, name='facultyschedule'),
+    # path('faculty/schedule/edit/<str:id>/', FacultySched.as_view(), name='facultyscheduleedit'),
+    path('faculty/schedule/edit/<str:id>/', views.FacultyEditTimeTable, name='facultyscheduleedit'),
     path('subject/add', views.add_subject, name="add-subject"),
     path('schedule/add', views.add_schedule, name="add-schedule"),
     path('schedule/update/<str:id>', views.edit_schedule, name="edit-schedule"),
     path('schedule/delete/<str:id>', views.delete_schedule, name="delete-schedule"),
+    path('timetable/download', views.timetable_pdf, name="timetable_pdf"),
+    path('student/timetable/download', views.StudentScheduleList_pdf, name="StudentScheduleList_pdf"),
+    path('faculty/timetable/download', views.FacultyScheduleList_pdf, name="FacultyScheduleList_pdf"),
 ]

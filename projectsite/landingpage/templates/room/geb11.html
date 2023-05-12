@@ -1,0 +1,47 @@
+{% extends "layouts/building-sidebar.html" %}
+{% block content %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">GE BUILDING</h1>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <main id="main" data-aos="fade" data-aos-delay="1500">
+
+              <!-- ======= Gallery Section ======= -->
+              <section id="gallery" class="gallery">
+                <div class="container-fluid">
+                  <div class="row gy-4 justify-content-center" style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
+                    {% for r in room %}
+                    {% if r.building.building_name == 'GE BUILDING' %}
+                    <div class="col-xl-3 col-lg-4 col-md-6" style="flex-shrink: 0; white-space: nowrap;">
+                      <div class="gallery-item h-100">
+                        <img src="{{ r.room_picture.url }}" class="img-fluid" alt="">
+                        <div class="gallery-links d-flex align-items-center justify-content-center">
+                          <a href="{{ r.room_picture.url }}" title="{{ r.room_name }}" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+                          <!-- <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                          <div class="center">
+                            <i>{{ r.room_name }}</i>                             
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- End Gallery Item -->
+                    {% endif %}
+                    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                    </div>
+                    <div class="row gy-4 justify-content-center" style="display: flex; flex-wrap: nowrap; overflow-x: auto; margin-top: 20px;">
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </section><!-- End Gallery Section -->
+          
+          </main><!-- End #main -->
+          
+{% endblock %}

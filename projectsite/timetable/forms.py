@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 import re
 from django.contrib.auth.models import User
+from bootstrap_datepicker_plus.widgets import TimePickerInput
 
 
 from .models import Student, Faculty, Year, Block, Type, Subject, Schedule, Room
@@ -392,16 +393,18 @@ class ScheduleForm(ModelForm):
         choices=Schedule.week_day,
     )
     start_time = forms.TimeField(
-        widget=forms.TextInput(attrs={
+        widget=TimePickerInput(attrs={
             "class": "form-control",
             "placeholder": "Start Time (24hr format)"
-        })
+        }
+        )
     )
     end_time = forms.TimeField(
-        widget=forms.TextInput(attrs={
+        widget=TimePickerInput(attrs={
             "class": "form-control",
             "placeholder": "End Time (24hr format)"
-        })
+        }
+        )
     )
     subjects = forms.ModelChoiceField(
         widget=forms.Select(attrs={
@@ -462,16 +465,18 @@ class UpdateScheduleForm(ModelForm):
         choices=Schedule.week_day,
     )
     start_time = forms.TimeField(
-        widget=forms.TextInput(attrs={
+        widget=TimePickerInput(attrs={
             "class": "form-control",
             "placeholder": "Start Time (24hr format)"
-        })
+        }
+        )
     )
     end_time = forms.TimeField(
-        widget=forms.TextInput(attrs={
+        widget=TimePickerInput(attrs={
             "class": "form-control",
             "placeholder": "End Time (24hr format)"
-        })
+        }
+        )
     )
     subjects = forms.ModelChoiceField(
         widget=forms.Select(attrs={

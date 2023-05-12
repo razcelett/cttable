@@ -1,0 +1,157 @@
+{% load static %}
+{% block content %}
+{% load templatetags %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>{% block title %}CLASS TIMETABLE{% endblock %}</title>
+      <link rel = "icon" href ="{% static 'img/calendar-days-regular.svg'%}" type = "image/x-icon">
+      <!-- Custom fonts for this template-->
+      <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+      <!-- Custom styles for this template-->
+      <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+      <link href="{% static 'css/sched.css' %}" rel="stylesheet">
+      <link id="pagestyle" href="{% static 'css/index.css' %}" rel="stylesheet" />
+      <style type="text/css">
+         .table-bordered {
+         border: 1px solid black;
+         border-collapse: collapse;
+         }
+         .table-bordered th,
+         .table-bordered td{
+         border: 1px solid black;
+         padding: 8px;
+         }
+         .bg-light-gray {
+         background-color:white;
+         }
+         @page {
+         size: legal landscape;
+         margin: 10mm 10mm 10mm 10mm;
+         }
+         /* .table-bordered td{
+         margin: 20px 20px 20px 20px;
+         } */
+      </style>
+   </head>
+   <body id="page-top">
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+         <!-- Page Heading -->
+         <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">TIME TABLE</h1>
+         </div>
+         <!-- Content Row -->
+         <div class="container">
+            <div class="table-responsive">
+                {% if schedules %}
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr class="bg-light-gray">
+                            <th>Day</th>
+                            <th colspan="2">Time</th>
+                            <th>Subject</th>
+                            <th>Year</th>
+                            <th>Block</th>
+                            <th>Room</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in schedules %}
+                        <tr>
+                            <td>{{ schedule.day }}</td>
+                            {% if schedule.start_time|length > 1 %}
+                            <td>
+                                {% for i in schedule.start_time %}
+                                {{ i }}
+                                <br><hr>
+                                {% endfor %}  
+                            </td>
+                            <td>
+                               {% for i in schedule.end_time %}
+                               {{ i }}
+                               <br><hr>
+                               {% endfor %}  
+                            </td>
+                            {% else %}
+                            <td>{{ schedule.start_time }}</td>
+                            <td>{{ schedule.end_time }}</td>
+                            {% endif %}
+                            {% if schedule.subjects|length > 1 %}
+                            <td>
+                                {% for i in schedule.subjects %}
+                                {{ i }}
+                                {% if not loop.last %}<hr>{% endif %}
+                                {% endfor %}
+                            </td>
+                            {% else %}
+                            <td>{{ schedule.subjects }}</td>
+                            {% endif %}
+                            {% if schedule.year|length > 1 %}
+                            <td>
+                                {% for i in schedule.year %}
+                                {{ i }}
+                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% endfor %}
+                            </td>
+                            {% else %}
+                            <td>{{ schedule.year }}</td>
+                            {% endif %}
+                            {% if schedule.block|length > 1 %}
+                            <td>
+                                {% for i in schedule.block %}
+                                {{ i }}
+                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% endfor %}
+                            </td>
+                            {% else %}
+                            <td>{{ schedule.block }}</td>
+                            {% endif %}
+                            {% if schedule.rooms|length > 1 %}
+                            <td>
+                                {% for i in schedule.rooms %}
+                                {{ i }}
+                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% endfor %}
+                            </td>
+                            {% else %}
+                            <td>{{ schedule.rooms }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No schedules found.</p>
+                {% endif %}                             
+            </div>
+         </div>
+         <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      {% endblock content %}
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'vendor/index/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+      <!-- Page level plugins -->
+      <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+      <!-- Page level custom scripts -->
+      <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+      <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/classes.js' %}"></script>
+   </body>
+</html>

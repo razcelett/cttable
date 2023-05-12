@@ -10,9 +10,6 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib import messages
 
-
-
-
 #login
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
@@ -22,7 +19,17 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.contrib import messages
+from django.db.models import Case, When
+
+# PDF GENERATOR
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+import io
+import xhtml2pdf.pisa as pisa
+
+
+
 
 # Create your views here.
 
@@ -40,7 +47,7 @@ class AdminFacultyList(ListView):
     model = Faculty
     context_object_name = 'faculty'
     template_name = 'admin/admin-faculty-view.html'
-    paginated_by = 10
+    paginate_by = 5
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -62,7 +69,7 @@ class StudentList(ListView):
     model = Student
     context_object_name = 'student'
     template_name = 'admin/admin-student.html'
-    paginated_by = 10
+    paginate_by = 5
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -83,7 +90,7 @@ class FirstBlockOneScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS1B1.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -93,18 +100,26 @@ class FirstBlockOneScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(FirstBlockOneScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
+
     
 @method_decorator(login_required, name='dispatch')
 class FirstBlockTwoScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS1B2.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -114,10 +129,17 @@ class FirstBlockTwoScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(FirstBlockTwoScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
     
 @method_decorator(login_required, name='dispatch')
@@ -125,7 +147,7 @@ class FirstBlockThreeScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS1B3.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -135,10 +157,17 @@ class FirstBlockThreeScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(FirstBlockThreeScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
 
 @method_decorator(login_required, name='dispatch')
@@ -146,7 +175,7 @@ class SecondBlockOneScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS2B1.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -156,10 +185,17 @@ class SecondBlockOneScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(SecondBlockOneScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
     
 @method_decorator(login_required, name='dispatch')
@@ -167,7 +203,7 @@ class SecondBlockTwoScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS2B2.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -177,10 +213,17 @@ class SecondBlockTwoScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(SecondBlockTwoScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
 
 @method_decorator(login_required, name='dispatch')
@@ -188,7 +231,7 @@ class SecondBlockThreeScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS2B3.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -198,10 +241,17 @@ class SecondBlockThreeScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(SecondBlockThreeScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
 
 @method_decorator(login_required, name='dispatch')
@@ -209,7 +259,7 @@ class ThirdBlockOneScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS3B1.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -219,10 +269,17 @@ class ThirdBlockOneScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(ThirdBlockOneScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
 
 @method_decorator(login_required, name='dispatch')
@@ -230,7 +287,7 @@ class FourthBlockOneScheduleList(ListView):
     model = Schedule
     context_object_name = 'BlockScheduleList'
     template_name = 'admin/blockschedule/BSCS4B1.html'
-    paginated_by = 10
+    paginate_by = 10
 
     #getting the data
     def get_context_data(self, **kwargs):
@@ -240,15 +297,22 @@ class FourthBlockOneScheduleList(ListView):
     #filter (search function)
     def get_queryset(self, *args, **kwargs):
         qs = super(FourthBlockOneScheduleList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("day", "start_time")
+        qs = qs.order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("day", "start_time").filter(Q(day__icontains=query))
+            qs = qs.filter(Q(day__icontains=query))
         return qs
     
 # ----------------------------------------------------------------
 
-#student login
+#login
 def student_login(request):
     msg = None
     form = LoginForm(request.POST or None)
@@ -278,7 +342,7 @@ def student_login(request):
 
     return render(request, 'student/student-login.html', {'form': form, 'msg':msg})
 
-#student logout
+#logout
 def student_logout(request):
     logout(request) 
     messages.success = (request, ("Successfully Logged Out"))
@@ -349,7 +413,7 @@ def create_student(request):
     return render(request, 'student/student-register.html', {'form': form, 'success': success})
 
 #student update profile'
-@login_required()
+@login_required(login_url='login')
 def student_profileupdate(request):
     success = False
     student = Student.objects.filter(email=request.user.email).first()
@@ -389,7 +453,7 @@ def student_profileupdate(request):
         return render(request, 'student/student-profile.html')
 
 
-@login_required()
+@login_required(login_url='login')
 def faculty_profileupdate(request):
     success = False
     faculty = Faculty.objects.filter(email=request.user.email).first()
@@ -513,8 +577,7 @@ def edit_schedule(request, id):
             messages.success(request, 'Schedule Updated Successfully')
             success = True
             return redirect("edit-schedule", schedule.id)
-
-               
+        
         else:
             messages.error(request, 'There was an error updating the Schedule.')
             success = False
@@ -537,45 +600,130 @@ def delete_schedule(request, id):
     return render(request, 'admin/admin-delete-schedule.html', {'form': form, 'success': success})
 
 
-
 def timetable(request):
-    schedules = Schedule.objects.all().order_by("day", "start_time")
+    try:
+        schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+        grouped_schedules = {}
+        for schedule in schedules:
+            key = (schedule.day,)
+            if key in grouped_schedules:
+                grouped_schedules[key].append(schedule)
+            else:
+                grouped_schedules[key] = [schedule]
 
-    grouped_schedules = {}
-    for schedule in schedules:
-        key = (schedule.day,)
-        if key in grouped_schedules:
-            grouped_schedules[key].append(schedule)
-        else:
-            grouped_schedules[key] = [schedule]
+        merged_schedules = []
+        for key in grouped_schedules:
+            schedules = grouped_schedules[key]
+            if len(schedules) > 1:
+                day = schedules[0].day
+                merged_schedule = {
+                    'start_time': [s.start_time for s in schedules],
+                    'end_time': [s.end_time for s in schedules],
+                    'faculty': [s.faculty for s in schedules],
+                    'subjects': [s.subjects for s in schedules],
+                    'rooms': [s.room for s in schedules],
+                    'day': day
+                }
+                merged_schedules.append(merged_schedule)
+            else:
+                schedule = schedules[0]
+                merged_schedules.append({
+                    'start_time': schedule.start_time,
+                    'end_time': schedule.end_time,
+                    'faculty': schedule.faculty,
+                    'subjects': schedule.subjects,
+                    'rooms': schedule.room,
+                    'day': schedule.day
+                })
 
-    merged_schedules = []
-    for key in grouped_schedules:
-        schedules = grouped_schedules[key]
-        if len(schedules) > 1:
-            day = schedules[0].day
-            merged_schedule = {
-                'start_time': [s.start_time for s in schedules],
-                'end_time': [s.end_time for s in schedules],
-                'faculty': [s.faculty for s in schedules],
-                'subjects': [s.subjects for s in schedules],
-                'rooms': [s.room for s in schedules],
-                'day': day
-            }
-            merged_schedules.append(merged_schedule)
-        else:
-            schedule = schedules[0]
-            merged_schedules.append({
-                'start_time': schedule.start_time,
-                'end_time': schedule.end_time,
-                'faculty': schedule.faculty,
-                'subjects': schedule.subjects,
-                'rooms': schedule.room,
-                'day': schedule.day
-            })
+        context = {'schedules': merged_schedules}
+        return render(request, 'admin/admin-index.html', context)
+    
+    except schedules.DoesNotExist:
+        messages.error(request, 'There are no schedules.')
+        schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+        context = {'schedules': schedules}
+        return render(request, 'admin/admin-index.html', context)
 
-    context = {'schedules': merged_schedules}
-    return render(request, 'admin/admin-index.html', context)
+def timetable_pdf(request):
+    try:
+        schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+        grouped_schedules = {}
+        for schedule in schedules:
+            key = (schedule.day,)
+            if key in grouped_schedules:
+                grouped_schedules[key].append(schedule)
+            else:
+                grouped_schedules[key] = [schedule]
+
+        merged_schedules = []
+        for key in grouped_schedules:
+            schedules = grouped_schedules[key]
+            if len(schedules) > 1:
+                day = schedules[0].day
+                merged_schedule = {
+                    'start_time': [s.start_time for s in schedules],
+                    'end_time': [s.end_time for s in schedules],
+                    'faculty': [s.faculty for s in schedules],
+                    'subjects': [s.subjects for s in schedules],
+                    'rooms': [s.room for s in schedules],
+                    'day': day
+                }
+                merged_schedules.append(merged_schedule)
+            else:
+                schedule = schedules[0]
+                merged_schedules.append({
+                    'start_time': schedule.start_time,
+                    'end_time': schedule.end_time,
+                    'faculty': schedule.faculty,
+                    'subjects': schedule.subjects,
+                    'rooms': schedule.room,
+                    'day': schedule.day
+                })
+
+        context = {'schedules': merged_schedules}
+        # Download as PDF
+        template = get_template('admin/timetable.html')
+        html = template.render(context)
+        pdf_file = io.BytesIO()
+        pisa.CreatePDF(html, dest=pdf_file, orientation='Landscape', pagesize='legal')
+        response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="timetable.pdf"'
+        return response
+    
+    except Schedule.DoesNotExist:
+        messages.error(request, 'There are no schedules.')
+        schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+        context = {'schedules': schedules}
+        return render(request, 'admin/admin-index.html', context)
 
 
 @login_required(login_url='login')
@@ -588,7 +736,14 @@ def StudentTimeTableView(request, id):
 
         # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
         if student.block and student.year:
-            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day", "start_time")
+            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
 
             grouped_schedules = {}
             for schedule in schedules:
@@ -644,7 +799,14 @@ def FacultyTimeTableView(request, id):
 
         # Get schedules for the faculty, or all schedules if the faculty is not set
         if faculty.id :
-            schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day", "start_time")
+            schedules = Schedule.objects.filter(faculty=faculty.id).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
 
             grouped_schedules = {}
             for schedule in schedules:
@@ -665,8 +827,8 @@ def FacultyTimeTableView(request, id):
                         'faculty': [s.faculty for s in schedules],
                         'subjects': [s.subjects for s in schedules],
                         'rooms': [s.room for s in schedules],
-                        'year': [s.year_section.year_choice for s in schedules],
-                        'block': [s.block_section.block_choice for s in schedules],
+                        'year': [s.year_section for s in schedules],
+                        'block': [s.block_section for s in schedules],
                         'day': day
                     }
                     merged_schedules.append(merged_schedule)
@@ -678,8 +840,8 @@ def FacultyTimeTableView(request, id):
                         'faculty': schedule.faculty,
                         'subjects': schedule.subjects,
                         'rooms': schedule.room,
-                        'year': schedule.year_section.year_choice,
-                        'block': schedule.block_section.block_choice,
+                        'year': schedule.year_section,
+                        'block': schedule.block_section,
                         'day': schedule.day
                     })
 
@@ -694,7 +856,53 @@ def FacultyTimeTableView(request, id):
         faculty = Faculty.objects.all()
         context = {'faculty': faculty}
         return render(request, 'admin/admin-faculty-view.html', context)
-    
+
+@login_required(login_url='login')
+def FacultyEditTimeTable(request, id):
+    try:
+        faculty = Faculty.objects.get(id=id)
+        courses = Subject.objects.all()
+        rooms = Room.objects.all()
+
+        search_query = request.GET.get('q')
+        if search_query:
+            schedules = Schedule.objects.filter(
+                Q(day__icontains=search_query)).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+        else:
+            if faculty.id:
+                schedules = Schedule.objects.filter(faculty=faculty.id).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+            else:
+                schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+
+        context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': schedules}
+        return render(request, 'admin/admin-faculty-sched.html', context)
+
+    except Faculty.DoesNotExist:
+        messages.error(request, 'Faculty does not exist')
+        faculty = Faculty.objects.all()
+        context = {'faculty': faculty}
+        return render(request, 'admin/admin-faculty-view.html', context)
     
 @login_required(login_url='login')
 def StudentScheduleList(request):
@@ -708,7 +916,14 @@ def StudentScheduleList(request):
 
         # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
         if student.block and student.year:
-            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day", "start_time")
+            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
 
             grouped_schedules = {}
             for schedule in schedules:
@@ -743,7 +958,14 @@ def StudentScheduleList(request):
                         'day': schedule.day
                     })
             else:
-                schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by("day", "start_time")
+                schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
 
         context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
         return render(request, 'student/student-index.html', context)
@@ -754,17 +976,26 @@ def StudentScheduleList(request):
         context = {'students': students}
         return render(request, 'student/student-index.html', context)
     
-    
 @login_required(login_url='login')
-def FacultyScheduleList(request):
+def StudentScheduleList_pdf(request):
     try:
-        faculty = Faculty.objects.filter(email=request.user.email).first()
+        # Get the logged in user's student object
+        student = Student.objects.filter(email=request.user.email).first()
+
         courses = Subject.objects.all()
+        professors = Faculty.objects.all()
         rooms = Room.objects.all()
 
         # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
-        if faculty.id :
-            schedules = Schedule.objects.filter(faculty=faculty.id).order_by("day", "start_time")
+        if student.block and student.year:
+            schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
 
             grouped_schedules = {}
             for schedule in schedules:
@@ -785,8 +1016,6 @@ def FacultyScheduleList(request):
                         'faculty': [s.faculty for s in schedules],
                         'subjects': [s.subjects for s in schedules],
                         'rooms': [s.room for s in schedules],
-                        'year': [s.year_section.year_choice for s in schedules],
-                        'block': [s.block_section.block_choice for s in schedules],
                         'day': day
                     }
                     merged_schedules.append(merged_schedule)
@@ -798,8 +1027,87 @@ def FacultyScheduleList(request):
                         'faculty': schedule.faculty,
                         'subjects': schedule.subjects,
                         'rooms': schedule.room,
-                        'year': schedule.year_section.year_choice,
-                        'block': schedule.block_section.block_choice,
+                        'day': schedule.day
+                    })
+            else:
+                schedules = Schedule.objects.filter(year_section=student.year, block_section=student.block).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+
+        context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
+        # Download as PDF
+        template = get_template('student/sttdl.html')
+        html = template.render(context)
+        pdf_file = io.BytesIO()
+        pisa.CreatePDF(html, dest=pdf_file, orientation='Landscape', pagesize='legal')
+        response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="student-timetable.pdf"'
+        return response
+    
+    except Student.DoesNotExist:
+        messages.error(request, 'Student does not exist')
+        students = Student.objects.all()
+        context = {'students': students}
+        return render(request, 'student/student-index.html', context)
+    
+    
+@login_required(login_url='login')
+def FacultyScheduleList(request):
+    try:
+        faculty = Faculty.objects.filter(email=request.user.email).first()
+        courses = Subject.objects.all()
+        rooms = Room.objects.all()
+
+        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        if faculty.id :
+            schedules = Schedule.objects.filter(faculty=faculty.id).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+
+            grouped_schedules = {}
+            for schedule in schedules:
+                key = (schedule.day,)
+                if key in grouped_schedules:
+                    grouped_schedules[key].append(schedule)
+                else:
+                    grouped_schedules[key] = [schedule]
+
+            merged_schedules = []
+            for key in grouped_schedules:
+                schedules = grouped_schedules[key]
+                if len(schedules) > 1:
+                    day = schedules[0].day
+                    merged_schedule = {
+                        'start_time': [s.start_time for s in schedules],
+                        'end_time': [s.end_time for s in schedules],
+                        'faculty': [s.faculty for s in schedules],
+                        'subjects': [s.subjects for s in schedules],
+                        'rooms': [s.room for s in schedules],
+                        'year': [s.year_section for s in schedules],
+                        'block': [s.block_section for s in schedules],
+                        'day': day
+                    }
+                    merged_schedules.append(merged_schedule)
+                else:
+                    schedule = schedules[0]
+                    merged_schedules.append({
+                        'start_time': schedule.start_time,
+                        'end_time': schedule.end_time,
+                        'faculty': schedule.faculty,
+                        'subjects': schedule.subjects,
+                        'rooms': schedule.room,
+                        'year': schedule.year_section,
+                        'block': schedule.block_section,
                         'day': schedule.day
                     })
 
@@ -809,6 +1117,80 @@ def FacultyScheduleList(request):
         context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
         # return render(request, 'student-index.html', context)
         return render(request, 'student/student-index.html', context)
+    
+    except Faculty.DoesNotExist:
+        messages.error(request, 'Faculty does not exist')
+        faculty = Faculty.objects.all()
+        context = {'faculty': faculty}
+        return render(request, 'student/student-index.html', context)
+    
+@login_required(login_url='login')
+def FacultyScheduleList_pdf(request):
+    try:
+        faculty = Faculty.objects.filter(email=request.user.email).first()
+        courses = Subject.objects.all()
+        rooms = Room.objects.all()
+
+        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        if faculty.id :
+            schedules = Schedule.objects.filter(faculty=faculty.id).order_by(Case(When(day="Monday", then=1),
+                               When(day="Tuesday", then=2),
+                               When(day="Wednesday", then=3),
+                               When(day="Thursday", then=4),
+                               When(day="Friday", then=5),
+                               When(day="Saturday", then=6),
+                               default=7),
+                         "start_time")
+
+            grouped_schedules = {}
+            for schedule in schedules:
+                key = (schedule.day,)
+                if key in grouped_schedules:
+                    grouped_schedules[key].append(schedule)
+                else:
+                    grouped_schedules[key] = [schedule]
+
+            merged_schedules = []
+            for key in grouped_schedules:
+                schedules = grouped_schedules[key]
+                if len(schedules) > 1:
+                    day = schedules[0].day
+                    merged_schedule = {
+                        'start_time': [s.start_time for s in schedules],
+                        'end_time': [s.end_time for s in schedules],
+                        'faculty': [s.faculty for s in schedules],
+                        'subjects': [s.subjects for s in schedules],
+                        'rooms': [s.room for s in schedules],
+                        'year': [s.year_section for s in schedules],
+                        'block': [s.block_section for s in schedules],
+                        'day': day
+                    }
+                    merged_schedules.append(merged_schedule)
+                else:
+                    schedule = schedules[0]
+                    merged_schedules.append({
+                        'start_time': schedule.start_time,
+                        'end_time': schedule.end_time,
+                        'faculty': schedule.faculty,
+                        'subjects': schedule.subjects,
+                        'rooms': schedule.room,
+                        'year': schedule.year_section,
+                        'block': schedule.block_section,
+                        'day': schedule.day
+                    })
+
+        # else:
+        #     schedules = Schedule.objects.all()
+
+        context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
+        # Download as PDF
+        template = get_template('faculty/fttdl.html')
+        html = template.render(context)
+        pdf_file = io.BytesIO()
+        pisa.CreatePDF(html, dest=pdf_file, orientation='Landscape', pagesize='legal')
+        response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="faculty-timetable.pdf"'
+        return response
     
     except Faculty.DoesNotExist:
         messages.error(request, 'Faculty does not exist')
