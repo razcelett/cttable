@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
 from .forms import LoginForm, StudentForm, UpdateStudentForm, FacultyForm, ChangePasswordForm, UpdateFacultyForm,  SubjectForm, ScheduleForm, \
-                    UpdateScheduleForm
+                    UpdateScheduleForm, AdminUpdateStudentForm, AdminUpdateFacultyForm, EditUserForm
 from .models import Student, Faculty, Schedule, Room, Subject
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -63,7 +63,7 @@ class AdminFacultyList(ListView):
             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query) | Q(department__icontains=query))
         return qs
 
-# faculty list of students from the database view
+# admin list of students from the database view
 @method_decorator(login_required, name='dispatch')
 class StudentList(ListView):
     model = Student
@@ -85,6 +85,7 @@ class StudentList(ListView):
             qs = qs.order_by("last_name").filter(Q(first_name__icontains=query)| Q(last_name__icontains=query) | Q(email__icontains=query))
         return qs
 
+# admin first year block one schedule view
 @method_decorator(login_required, name='dispatch')
 class FirstBlockOneScheduleList(ListView):
     model = Schedule
@@ -113,7 +114,7 @@ class FirstBlockOneScheduleList(ListView):
             qs = qs.filter(Q(day__icontains=query))
         return qs
 
-    
+# admin first year block two schedule view  
 @method_decorator(login_required, name='dispatch')
 class FirstBlockTwoScheduleList(ListView):
     model = Schedule
@@ -141,7 +142,8 @@ class FirstBlockTwoScheduleList(ListView):
             query = self.request.GET.get('q')
             qs = qs.filter(Q(day__icontains=query))
         return qs
-    
+
+# admin first year block three schedule view   
 @method_decorator(login_required, name='dispatch')
 class FirstBlockThreeScheduleList(ListView):
     model = Schedule
@@ -170,6 +172,7 @@ class FirstBlockThreeScheduleList(ListView):
             qs = qs.filter(Q(day__icontains=query))
         return qs
 
+# admin second year block one schedule view
 @method_decorator(login_required, name='dispatch')
 class SecondBlockOneScheduleList(ListView):
     model = Schedule
@@ -197,7 +200,8 @@ class SecondBlockOneScheduleList(ListView):
             query = self.request.GET.get('q')
             qs = qs.filter(Q(day__icontains=query))
         return qs
-    
+
+# admin second year block two schedule view   
 @method_decorator(login_required, name='dispatch')
 class SecondBlockTwoScheduleList(ListView):
     model = Schedule
@@ -226,6 +230,7 @@ class SecondBlockTwoScheduleList(ListView):
             qs = qs.filter(Q(day__icontains=query))
         return qs
 
+# admin second year block three schedule view
 @method_decorator(login_required, name='dispatch')
 class SecondBlockThreeScheduleList(ListView):
     model = Schedule
@@ -254,6 +259,7 @@ class SecondBlockThreeScheduleList(ListView):
             qs = qs.filter(Q(day__icontains=query))
         return qs
 
+# admin third year block one schedule view
 @method_decorator(login_required, name='dispatch')
 class ThirdBlockOneScheduleList(ListView):
     model = Schedule
@@ -282,6 +288,7 @@ class ThirdBlockOneScheduleList(ListView):
             qs = qs.filter(Q(day__icontains=query))
         return qs
 
+# admin fourth year block one schedule view
 @method_decorator(login_required, name='dispatch')
 class FourthBlockOneScheduleList(ListView):
     model = Schedule
@@ -309,6 +316,52 @@ class FourthBlockOneScheduleList(ListView):
             query = self.request.GET.get('q')
             qs = qs.filter(Q(day__icontains=query))
         return qs
+
+# admin view and edit faculty schedule
+class FacultyEditTimeTable(ListView):
+    model = Schedule
+    template_name = 'admin/admin-faculty-sched.html'
+    context_object_name = 'schedules'
+
+    def get_queryset(self):
+        # Get the faculty ID from the URL parameter
+        id = self.kwargs.get('id')
+        try:
+            faculty = Faculty.objects.get(id=id)
+        except Faculty.DoesNotExist:
+            # If faculty does not exist, return an empty queryset
+            return Schedule.objects.none()
+
+        # Get all the schedules for the faculty, or all schedules if the faculty is not set
+        if faculty.id:
+            schedules = Schedule.objects.filter(faculty=faculty.id)
+        else:
+            schedules = Schedule.objects.all()
+
+        # Order schedules by day and start time
+        schedules = schedules.order_by(Case(
+            When(day="Monday", then=1),
+            When(day="Tuesday", then=2),
+            When(day="Wednesday", then=3),
+            When(day="Thursday", then=4),
+            When(day="Friday", then=5),
+            When(day="Saturday", then=6),
+            default=7),
+            "start_time")
+
+        # Filter schedules by day if the 'q' GET parameter is present
+        query = self.request.GET.get('q')
+        if query:
+            schedules = schedules.filter(Q(day__icontains=query))
+
+        return schedules
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['faculty'] = Faculty.objects.get(id=self.kwargs.get('id'))
+        context['subject'] = Subject.objects.all()
+        context['rooms'] = Room.objects.all()
+        return context
     
 # ----------------------------------------------------------------
 
@@ -337,17 +390,14 @@ def student_login(request):
             
             msg = 'Invalid credentials'
 
-    # else:
-    #     # msg = 'Login failed'
-
-    return render(request, 'student/student-login.html', {'form': form, 'msg':msg})
+    return render(request, 'login.html', {'form': form, 'msg':msg})
 
 #logout
 def student_logout(request):
     logout(request) 
     messages.success = (request, ("Successfully Logged Out"))
 
-
+#change password
 def change_password(request):
     context = { 'segment': 'change-password' }
     context['form'] = ChangePasswordForm(user=request.user)
@@ -366,7 +416,27 @@ def change_password(request):
 
     return render(request, 'change-password.html', context)
 
+# change username
+def change_username(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id = request.user.id)
+        form = EditUserForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            print(f'form is valid: {form}')
+            form.save()
+            messages.success(request, 'Succesfully changed the username')
+            if not request.user.is_superuser and not any(char.isdigit() for char in current_user.email):
+                return redirect("faculty-update")
+            else:
+                return redirect("student-update")
+        else:
+            print(f'form is not valid: {form.errors}')
+        return render(request, 'change-username.html', {'form': form})
+    else:
+        messages.error(request, ("You must be logged in to update"))
+        return redirect("/")
 
+# admin add faculty member
 def create_faculty(request):
     msg = None
     success = False
@@ -390,7 +460,44 @@ def create_faculty(request):
 
     return render(request, 'faculty/faculty-register.html', {'form': form, 'success': success})
 
-#student signup
+# admin edit faculty
+def edit_faculty(request, id):
+    success = False
+    faculty = Faculty.objects.get(id=id)
+    form = AdminUpdateFacultyForm(request.POST or None, instance=faculty)
+   
+
+    if request.method == "POST":
+        form = AdminUpdateFacultyForm(request.POST or None, instance=faculty)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Faculty Updated Successfully')
+            success = True
+            return redirect("edit-faculty", faculty.id)
+        
+        else:
+            messages.error(request, 'There was an error updating the Student.')
+            success = False
+
+    return render(request, 'admin/admin-edit-faculty.html', {'form': form, 'success': success})
+
+#admin delete faculty
+def delete_faculty(request, id):
+    success = False
+    faculty = Faculty.objects.get(id=id)
+    form = AdminUpdateFacultyForm(request.POST or None, instance=faculty)
+   
+
+    if request.method == "POST":
+        form = AdminUpdateFacultyForm(request.POST or None, instance=faculty)
+        faculty.delete()
+        messages.success(request, 'Faculty Deleted Successfully')
+        success = True
+        return redirect("AdminFacultyList")
+    
+    return render(request, 'admin/admin-delete-faculty.html', {'form': form, 'success': success})
+
+#admin add student member 
 def create_student(request):
     msg = None
     success = False
@@ -412,7 +519,42 @@ def create_student(request):
 
     return render(request, 'student/student-register.html', {'form': form, 'success': success})
 
-#student update profile'
+#admin edit student 
+def edit_student(request, id):
+    success = False
+    student = Student.objects.get(id=id)
+    form = AdminUpdateStudentForm(request.POST or None, instance=student)
+
+    if request.method == "POST":
+        form = AdminUpdateStudentForm(request.POST or None, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student Updated Successfully')
+            success = True
+            return redirect("edit-student", student.id)
+        
+        else:
+            messages.error(request, 'There was an error updating the Student.')
+            success = False
+
+    return render(request, 'admin/admin-edit-student.html', {'form': form, 'success': success, 'student': student})
+
+#admin delete student 
+def delete_student(request, id):
+    success = False
+    student = Student.objects.get(id=id)
+    form = AdminUpdateStudentForm(request.POST or None, instance=student)
+
+    if request.method == "POST":
+        form = AdminUpdateStudentForm(request.POST or None, instance=student)
+        student.delete()
+        messages.success(request, 'Student Deleted Successfully')
+        success = True
+        return redirect("StudentList")
+    
+    return render(request, 'admin/admin-delete-student.html', {'form': form, 'success': success})
+
+#student update profile
 @login_required(login_url='login')
 def student_profileupdate(request):
     success = False
@@ -442,7 +584,7 @@ def student_profileupdate(request):
                 return redirect("student-update")
             else:
                 messages.error(request, 'Failed to update your Profile')
-            return render(request, 'student-profile.html', {'form': form})
+            return render(request, 'student/student-profile.html', {'form': form})
         elif request.method == 'GET':
             print(f'student profile: {student.student_profile_picture}')
 
@@ -452,7 +594,7 @@ def student_profileupdate(request):
         messages.error(request, 'Failed to update your Profile')
         return render(request, 'student/student-profile.html')
 
-
+#faculty update profile
 @login_required(login_url='login')
 def faculty_profileupdate(request):
     success = False
@@ -493,7 +635,7 @@ def faculty_profileupdate(request):
     else:
         messages.error(request, 'Failed to update your Profile')
 
-
+#student list of faculty view
 def FacultyList(request):
     faculty = Faculty.objects.all().order_by('last_name')
     student = Student.objects.filter(email=request.user.email).first()
@@ -524,7 +666,7 @@ def gerooms(request):
     context = {'room':room, 'student': student, 'faculty': faculty}
     return render(request, 'room/geb.html', context)
 
-
+#admin add subject function
 def add_subject(request):
     success = False
     form = SubjectForm()
@@ -544,7 +686,7 @@ def add_subject(request):
 
     return render(request, 'admin/admin-add-subject.html', {'form': form, 'success': success})
 
-
+#admin add schedule function
 def add_schedule(request):
     success = False
     form = ScheduleForm()
@@ -556,14 +698,14 @@ def add_schedule(request):
             messages.success(request, 'Schedule Added Successfully')
             success = True
             return redirect("add-schedule")
-
-               
+    
         else:
             messages.error(request, 'There was an error creating the Subject.')
             success = False
 
     return render(request, 'admin/admin-add-schedule.html', {'form': form, 'success': success})
 
+#admin edit schedule function
 def edit_schedule(request, id):
     success = False
     schedule = Schedule.objects.get(id=id)
@@ -584,6 +726,7 @@ def edit_schedule(request, id):
 
     return render(request, 'admin/admin-edit-schedule.html', {'form': form, 'success': success})
 
+#admin delete schedule function
 def delete_schedule(request, id):
     success = False
     schedule = Schedule.objects.get(id=id)
@@ -599,7 +742,7 @@ def delete_schedule(request, id):
     
     return render(request, 'admin/admin-delete-schedule.html', {'form': form, 'success': success})
 
-
+#admin view all schedules
 def timetable(request):
     try:
         schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
@@ -659,6 +802,7 @@ def timetable(request):
         context = {'schedules': schedules}
         return render(request, 'admin/admin-index.html', context)
 
+#admin all schedules pdf download 
 def timetable_pdf(request):
     try:
         schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
@@ -725,7 +869,7 @@ def timetable_pdf(request):
         context = {'schedules': schedules}
         return render(request, 'admin/admin-index.html', context)
 
-
+#admin per student schedule view
 @login_required(login_url='login')
 def StudentTimeTableView(request, id):
     try:
@@ -789,7 +933,8 @@ def StudentTimeTableView(request, id):
         students = Student.objects.all()
         context = {'students': students}
         return render(request, 'admin/admin-student.html', context)
-    
+
+#admin per faculty schedule view   
 @login_required(login_url='login')
 def FacultyTimeTableView(request, id):
     try:
@@ -857,53 +1002,7 @@ def FacultyTimeTableView(request, id):
         context = {'faculty': faculty}
         return render(request, 'admin/admin-faculty-view.html', context)
 
-@login_required(login_url='login')
-def FacultyEditTimeTable(request, id):
-    try:
-        faculty = Faculty.objects.get(id=id)
-        courses = Subject.objects.all()
-        rooms = Room.objects.all()
-
-        search_query = request.GET.get('q')
-        if search_query:
-            schedules = Schedule.objects.filter(
-                Q(day__icontains=search_query)).order_by(Case(When(day="Monday", then=1),
-                               When(day="Tuesday", then=2),
-                               When(day="Wednesday", then=3),
-                               When(day="Thursday", then=4),
-                               When(day="Friday", then=5),
-                               When(day="Saturday", then=6),
-                               default=7),
-                         "start_time")
-        else:
-            if faculty.id:
-                schedules = Schedule.objects.filter(faculty=faculty.id).order_by(Case(When(day="Monday", then=1),
-                               When(day="Tuesday", then=2),
-                               When(day="Wednesday", then=3),
-                               When(day="Thursday", then=4),
-                               When(day="Friday", then=5),
-                               When(day="Saturday", then=6),
-                               default=7),
-                         "start_time")
-            else:
-                schedules = Schedule.objects.all().order_by(Case(When(day="Monday", then=1),
-                               When(day="Tuesday", then=2),
-                               When(day="Wednesday", then=3),
-                               When(day="Thursday", then=4),
-                               When(day="Friday", then=5),
-                               When(day="Saturday", then=6),
-                               default=7),
-                         "start_time")
-
-        context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': schedules}
-        return render(request, 'admin/admin-faculty-sched.html', context)
-
-    except Faculty.DoesNotExist:
-        messages.error(request, 'Faculty does not exist')
-        faculty = Faculty.objects.all()
-        context = {'faculty': faculty}
-        return render(request, 'admin/admin-faculty-view.html', context)
-    
+#student logged in/own schedule view    
 @login_required(login_url='login')
 def StudentScheduleList(request):
     try:
@@ -968,14 +1067,15 @@ def StudentScheduleList(request):
                          "start_time")
 
         context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
-        return render(request, 'student/student-index.html', context)
+        return render(request, 'index.html', context)
     
     except Student.DoesNotExist:
         messages.error(request, 'Student does not exist')
         students = Student.objects.all()
         context = {'students': students}
-        return render(request, 'student/student-index.html', context)
-    
+        return render(request, 'index.html', context)
+
+#student schedule download to pdf    
 @login_required(login_url='login')
 def StudentScheduleList_pdf(request):
     try:
@@ -1040,6 +1140,7 @@ def StudentScheduleList_pdf(request):
                          "start_time")
 
         context = {'student': student, 'courses': courses, 'professors': professors, 'rooms': rooms, 'schedules': merged_schedules}
+       
         # Download as PDF
         template = get_template('student/sttdl.html')
         html = template.render(context)
@@ -1053,9 +1154,9 @@ def StudentScheduleList_pdf(request):
         messages.error(request, 'Student does not exist')
         students = Student.objects.all()
         context = {'students': students}
-        return render(request, 'student/student-index.html', context)
+        return render(request, 'index.html', context)
     
-    
+#faculty logged in/own schedule view   
 @login_required(login_url='login')
 def FacultyScheduleList(request):
     try:
@@ -1063,7 +1164,7 @@ def FacultyScheduleList(request):
         courses = Subject.objects.all()
         rooms = Room.objects.all()
 
-        # Get schedules for the student's block and year, or all schedules if the student's block and year is not set
+        # Get schedules for the faculty, or all schedules if the faculty is not set
         if faculty.id :
             schedules = Schedule.objects.filter(faculty=faculty.id).order_by(Case(When(day="Monday", then=1),
                                When(day="Tuesday", then=2),
@@ -1115,15 +1216,15 @@ def FacultyScheduleList(request):
         #     schedules = Schedule.objects.all()
 
         context = {'faculty': faculty, 'courses': courses, 'rooms': rooms, 'schedules': merged_schedules}
-        # return render(request, 'student-index.html', context)
-        return render(request, 'student/student-index.html', context)
+        return render(request, 'index.html', context)
     
     except Faculty.DoesNotExist:
         messages.error(request, 'Faculty does not exist')
         faculty = Faculty.objects.all()
         context = {'faculty': faculty}
-        return render(request, 'student/student-index.html', context)
-    
+        return render(request, 'index.html', context)
+
+#faculty schedule download to pdf    
 @login_required(login_url='login')
 def FacultyScheduleList_pdf(request):
     try:
@@ -1196,7 +1297,7 @@ def FacultyScheduleList_pdf(request):
         messages.error(request, 'Faculty does not exist')
         faculty = Faculty.objects.all()
         context = {'faculty': faculty}
-        return render(request, 'student/student-index.html', context)
+        return render(request, 'index.html', context)
     
 
     

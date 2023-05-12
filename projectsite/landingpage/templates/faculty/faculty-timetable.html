@@ -1,5 +1,4 @@
 {% load static %}
-{% block content %}
 {% load templatetags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +26,6 @@
          id="pagestyle" href="{% static 'css/index.css' %}" rel="stylesheet"/>
       <!-- Page Wrapper -->
       <div id="wrapper">
-         <!-- Sidebar -->
          <!-- Sidebar -->
          <ul
             class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -85,12 +83,6 @@
                <span>Students</span>
                </a>
             </li>
-            <!-- Nav Item - Charts -->
-            <!-- <li class="nav-item">
-               <a class="nav-link" href="timetable.html">
-                   <i class="fas fa-fw fa-calendar"></i>
-                   <span>Class Time Table</span></a>
-               </li> -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -158,54 +150,6 @@
                            </form>
                         </div>
                      </li>
-                     <!-- Nav Item - Alerts -->
-                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           <i class="fas fa-bell fa-fw"></i>
-                           <!-- Counter - Alerts -->
-                           <span class="badge badge-danger badge-counter">3+</span>
-                        </a>
-                        <!-- Dropdown - Alerts -->
-                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                           <h6 class="dropdown-header">
-                              Alerts Center
-                           </h6>
-                           <a class="dropdown-item d-flex align-items-center" href="#">
-                              <div class="mr-3">
-                                 <div class="icon-circle bg-primary">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                 </div>
-                              </div>
-                              <div>
-                                 <div class="small text-gray-500">December 12, 2019</div>
-                                 <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                              </div>
-                           </a>
-                           <a class="dropdown-item d-flex align-items-center" href="#">
-                              <div class="mr-3">
-                                 <div class="icon-circle bg-success">
-                                    <i class="fas fa-donate text-white"></i>
-                                 </div>
-                              </div>
-                              <div>
-                                 <div class="small text-gray-500">December 7, 2019</div>
-                                 $290.29 has been deposited into your account!
-                              </div>
-                           </a>
-                           <a class="dropdown-item d-flex align-items-center" href="#">
-                              <div class="mr-3">
-                                 <div class="icon-circle bg-warning">
-                                    <i class="fas fa-exclamation-triangle text-white"></i>
-                                 </div>
-                              </div>
-                              <div>
-                                 <div class="small text-gray-500">December 2, 2019</div>
-                                 Spending Alert: We've noticed unusually high spending for your account.
-                              </div>
-                           </a>
-                           <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                        </div>
-                     </li>
                      <!-- Nav Item - User Information -->
                      <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -238,7 +182,6 @@
                      </div>
                      <div
                         class="table-responsive">
-                        <!-- timetable.html -->
                         <div class="card mb-4 mb-xl-0">
                            <div class="card-body d-flex align-items-center">
                               <div style="width: 100px; height: 100px; overflow: hidden; border-radius: 50%; margin-right: 1rem;">
@@ -258,81 +201,91 @@
                         <br>
                         {% if schedules %}
                         <table class="table table-bordered text-center">
-                            <thead>
-                                <tr class="bg-light-gray">
-                                    <th rowspan="2">Day</th>
-                                    <th colspan="2">Time</th>
-                                    <th rowspan="2">Subject</th>
-                                    <th rowspan="2">Year</th>
-                                    <th rowspan="2">Block</th>
-                                    <th rowspan="2">Room</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for schedule in schedules %}
-                                <tr>
-                                    <td>{{ schedule.day }}</td>
-                                    {% if schedule.start_time|length > 1 %}
-                                    <td>
-                                        {% for i in schedule.start_time %}
-                                        {{ i }}
-                                        <br><hr>
-                                        {% endfor %}  
-                                        <br>
-                                    </td>
-                                    <td>
-                                       {% for i in schedule.end_time %}
-                                       {{ i }}
-                                       <br><hr>
-                                       {% endfor %}  
-                                    </td>
-                                    {% else %}
-                                    <td>{{ schedule.start_time }}</td>
-                                    <td>{{ schedule.end_time }}</td>
+                           <thead>
+                              <tr class="bg-light-gray">
+                                 <th rowspan="2">Day</th>
+                                 <th colspan="2">Time</th>
+                                 <th rowspan="2">Subject</th>
+                                 <th rowspan="2">Year</th>
+                                 <th rowspan="2">Block</th>
+                                 <th rowspan="2">Room</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              {% for schedule in schedules %}
+                              <tr>
+                                 <td>{{ schedule.day }}</td>
+                                 {% if schedule.start_time|length > 1 %}
+                                 <td>
+                                    {% for i in schedule.start_time %}
+                                    {{ i }}
+                                    <br>
+                                    <hr>
+                                    {% endfor %}  
+                                    <br>
+                                 </td>
+                                 <td>
+                                    {% for i in schedule.end_time %}
+                                    {{ i }}
+                                    <br>
+                                    <hr>
+                                    {% endfor %}  
+                                 </td>
+                                 {% else %}
+                                 <td>{{ schedule.start_time }}</td>
+                                 <td>{{ schedule.end_time }}</td>
+                                 {% endif %}
+                                 {% if schedule.subjects|length > 1 %}
+                                 <td>
+                                    {% for i in schedule.subjects %}
+                                    {{ i }}
+                                    {% if not loop.last %}<br>
+                                    <hr>
                                     {% endif %}
-                                    {% if schedule.subjects|length > 1 %}
-                                    <td>
-                                        {% for i in schedule.subjects %}
-                                        {{ i }}
-                                        {% if not loop.last %}<br><hr>{% endif %}
-                                        {% endfor %}
-                                    </td>
-                                    {% else %}
-                                    <td>{{ schedule.subjects }}</td>
+                                    {% endfor %}
+                                 </td>
+                                 {% else %}
+                                 <td>{{ schedule.subjects }}</td>
+                                 {% endif %}
+                                 {% if schedule.year|length > 1 %}
+                                 <td>
+                                    {% for i in schedule.year %}
+                                    {{ i }}
+                                    {% if not loop.last %}<br>
+                                    <hr>
                                     {% endif %}
-                                    {% if schedule.year|length > 1 %}
-                                    <td>
-                                        {% for i in schedule.year %}
-                                        {{ i }}
-                                        {% if not loop.last %}<br><hr>{% endif %}
-                                        {% endfor %}
-                                    </td>
-                                    {% else %}
-                                    <td>{{ schedule.year }}</td>
+                                    {% endfor %}
+                                 </td>
+                                 {% else %}
+                                 <td>{{ schedule.year }}</td>
+                                 {% endif %}
+                                 {% if schedule.block|length > 1 %}
+                                 <td>
+                                    {% for i in schedule.block %}
+                                    {{ i }}
+                                    {% if not loop.last %}<br>
+                                    <hr>
                                     {% endif %}
-                                    {% if schedule.block|length > 1 %}
-                                    <td>
-                                        {% for i in schedule.block %}
-                                        {{ i }}
-                                        {% if not loop.last %}<br><hr>{% endif %}
-                                        {% endfor %}
-                                    </td>
-                                    {% else %}
-                                    <td>{{ schedule.block }}</td>
+                                    {% endfor %}
+                                 </td>
+                                 {% else %}
+                                 <td>{{ schedule.block }}</td>
+                                 {% endif %}
+                                 {% if schedule.rooms|length > 1 %}
+                                 <td>
+                                    {% for i in schedule.rooms %}
+                                    {{ i }}
+                                    {% if not loop.last %}<br>
+                                    <hr>
                                     {% endif %}
-                                    {% if schedule.rooms|length > 1 %}
-                                    <td>
-                                        {% for i in schedule.rooms %}
-                                        {{ i }}
-                                        {% if not loop.last %}<br><hr>{% endif %}
-                                        {% endfor %}
-                                    </td>
-                                    {% else %}
-                                    <td>{{ schedule.rooms }}</td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
+                                    {% endfor %}
+                                 </td>
+                                 {% else %}
+                                 <td>{{ schedule.rooms }}</td>
+                                 {% endif %}
+                              </tr>
+                              {% endfor %}
+                           </tbody>
                         </table>
                         {% else %}
                         <p>No schedules found.</p>
@@ -340,7 +293,6 @@
                      </div>
                   </div>
                </div>
-               <!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->
             <!-- Footer -->
@@ -378,7 +330,6 @@
             </div>
          </div>
       </div>
-      {% endblock content %}
       <!-- Bootstrap core JavaScript-->
       <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'js/classes.js' %}"></script>

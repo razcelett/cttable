@@ -1,0 +1,63 @@
+{% load widget_tweaks %} 
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            {% block title %}Log In Page {% endblock %}
+        </title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+        <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    </head>
+    <body>
+        <!-- partial:index.partial.html -->
+        <div class="container" id="container">
+            <div class="form-container sign-up-container"></div>
+            <div class="form-container sign-in-container">
+                {% if msg %}
+                <span class="text-danger">{{ msg | safe }}</span>
+                {% endif %}
+                <form role="form" method="POST" action="">
+                    {% csrf_token %}
+
+                    <h1>Member Log In</h1>
+                    <br />
+                    <br />
+                    <div class="input-group mb-3">
+                        {{ form.username }}
+                    </div>
+                    <span class="text-error">{{ form.username.errors }}</span>
+
+                    <div class="input-group mb-3">
+                        {{ form.password }}
+                    </div>
+                    <span class="text-error">{{ form.password.errors }}</span>
+                    <br />
+                    <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">Sign In</button>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login with your personal info</p>
+                        <button class="ghost" id="signIn">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Register</h1>
+                        <p>Member Sign Up</p>
+                        <a href="{% url 'student-register' %}">
+                            <button class="ghost" id="signUp">Sign Up</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- partial -->
+        {% block scripts %}
+        <script src="{% static 'js/login.js' %}"></script>
+        {% endblock %}
+    </body>
+</html>

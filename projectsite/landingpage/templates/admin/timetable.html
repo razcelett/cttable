@@ -1,5 +1,4 @@
 {% load static %}
-{% block content %}
 {% load templatetags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -54,69 +53,77 @@
             <div class="table-responsive">
                {% if schedules %}
                <table class="table table-bordered">
-                   <thead>
-                       <tr class="bg-light-gray">
-                           <th>Day</th>
-                           <th colspan="2">Time</th>
-                           <th>Subject</th>
-                           <th>Faculty</th>
-                           <th>Room</th>
-                       </tr>
-                   </thead>
-                   <tbody>
-                       {% for schedule in schedules %}
-                       <tr>
-                           <td>{{ schedule.day }}</td>
-                           {% if schedule.start_time|length > 1 %}
-                           <td>
-                               {% for i in schedule.start_time %}
-                               {{ i }}
-                               <br><hr>
-                               {% endfor %}  
-                           </td>
-                           <td>
-                              {% for i in schedule.end_time %}
-                              {{ i }}
-                              <br><hr>
-                              {% endfor %}  
-                           </td>
-                           {% else %}
-                           <td>{{ schedule.start_time }}</td>
-                           <td>{{ schedule.end_time }}</td>
+                  <thead>
+                     <tr class="bg-light-gray">
+                        <th>Day</th>
+                        <th colspan="2">Time</th>
+                        <th>Subject</th>
+                        <th>Faculty</th>
+                        <th>Room</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for schedule in schedules %}
+                     <tr>
+                        <td>{{ schedule.day }}</td>
+                        {% if schedule.start_time|length > 1 %}
+                        <td>
+                           {% for i in schedule.start_time %}
+                           {{ i }}
+                           <br>
+                           <hr>
+                           {% endfor %}  
+                        </td>
+                        <td>
+                           {% for i in schedule.end_time %}
+                           {{ i }}
+                           <br>
+                           <hr>
+                           {% endfor %}  
+                        </td>
+                        {% else %}
+                        <td>{{ schedule.start_time }}</td>
+                        <td>{{ schedule.end_time }}</td>
+                        {% endif %}
+                        {% if schedule.subjects|length > 1 %}
+                        <td>
+                           {% for i in schedule.subjects %}
+                           {{ i }}
+                           {% if not loop.last %}<br>
+                           <hr>
                            {% endif %}
-                           {% if schedule.subjects|length > 1 %}
-                           <td>
-                               {% for i in schedule.subjects %}
-                               {{ i }}
-                               {% if not loop.last %}<br><hr>{% endif %}
-                               {% endfor %}
-                           </td>
-                           {% else %}
-                           <td>{{ schedule.subjects }}</td>
+                           {% endfor %}
+                        </td>
+                        {% else %}
+                        <td>{{ schedule.subjects }}</td>
+                        {% endif %}
+                        {% if schedule.faculty|length > 1 %}
+                        <td>
+                           {% for i in schedule.faculty %}
+                           {{ i }}
+                           {% if not loop.last %}<br>
+                           <hr>
                            {% endif %}
-                           {% if schedule.faculty|length > 1 %}
-                           <td>
-                               {% for i in schedule.faculty %}
-                               {{ i }}
-                               {% if not loop.last %}<br><hr>{% endif %}
-                               {% endfor %}
-                           </td>
-                           {% else %}
-                           <td>{{ schedule.faculty }}</td>
+                           {% endfor %}
+                        </td>
+                        {% else %}
+                        <td>{{ schedule.faculty }}</td>
+                        {% endif %}
+                        {% if schedule.rooms|length > 1 %}
+                        <td>
+                           {% for i in schedule.rooms %}
+                           {{ i }}
+                           {% if not loop.last %}<br>
+                           <hr>
                            {% endif %}
-                           {% if schedule.rooms|length > 1 %}
-                           <td>
-                               {% for i in schedule.rooms %}
-                               {{ i }}
-                               {% if not loop.last %}<br><hr>{% endif %}
-                               {% endfor %}
-                           </td>
-                           {% else %}
-                           <td>{{ schedule.rooms }}</td>
-                           {% endif %}
-                       </tr>
-                       {% endfor %}
-                   </tbody>
+                           {% endfor %}
+                        </td>
+                        {% else %}
+                        <td>{{ schedule.rooms }}</td>
+                        {% endif %}
+                     </tr>
+                     {% endfor %}
+                  </tbody>
                </table>
                {% else %}
                <p>No schedules found.</p>
@@ -126,7 +133,6 @@
          <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
-      {% endblock content %}
       <!-- Bootstrap core JavaScript-->
       <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
       <script src="{% static 'vendor/index/js/bootstrap.bundle.min.js' %}"></script>

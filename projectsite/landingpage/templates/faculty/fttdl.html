@@ -1,5 +1,4 @@
 {% load static %}
-{% block content %}
 {% load templatetags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +55,7 @@
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr class="bg-light-gray">
-                            <th>Day</th>
+                            <th style="width: 100px;">Day</th>
                             <th colspan="2">Time</th>
                             <th>Subject</th>
                             <th>Year</th>
@@ -69,61 +68,61 @@
                         <tr>
                             <td>{{ schedule.day }}</td>
                             {% if schedule.start_time|length > 1 %}
-                            <td>
+                            <td style="width: 100px;">
                                 {% for i in schedule.start_time %}
                                 {{ i }}
                                 <br><hr>
                                 {% endfor %}  
                             </td>
-                            <td>
+                            <td style="width: 100px;">
                                {% for i in schedule.end_time %}
                                {{ i }}
                                <br><hr>
                                {% endfor %}  
                             </td>
                             {% else %}
-                            <td>{{ schedule.start_time }}</td>
-                            <td>{{ schedule.end_time }}</td>
+                            <td style="width: 100px;">{{ schedule.start_time }}</td>
+                            <td style="width: 100px;">{{ schedule.end_time }}</td>
                             {% endif %}
                             {% if schedule.subjects|length > 1 %}
                             <td>
                                 {% for i in schedule.subjects %}
                                 {{ i }}
-                                {% if not loop.last %}<hr>{% endif %}
+                                {% if not loop.last %}<br><hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
                             <td>{{ schedule.subjects }}</td>
                             {% endif %}
                             {% if schedule.year|length > 1 %}
-                            <td>
+                            <td style="width: 100px;">
                                 {% for i in schedule.year %}
                                 {{ i }}
                                 {% if not loop.last %}<br><hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td>{{ schedule.year }}</td>
+                            <td style="width: 100px;">{{ schedule.year }}</td>
                             {% endif %}
                             {% if schedule.block|length > 1 %}
-                            <td>
+                            <td style="width: 100px;">
                                 {% for i in schedule.block %}
                                 {{ i }}
                                 {% if not loop.last %}<br><hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td>{{ schedule.block }}</td>
+                            <td style="width: 100px;">{{ schedule.block }}</td>
                             {% endif %}
                             {% if schedule.rooms|length > 1 %}
-                            <td>
+                            <td style="width: 100px;">
                                 {% for i in schedule.rooms %}
                                 {{ i }}
                                 {% if not loop.last %}<br><hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td>{{ schedule.rooms }}</td>
+                            <td style="width: 100px;">{{ schedule.rooms }}</td>
                             {% endif %}
                         </tr>
                         {% endfor %}
@@ -137,7 +136,6 @@
          <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
-      {% endblock content %}
       <!-- Bootstrap core JavaScript-->
       <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
       <script src="{% static 'vendor/index/js/bootstrap.bundle.min.js' %}"></script>

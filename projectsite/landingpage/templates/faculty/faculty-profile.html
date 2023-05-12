@@ -1,5 +1,4 @@
 {% load static %}
-{% block content %}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -9,8 +8,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>
-         {% block title %}SB Admin 2 - Dashboard
-         {% endblock %}
+         {% block title %}SB Admin 2 - Dashboard{% endblock %}
       </title>
       <!-- Custom fonts for this template-->
       <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -22,23 +20,33 @@
       <title>Document</title>
    </head>
    <body>
-      <div
-         class="container-xl px-4 mt-4">
+      <div class="container-xl px-4 mt-4">
          <!-- Account page navigation-->
          <nav class="nav nav-borders">
             <a class="nav-link active ms-0" href="#" target="__blank">Profile</a>
          </nav>
          <hr class="mt-0 mb-4">
          <div class="row">
-            <div
-               class="col-xl-4">
+            <div class="col-xl-4">
                <!-- Profile picture card-->
                {% if messages %}
-               <div class="alert alert-success" role="alert">
-                  {% for message in messages %}
-                  <span {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</span>
-                  {% endfor %}
-               </div>
+               {% for message in messages %}
+                 {% if message.tags and message.tags == 'error' %}
+                   <div class="alert alert-danger" role="alert">
+                     <strong>Error:</strong> {{ message }}
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                 {% else %}
+                   <div class="alert alert-success" role="alert">
+                     {{ message }}
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                 {% endif %}
+               {% endfor %}
                {% endif %}
                <form role="form" method="POST" action="" enctype="multipart/form-data">
                   {% csrf_token %}
@@ -69,8 +77,7 @@
                      </div>
                   </div>
             </div>
-            <div
-               class="col-xl-8">
+            <div class="col-xl-8">
             <!-- Account details card-->
             <div class="card mb-4">
             <div class="card-header">Account Details</div>
@@ -80,8 +87,9 @@
             <small id="addd" class="form-text text-muted">Contact the administrator to change Email</small>
             </div>
             <div class="col-sm-12 mb-4">
-            {{ form.username }}
-            </div>
+               <input type="text" readonly value="{{ user.username }}" class="form-control" placeholder="Email">
+               <small id="addd" class="form-text text-muted">Please click <a href="{% url 'change_username' %}"><b>here</b></a> if you want to change your username</small>
+           </div>
             <span class="text-error">{{ form.username.errors }}</span>
             <div class="col-sm-12 mb-4">
             {{ form.last_name }}
@@ -111,16 +119,5 @@
             </div>
          </div>
       </div>
-      {% endblock content %}
-      <!-- Footer -->
-      <footer class="sticky-footer">
-      <div class="container my-auto">
-         <div
-            class="copyright text-center my-auto">
-            <!-- <span>Copyright &copy; Timetable 2023</span> -->
-         </div>
-      </div>
-      <!-- End of Footer -->
-   </body>
    </body>
 </html>
