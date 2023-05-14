@@ -33,7 +33,6 @@ class Type(models.Model):
         verbose_name_plural = 'Student Type'
 
 class Student(models.Model):
-    # account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     email = models.EmailField()
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=128)
@@ -41,12 +40,6 @@ class Student(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True, null=True)
-    # year_choice=[('First Year', 'First Year'), ('Second Year', 'Second Year'), ('Third Year', 'Third Year'), ('Fourth Year', 'Fourth Year')]
-    # year = models.CharField(max_length=15, choices=year_choice, default=None)
-    # block_choice=[('Block 1', 'Block 1'), ('Block 2', 'Block 2'), ('Block 3', 'Block 3'), ('Block 4', 'Block 4')]
-    # block = models.CharField(max_length=10, choices=block_choice, default=None)
-    # type_choice=[('Regular', 'Regular'), ('Irregular', 'Irregular')]
-    # type = models.CharField(max_length=10, choices=type_choice, default=None)
     year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "Year", null=True, blank=True, default=None)
     block = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "Block", null=True, blank=True, default=None)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name = "Type", null=True, blank=True, default=None)
@@ -121,9 +114,6 @@ class Room(models.Model):
 class Subject(models.Model):
     class_code = models.CharField(max_length=30)
     subject_title = models.CharField(max_length=100)
-    # start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    # end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    # room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name = "Room", null=True, blank=True, default=None)
     
     def __str__(self):
         return f'{self.subject_title}'
@@ -131,27 +121,13 @@ class Subject(models.Model):
     class Meta:
         verbose_name_plural = 'Subjects'
 
-
-# class Time(models.Model):
-#     start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-#     end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-
-#     def __str__(self):
-#         return f'{self.start_time}, {self.end_time}'
-    
-#     class Meta:
-#         verbose_name_plural = 'Time'
-
 class Schedule(models.Model):
     week_day=(('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'), ('Saturday', 'Saturday'), ('Sunday', 'Sunday'))
     day = models.CharField(max_length=10, choices=week_day, default=None, null=True, blank=True)
-    # day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name = "day", null=True, blank=True)
     start_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     end_time = models.TimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    # end_time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name = "endtime", null=True, blank=True, default=None)
     subjects = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name = "subjects")
-    # subjects = models.ManyToManyField(Subject, related_name = "subjects", null=True, blank=True)
-    students = models.ManyToManyField(Student, related_name = "students", null=True, blank=True)
+    students = models.ManyToManyField(Student, related_name = "students")
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name = "Faculty", null=True, blank=True)
     year_section = models.ForeignKey(Year, on_delete=models.CASCADE, related_name = "year_section", null=True, blank=True)
     block_section = models.ForeignKey(Block, on_delete=models.CASCADE, related_name = "block_section", null=True, blank=True)

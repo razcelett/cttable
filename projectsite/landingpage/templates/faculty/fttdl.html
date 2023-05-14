@@ -30,7 +30,7 @@
          padding: 8px;
          }
          .bg-light-gray {
-         background-color:white;
+         background-color:  #FFB347;
          }
          @page {
          size: legal landscape;
@@ -55,7 +55,7 @@
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr class="bg-light-gray">
-                            <th style="width: 100px;">Day</th>
+                            <th>Day</th>
                             <th colspan="2">Time</th>
                             <th>Subject</th>
                             <th>Year</th>
@@ -66,63 +66,63 @@
                     <tbody>
                         {% for schedule in schedules %}
                         <tr>
-                            <td>{{ schedule.day }}</td>
+                            <td style="width: 150px;">{{ schedule.day }}</td>
                             {% if schedule.start_time|length > 1 %}
-                            <td style="width: 100px;">
+                            <td style="width: 150px;">
                                 {% for i in schedule.start_time %}
                                 {{ i }}
-                                <br><hr>
+                                <hr>
                                 {% endfor %}  
                             </td>
-                            <td style="width: 100px;">
+                            <td style="width: 150px;">
                                {% for i in schedule.end_time %}
                                {{ i }}
-                               <br><hr>
+                               <hr>
                                {% endfor %}  
                             </td>
                             {% else %}
-                            <td style="width: 100px;">{{ schedule.start_time }}</td>
-                            <td style="width: 100px;">{{ schedule.end_time }}</td>
+                            <td style="width: 150px;">{{ schedule.start_time }}</td>
+                            <td style="width: 150px;">{{ schedule.end_time }}</td>
                             {% endif %}
                             {% if schedule.subjects|length > 1 %}
-                            <td>
+                            <td style="width: 500px;"> 
                                 {% for i in schedule.subjects %}
                                 {{ i }}
-                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% if not loop.last %}<hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td>{{ schedule.subjects }}</td>
+                            <td style="width: 500px;">{{ schedule.subjects }}</td>
                             {% endif %}
                             {% if schedule.year|length > 1 %}
-                            <td style="width: 100px;">
+                            <td style="width: 150px;">
                                 {% for i in schedule.year %}
                                 {{ i }}
-                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% if not loop.last %}<hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td style="width: 100px;">{{ schedule.year }}</td>
+                            <td style="width: 150px;">{{ schedule.year }}</td>
                             {% endif %}
                             {% if schedule.block|length > 1 %}
-                            <td style="width: 100px;">
+                            <td style="width: 150px;">
                                 {% for i in schedule.block %}
                                 {{ i }}
-                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% if not loop.last %}<hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td style="width: 100px;">{{ schedule.block }}</td>
+                            <td style="width: 150px;">{{ schedule.block }}</td>
                             {% endif %}
                             {% if schedule.rooms|length > 1 %}
-                            <td style="width: 100px;">
+                            <td style="width: 150px;">
                                 {% for i in schedule.rooms %}
                                 {{ i }}
-                                {% if not loop.last %}<br><hr>{% endif %}
+                                {% if not loop.last %}<hr>{% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
-                            <td style="width: 100px;">{{ schedule.rooms }}</td>
+                            <td style="width: 150px;">{{ schedule.rooms }}</td>
                             {% endif %}
                         </tr>
                         {% endfor %}
@@ -133,7 +133,6 @@
                 {% endif %}                             
             </div>
          </div>
-         <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
       <!-- Bootstrap core JavaScript-->

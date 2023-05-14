@@ -255,7 +255,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  text-align: left;
 }
 
 /* Style the selected option */
