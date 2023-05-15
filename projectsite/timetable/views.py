@@ -476,7 +476,7 @@ def edit_faculty(request, id):
             return redirect("edit-faculty", faculty.id)
         
         else:
-            messages.error(request, 'There was an error updating the Student.')
+            messages.error(request, 'There was an error updating the Faculty.')
             success = False
 
     return render(request, 'admin/admin-edit-faculty.html', {'form': form, 'success': success})

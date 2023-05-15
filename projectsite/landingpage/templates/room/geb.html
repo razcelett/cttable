@@ -147,7 +147,7 @@
           <div class="sidebar-card d-none d-lg-flex">
             <img class="sidebar-card-illustration mb-2" src="{% static 'img/acslogo.png' %}" alt="...">
             <p class="text-center mb-2"><strong>ACS</strong></p>
-            <a class="btn btn-success btn-sm" href="https://www.facebook.com/acs.psu/?_rdc=1&_rdr">VISIT ACS PAGE</a>
+            <a class="btn btn-success btn-sm" href="https://www.facebook.com/acs.psu/?_rdc=1&_rdr" target="_blank">VISIT ACS PAGE</a>
 
             {% elif not request.user.is_superuser and not request.user.email|contains_numbers %}
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'FacultyScheduleList' %}">

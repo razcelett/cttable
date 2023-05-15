@@ -191,6 +191,25 @@
                      </button>
                   </a>
                   <!-- ----------------Faculty----------------- -->
+                  {% if messages %}
+                  {% for message in messages %}
+                    {% if message.tags and message.tags == 'error' %}
+                      <div class="alert alert-danger" role="alert">
+                        <strong>Error:</strong> {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    {% else %}
+                      <div class="alert alert-success" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  {% endif %}
                   <div class="container-fluid py-4">
                      <div class="row">
                         <div class="col-12">
